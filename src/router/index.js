@@ -129,7 +129,7 @@ export const asyncRoutes = [
       {
         path: 'directive',
         component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        name: 'DirectivePermission111',
         meta: {
           title: '采购退单'
           // if do not set roles, means: this page does not require permission
