@@ -52,7 +52,7 @@ const componentsRouter = {
       path: 'sticky',
       component: () => import('@/views/components-demo/sticky'),
       name: 'StickyDemo',
-      meta: { title: 'Sticky' }
+      meta: { title: '粘性导航' }
     },
     {
       path: 'count-to',
