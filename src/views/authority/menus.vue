@@ -2,6 +2,7 @@
   <div class="app-container">
     <el-button type="primary" @click="handleAddRole">新增菜单</el-button>
     <el-table
+			v-loading="loading"
       style="width: 100%;margin-top:20px;"
       :data="routesData"
       border
@@ -82,6 +83,7 @@ export default {
         children: 'children'
       },
       /** **********************/
+      loading: true,
       formRef: 'formRef',
       dialogVisible: false,
       dialogType: '',
@@ -113,6 +115,7 @@ export default {
       getMenus()
         .then(res => {
           this.routesData = res.data
+          this.loading = false
         })
     },
     handleAddRole() {
