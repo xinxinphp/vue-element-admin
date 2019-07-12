@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-button type="primary" @click="handleAddRole">新增菜单</el-button>
     <el-table
-			v-loading="loading"
+      v-loading="loading"
       style="width: 100%;margin-top:20px;"
       :data="routesData"
       border
@@ -13,9 +13,9 @@
     >
       <el-table-column label="名称" prop="title" width="150" />
       <el-table-column label="图标" prop="icon" width="120" />
-      <el-table-column label="排序" prop="seq" width="50" align="center"/>
+      <el-table-column label="排序" prop="seq" width="50" align="center" />
       <el-table-column label="访问url路径" prop="path" width="220" />
-      <el-table-column label="组件名称" prop="name"  width="220" />
+      <el-table-column label="组件名称" prop="name" width="220" />
       <el-table-column label="组件路径" prop="component" />
       <el-table-column label="操作" align="center" width="150">
         <template slot-scope="scope">
