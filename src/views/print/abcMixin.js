@@ -58,23 +58,24 @@ export default {
         LODOP.ADD_PRINT_HTM('20mm', '5mm', '140mm', '25mm', `<h2 style=" line-height: 9mm">${form.materialName}</h2>`)
 
         LODOP.ADD_PRINT_HTM('40mm', '5mm', '70mm', '20mm', `<p style="text-align: center; line-height: 9mm; letter-spacing: 1px;  ">${form.internalShortCode}</p>`)
-        LODOP.ADD_PRINT_HTM('40mm', '80mm', '70mm', '20mm', `<p style="text-align: center; line-height: 9mm; letter-spacing: 1px;  ">${form.internalShortCode}</p>`)
+        LODOP.ADD_PRINT_HTM('40mm', '80mm', '70mm', '20mm', `<p style="text-align: center; line-height: 9mm; letter-spacing: 1px;  ">${form.materialCode}</p>`)
 
         LODOP.ADD_PRINT_HTM('50mm', '5mm', '45mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">品牌:</span>${form.materialBrand}</p>`)
         LODOP.ADD_PRINT_HTM('50mm', '51mm', '54mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">类别:</span>${form.materialCategory}</p>`)
         LODOP.ADD_PRINT_HTM('50mm', '103mm', '50mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">型号:</span>${form.materialBrand}</p>`)
 
         LODOP.ADD_PRINT_HTM('60mm', '5mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">版本号:</span>${form.version}</p>`)
-        LODOP.ADD_PRINT_HTM('60mm', '81mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">数量:</span>${form.materialBrand}</p>`)
+        LODOP.ADD_PRINT_HTM('60mm', '81mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">数量:</span>${item.displayQuantity}</p>`)
 
-        LODOP.ADD_PRINT_HTM('70mm', '5mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">生成日期:</span>${form.productionDate ? form.productionDate : ''}</p>`)
+        LODOP.ADD_PRINT_HTM('70mm', '5mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">生产日期:</span>${form.productionDate ? form.productionDate : ''}</p>`)
         LODOP.ADD_PRINT_HTM('70mm', '81mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">到厂时间:</span>${form.factoryDate}</p>`)
 
-        LODOP.ADD_PRINT_BARCODE('82mm', '5mm', '70mm', '16mm', 'Code39', `${item.vendorCode}`)
+        LODOP.ADD_PRINT_BARCODE('82mm', '5mm', '80mm', '16mm', '128C', `${item.tagNo}`)
+        // LODOP.ADD_PRINT_BARCODE('82mm', '5mm', '80mm', '16mm', '128C', `00049230319060400001`)
         LODOP.SET_PRINT_STYLEA(0, 'FontSize', 6)
 
         LODOP.ADD_PRINT_HTM('81mm', '81mm', '22mm', '40mm', `<p style="text-align: left; line-height: 13mm; letter-spacing: 1px;  "><span style="font-weight: 600"> ${item.printSeq}/ ${item.ordinal}/ ${item.totalPrintNum}</span></p>`)
-        LODOP.ADD_PRINT_HTM('81mm', '103mm', '40mm', '40mm', `<p style="text-align: left; line-height: 13mm; letter-spacing: 1px;  "><span style="font-weight: 600">${form.vendorName}</span></p>`)
+        LODOP.ADD_PRINT_HTM('81mm', '103mm', '50mm', '40mm', `<p style="text-align: left; line-height: 13mm; ">${form.vendorName.slice(0, 11)}</p>`)
 
         // LODOP.ADD_PRINT_TEXT(48, 73, 160, 20, item.name)
         // LODOP.ADD_PRINT_BARCODE(30, 245, 130, 130, 'Code39', item.tagNo)
@@ -83,8 +84,7 @@ export default {
         // LODOP.ADD_PRINT_IMAGE(172, 245, 95, 72, "<img src='content/images/ic_wilmar.png'/>")
         LODOP.SET_PRINT_STYLEA(1, 'Stretch', 2)
         LODOP.SET_PRINTER_INDEX('Rongta RP4xx Series')
-        // LODOP.PRINT()
-        LODOP.PREVIEW()
+        LODOP.PREVIEW() // 打印预览
         // LODOP.PRINT() // 选择打印机打印
       })
     }
