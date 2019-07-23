@@ -23,7 +23,6 @@ export default {
       loading: true,
       listQuery: {
         page: 1,
-        size: 20, // 每页多少条
         limit: 20, // 每页多少条
         orderBy: `id desc`// 升序:code 降序: code desc
       },
