@@ -12,7 +12,9 @@ const port = 9527 // dev port
 
 const origin = {
   dev: `http://127.0.0.1:${port}`, // (dev)
-  uat: 'http://10.1.20.15:9096' // (uat) // 测试环境
+  uat: 'http://10.1.20.15:9096', // (uat) // 测试环境
+  test: 'http://10.229.255.52:8080', // (test) // 线上开发环境
+  zhiwei: 'http://10.240.206.129:8080' // (zhiwei) // 志伟本机环境
 }
 
 module.exports = {
@@ -30,14 +32,13 @@ module.exports = {
     },
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: `${origin.dev}/mock`,
+        target: `${origin.zhiwei}`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       }
-    },
-    after: require('./mock/mock-server.js')
+    }
   },
   configureWebpack: {
     name: name,
