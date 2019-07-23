@@ -7,7 +7,8 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  factoryIds: [],
+  roles: [] // ['admin','warehouse', 'workshop','finance']
 }
 
 const mutations = {
@@ -23,6 +24,9 @@ const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
+  SET_FACTORYIDS: (state, avatar) => {
+    state.factoryIds = avatar
+  },
   SET_ROLES: (state, roles) => {
     state.roles = roles
   }
@@ -34,9 +38,9 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        const { token } = response
+        commit('SET_TOKEN', token)
+        setToken(token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -47,26 +51,29 @@ const actions = {
   // get user info 获取用户信息
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getInfo().then(response => {
         const { data } = response
 
         if (!data) {
-          reject('Verification failed, please Login again.')
+          reject('验证失败,请重新登录。')
         }
 
-        const { roles, name, avatar, introduction } = data
+        const { roles, name, avatar, introduction } = data.user
+        const { factories } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
+          reject('getInfo:角色必须非空数组!')
         }
 
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
+        commit('SET_FACTORYIDS', factories)
         resolve(data)
       }).catch(error => {
+        console.log(4444)
         reject(error)
       })
     })

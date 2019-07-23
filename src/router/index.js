@@ -102,15 +102,11 @@ export const constantRoutes = [
   }
 ]
 
-/**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
- */
 export const asyncRoutes = [
   {
     path: '/documents',
     component: Layout,
-    redirect: '/documents/page',
+    redirect: '/documents/purchaseOrder',
     alwaysShow: true, // will always show the root menu
     name: 'Documents',
     meta: {
@@ -120,64 +116,163 @@ export const asyncRoutes = [
     children: [
       {
         path: 'purchaseOrder',
-        component: () => import('@/views/permission/page'),
+        component: () => import('@/views/documents/purchaseOrder'),
         name: 'PurchaseOrder',
         meta: {
           title: '采购订单'
         }
       },
       {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission111',
+        path: 'productionOrderRising',
+        component: () => import('@/views/documents/productionOrderRising'),
+        name: 'ProductionOrderRising',
         meta: {
-          title: '采购退单'
-          // if do not set roles, means: this page does not require permission
+          title: '生产订单抬头'
+        }
+      },
+      {
+        path: 'productionOrderComponent',
+        component: () => import('@/views/documents/productionOrderComponent'),
+        name: 'ProductionOrderComponent',
+        meta: {
+          title: '生产订单组件'
+        }
+      },
+      {
+        path: 'outboundbilloflading',
+        component: () => import('@/views/documents/outboundbilloflading'),
+        name: 'Outboundbilloflading',
+        meta: {
+          title: '出库提单列表'
+        }
+      },
+      {
+        path: 'sapMaterialrequisition',
+        component: () => import('@/views/documents/sapMaterialrequisition'),
+        name: 'SAPMaterialrequisition',
+        meta: {
+          title: 'SAP领料单'
+        }
+      }
+    ]
+  },
+
+  {
+    path: '/print',
+    component: Layout,
+    redirect: '/print/purchaseOrder',
+    alwaysShow: true, // will always show the root menu
+    name: 'Print',
+    meta: {
+      title: '打印',
+      icon: 'pdf'
+    },
+    children: [
+      {
+        path: 'printingWithOrders',
+        component: () => import('@/views/print/printingWithOrders'),
+        name: 'PrintingWithOrders',
+        meta: {
+          title: '有订单打印'
+        }
+      },
+      {
+        path: 'printingWithoutOrder',
+        component: () => import('@/views/print/printingWithoutOrder'),
+        name: 'PrintingWithoutOrder',
+        hidden: true,
+        meta: {
+          title: '无订单打印'
+        }
+      },
+      {
+        path: 'missedPatches',
+        component: () => import('@/views/print/missedPatches'),
+        name: 'MissedPatches',
+        meta: {
+          title: '漏打补打'
         }
       }
     ]
   },
   {
-    path: '/permission',
+    path: '/authority',
     component: Layout,
-    redirect: '/permission/page',
+    redirect: '/authority/users',
     alwaysShow: true, // will always show the root menu
-    name: 'Permission',
+    name: 'Authority',
     meta: {
-      title: '权限测试页',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      title: '权限管理',
+      icon: 'lock'
     },
     children: [
       {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        path: 'users',
+        component: () => import('@/views/authority/users'),
+        name: 'Users',
         meta: {
-          title: '页面权限',
-          roles: ['admin'] // or you can only set roles in sub nav
+          title: '用户管理'
         }
       },
       {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'roles',
+        component: () => import('@/views/authority/roles'),
+        name: 'Roles',
         meta: {
-          title: '指令权限'
-          // if do not set roles, means: this page does not require permission
+          title: '角色管理'
         }
       },
       {
-        path: 'role',
-        component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
+        path: 'menus',
+        component: () => import('@/views/authority/menus'),
+        name: 'Menus',
         meta: {
-          title: '路由权限',
-          roles: ['admin']
+          title: '菜单管理'
         }
       }
     ]
   },
+  // {
+  //   path: '/permission',
+  //   component: Layout,
+  //   redirect: '/permission/page',
+  //   alwaysShow: true, // will always show the root menu
+  //   name: 'Permission',
+  //   meta: {
+  //     title: '权限测试页',
+  //     icon: 'lock',
+  //     roles: ['admin', 'editor'] // you can set roles in root nav
+  //   },
+  //   children: [
+  //     {
+  //       path: 'page',
+  //       component: () => import('@/views/permission/page'),
+  //       name: 'PagePermission',
+  //       meta: {
+  //         title: '页面权限',
+  //         roles: ['admin'] // or you can only set roles in sub nav
+  //       }
+  //     },
+  //     {
+  //       path: 'directive',
+  //       component: () => import('@/views/permission/directive'),
+  //       name: 'DirectivePermission',
+  //       meta: {
+  //         title: '指令权限'
+  //         // if do not set roles, means: this page does not require permission
+  //       }
+  //     },
+  //     {
+  //       path: 'role',
+  //       component: () => import('@/views/permission/role'),
+  //       name: 'RolePermission',
+  //       meta: {
+  //         title: '路由权限',
+  //         roles: ['admin']
+  //       }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/icon',

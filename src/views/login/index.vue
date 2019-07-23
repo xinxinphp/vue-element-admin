@@ -62,13 +62,12 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
+      if (value.length>20) {
         callback(new Error('请输入正确的用户名'))
       } else {
         callback()
@@ -83,8 +82,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: 'lingzhiwei1',
+        password: 'lingzhiwei1'
       },
       loginRules: {
         username: [
@@ -115,7 +114,6 @@ export default {
     }
   },
   created() {
-    console.log('登陆页面 创建', this)
   },
   mounted() {
     if (this.loginForm.username === '') {
