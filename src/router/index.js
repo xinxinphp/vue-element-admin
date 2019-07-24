@@ -156,6 +156,27 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/masterData',
+    component: Layout,
+    redirect: '/masterData/factoryMaterialInfo',
+    alwaysShow: true,
+    name: 'MasterData',
+    meta: {
+      title: '主数据',
+      icon: 'form'
+    },
+    children: [
+      {
+        path: 'factoryMaterialInfo',
+        component: () => import('@/views/masterData/factoryMaterialInfo'),
+        name: 'FactoryMaterialInfo',
+        meta: {
+          title: '工厂物料管理'
+        }
+      }
+    ]
+  },
 
   {
     path: '/print',

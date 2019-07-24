@@ -16,11 +16,26 @@ export function saveCreateItems(data) {
     data
   })
 }
-
-// 删除菜单
-export function deleteMenus(id) {
+// 获取标签进行漏打补打列表
+export function getItems(params) {
   return request({
-    url: `/api/menus/${id}`,
-    method: 'delete'
+    url: `/api/items`,
+    method: 'get',
+    params
+  })
+}
+// 获取标签进行漏打补打列表
+export function getReprint(id) {
+  return request({
+    url: `/api/items/reprint/${id}`,
+    method: 'get'
+  })
+}
+
+// 作废item
+export function setDisable(id) {
+  return request({
+    url: `/api/items/disable/${id}`,
+    method: 'post'
   })
 }

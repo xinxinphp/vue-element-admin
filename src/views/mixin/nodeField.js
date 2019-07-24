@@ -1,6 +1,7 @@
 const nodeField = {
   'factoryId': '工厂',
-  'sapCreatedDate': '创建日期',
+  'queryDateStart': '开始日期',
+  'queryDateEnd': '截止日期',
   'orderNo': '订单号',
   'materialCode': '物料编码',
   'materialName': '物料名称',

@@ -12,13 +12,6 @@
           <span style="float: left">{{ item.code + '  ----  ' + item.name }}</span>
         </el-option>
       </el-select>
-      <el-date-picker
-        v-model="form.sapCreatedDate"
-        type="date"
-        value-format="yyyy-MM-dd"
-        :placeholder="_getFieldName('sapCreatedDate','创建日期')"
-        :style="small"
-      />
       <el-input
         v-model="form.orderNo"
         :placeholder="_getFieldName('orderNo','订单号')"
@@ -54,11 +47,27 @@
         class="filter-item"
         clearable
       />
-      <el-dropdown trigger="click">
-        <el-button plain>
+      <el-dropdown trigger="click" :hide-on-click="false">
+        <el-button >
           更多<i class="el-icon-caret-bottom el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown" class="app-container">
+          <el-date-picker
+            v-model="form.queryDateStart"
+            type="date"
+            value-format="yyyy-MM-dd"
+            :editable = "false"
+            :placeholder="_getFieldName('queryDateStart','开始日期')"
+            :style="small"
+          />
+          <el-date-picker
+            v-model="form.queryDateEnd"
+            type="date"
+            value-format="yyyy-MM-dd"
+            :editable = "false"
+            :placeholder="_getFieldName('queryDateEnd','结束日期')"
+            :style="small"
+          />
           <el-input
             v-model="form.createdBy"
             :placeholder="_getFieldName('createdBy','创建人')"
