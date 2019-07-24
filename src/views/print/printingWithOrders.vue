@@ -355,10 +355,8 @@ export default {
       const initPrintStatus = this.initPrint()
       if (initPrintStatus) {
         console.log('打印机 已开启,开始打印')
-        // this.startPrint()
         getOrdersInitItemInfo(row.id)
           .then(res => {
-            console.log(res)
             const defValue = {
               factoryDate: U.parseTime(new Date(), '{y}-{m}-{d}'),
               purchaseOrderItemId: row.id,
@@ -376,10 +374,8 @@ export default {
             console.log(err)
           })
       } else {
-        console.log('打印机没开启, 提示下载驱动')
         this.dialogVisibleDownload = true
       }
-      console.log(row)
     },
     formFieldRules(res) {
       const { pkgUnit, pkgSpec } = res
@@ -394,10 +390,9 @@ export default {
             .then(res => {
               this.dialogVisible = false
               this.startPrint({ data: res.data, form: this.form })
-              console.log(res, '打印返回参数')
             })
             .catch(err => {
-              console.log(err, '打印返回参数')
+              console.log(err, 'err打印返回参数')
             })
         } else {
           return false
