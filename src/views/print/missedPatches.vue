@@ -12,16 +12,9 @@
           <span style="float: left">{{ item.code + '  ----  ' + item.name }}</span>
         </el-option>
       </el-select>
-      <el-date-picker
-        v-model="form.sapCreatedDate"
-        type="date"
-        value-format="yyyy-MM-dd"
-        :placeholder="_getFieldName('sapCreatedDate','打印日期')"
-        :style="small"
-      />
       <el-input
-        v-model="form.orderNo"
-        :placeholder="_getFieldName('orderNo','采购订单号')"
+        v-model="form.poNo"
+        :placeholder="_getFieldName('poNo','采购订单号')"
         :style="small"
         class="filter-item"
         clearable
@@ -41,8 +34,8 @@
         clearable
       />
       <el-input
-        v-model="form.createdBy"
-        :placeholder="_getFieldName('createdBy','创建人')"
+        v-model="form.lastModifiedBy"
+        :placeholder="_getFieldName('lastModifiedBy','创建人')"
         :style="small"
         class="filter-item"
         clearable
@@ -61,17 +54,35 @@
         class="filter-item"
         clearable
       />
+      <el-dropdown trigger="click" :hide-on-click="false">
+        <el-button plain>
+          更多<i class="el-icon-caret-bottom el-icon--right" />
+        </el-button>
+        <el-dropdown-menu slot="dropdown" class="app-container">
+          <el-date-picker
+            v-model="form.queryDateStart"
+            type="date"
+            value-format="yyyy-MM-dd"
+            :editable="false"
+            :placeholder="_getFieldName('queryDateStart','开始日期')"
+            :style="small"
+          />
+          <el-date-picker
+            v-model="form.queryDateEnd"
+            type="date"
+            value-format="yyyy-MM-dd"
+            :editable="false"
+            :placeholder="_getFieldName('queryDateEnd','结束日期')"
+            :style="small"
+          />
+        </el-dropdown-menu>
+      </el-dropdown>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
 
     </sticky>
 
     <div v-loading="loading" class="app-container">
-      <!--
-      <div class="filter-container">
-        <el-checkbox v-model="showReviewer" class="filter-item" @change="tableKey=tableKey+1">隐藏1</el-checkbox>
-      </div>
--->
       <el-table
         :key="tableKey"
         :data="list"
@@ -82,29 +93,32 @@
         style="width: 100%;"
         @sort-change="sortChange"
       >
-        <el-table-column label="立即打印" align="center" width="120">
+        <el-table-column label="操作" align="center" width="200">
           <template slot-scope="scope">
-            <span><el-button type="primary" @click="handlePrint(scope)">立即打印</el-button></span>
+            <span>
+              <el-button type="primary" @click="handlePrint(scope)">补打</el-button>
+              <el-button type="danger" @click="setDisable(scope)">作废</el-button>
+            </span>
           </template>
         </el-table-column>
         <el-table-column label="工厂" prop="factoryCode" align="center" width="80" sortable="factoryCode" />
-        <el-table-column label="打印时间" prop="orderNo" align="center" width="120" sortable="orderNo" />
+        <el-table-column label="打印时间" prop="createdDate" align="center" width="155" sortable="createdDate" />
         <el-table-column label="打印序列" prop="vendorCode" align="center" width="120" />
-        <el-table-column label="标签码" prop="vendorName" min-width="260" />
-        <el-table-column label="采购订单号" prop="sapCreatedDate" align="center" width="120" />
-        <el-table-column label="行项目" prop="plannedDeliveryDate" align="center" width="120" />
-        <el-table-column label="供应商" prop="stockLocation" align="center" width="120" />
-        <el-table-column label="供应商名称" prop="materialCode" align="center" width="120" />
-        <el-table-column label="物料编码" prop="materialName" min-width="420" />
-        <el-table-column label="物料描述" prop="quantity" width="100" />
-        <el-table-column label="内部简码" prop="unit" align="center" width="100" />
-        <el-table-column label="品牌" prop="processedQuantity" width="100" />
-        <el-table-column label="类别" prop="processedQuantity" width="100" />
-        <el-table-column label="版本号" prop="processedQuantity" width="100" />
-        <el-table-column label="数量" prop="processedQuantity" width="100" />
-        <el-table-column label="sap单位" prop="processedQuantity" width="100" />
-        <el-table-column label="生产日期" prop="processedQuantity" width="100" />
-        <el-table-column label="到厂日期" prop="processedQuantity" width="100" />
+        <el-table-column label="标签码" prop="tagNo" min-width="170" />
+        <el-table-column label="采购订单号" prop="poNo" align="center" width="100" />
+        <el-table-column label="行项目" prop="poiNo" align="center" width="70" />
+        <el-table-column label="供应商" prop="vendorCode" align="center" width="100" />
+        <el-table-column label="供应商名称" prop="vendorName" align="center" width="130" />
+        <el-table-column label="物料编码" prop="materialCode" width="120" />
+        <el-table-column label="物料描述" prop="materialName" min-width="420" />
+        <el-table-column label="内部简码" prop="internalShortCode" align="center" width="100" />
+        <el-table-column label="品牌" prop="materialBrand" width="100" />
+        <el-table-column label="类别" prop="materialCategory" width="100" />
+        <el-table-column label="版本号" prop="version" width="100" />
+        <el-table-column label="数量" prop="quantity" width="100" />
+        <el-table-column label="sap单位" prop="unit" width="100" />
+        <el-table-column label="生产日期" prop="productionDate" width="100" />
+        <el-table-column label="到厂日期" prop="factoryDate" width="100" />
       </el-table>
 
       <pagination
@@ -113,6 +127,13 @@
         :limit.sync="listQuery.limit"
         @pagination="getList(done)"
       />
+
+      <el-dialog :visible.sync="dialogVisibleDownload" title="请先下载驱动" top="30vh">
+        <el-link href="./../../assets/CLodop_Setup_for_Win32NT.exe" target="_blank" type="primary">点击下载</el-link>
+        <div style="text-align:right;">
+          <el-button type="danger" @click="dialogVisibleDownload= false">取消</el-button>
+        </div>
+      </el-dialog>
 
     </div>
   </div>
@@ -124,18 +145,16 @@ import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
 import abcMixin from './abcMixin'
-import { getOrdersInitItemInfo, saveCreateItems } from '@/api/print'
-import { getOrderItemList } from '@/api/documents'
+import { getItems, getReprint, setDisable } from '@/api/print'
 
 const defaultForm = {
-  createdBy: '', // 工厂
-  createdDate: '', // 打印日期
-  lastModifiedBy:	'', // 采购订单号
-  lastModifiedDate: '', // 供应商
-  id:	'', // 供应商名称
-  login:	'', // 创建人
-  name:	'', // 物料编码
-  email:	''// 物料名称
+  factoryId: '', // 工厂
+  poNo:	'', // 采购订单号
+  vendorCode: '', // 供应商
+  vendorName:	'', // 供应商名称
+  lastModifiedBy:	'', // 创建人
+  materialCode:	'', // 物料编码
+  materialName:	''// 物料名称
 }
 
 export default {
@@ -144,58 +163,77 @@ export default {
   mixins: [formMixin, abcMixin],
   data() {
     return {
-      form: Object.assign({}, defaultForm),
+      defaultForm: defaultForm,
       tableKey: 0,
       list: null,
       total: 0,
       loading: true,
-      downloadLoading: false
+      downloadLoading: false,
+      /** ***一下打印*****/
+      form: Object.assign({}, defaultForm),
+      /** ***一下打印*****/
+      dialogVisibleDownload: false
     }
   },
   created() {
-    this.getList(getOrderItemList)
+    this.getList(getItems)
   },
   methods: {
     handlePrint({ row }) {
       const initPrintStatus = this.initPrint()
       if (initPrintStatus) {
-        console.log('打印机 已开启,开始打印')
-        // this.startPrint()
-        getOrdersInitItemInfo(row.id)
+        getReprint(row.id)
           .then(res => {
-            console.log(res)
-            this.formFieldRules(res)
-            this.formQ = { ...res.data, purchaseOrderItemId: row.id, totalPrintNum: 1 }
-            this.$refs[this.formRef] && this.$refs[this.formRef].resetFields()
-            this.dialogType = '打印订单'
-            this.dialogVisible = true
+            const data = {
+              data: {
+                tagList: [{
+                  tagNo: row.tagNo,
+                  ordinal: row.ordinal
+                }],
+                commonInfo: {
+                  printSeq: row.printSeq,
+                  totalPrintNum: row.totalPrintNum,
+                  displayQuantity: res.data.displayQuantity,
+                  factoryName: res.data.factoryName
+                }
+              },
+              form: {
+                materialName: row.materialName,
+                internalShortCode: row.internalShortCode,
+                materialCode: row.materialCode,
+                materialBrand: row.materialBrand,
+                materialCategory: row.materialCategory,
+                version: row.version,
+                productionDate: row.productionDate,
+                factoryDate: row.factoryDate,
+                vendorName: row.vendorName
+              }
+            }
+            this.startPrint(data)
           })
           .catch(err => {
-            console.log(err)
+            this.$message.error(JSON.stringify(err))
           })
       } else {
-        console.log('打印机没开启, 提示下载驱动')
         this.dialogVisibleDownload = true
       }
-      console.log(row)
     },
-    formFieldRules(res) {
-      const { pkgUnit, pkgSpec } = res
-      if (pkgUnit && pkgSpec) {
-        this.isPkgQuantityDisabled = false
-      }
-    },
-    submitForm() {
-      this.$refs[this.formRef].validate((valid) => {
-        console.log(this.formQ, 'this.formQ')
-        saveCreateItems()
-          .then(res => {
-            console.log(res, '打印返回参数')
-          })
-          .catch(err => {
-            console.log(err, '打印返回参数')
-          })
+    setDisable({ row }) {
+      this.$confirm('确认作废?', '警告', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
+        .then(() => {
+          setDisable(row.id)
+            .then(res => {
+              this.getList(getItems)
+              this.$message.success(res.message)
+            })
+            .catch(err => {
+              this.$message.err(err)
+            })
+        })
     }
   }
 }

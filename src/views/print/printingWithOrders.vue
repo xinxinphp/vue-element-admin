@@ -12,13 +12,6 @@
           <span style="float: left">{{ item.code + '  ----  ' + item.name }}</span>
         </el-option>
       </el-select>
-      <el-date-picker
-        v-model="form.sapCreatedDate"
-        type="date"
-        value-format="yyyy-MM-dd"
-        :placeholder="_getFieldName('sapCreatedDate','创建日期')"
-        :style="small"
-      />
       <el-input
         v-model="form.orderNo"
         :placeholder="_getFieldName('orderNo','订单号')"
@@ -54,11 +47,27 @@
         class="filter-item"
         clearable
       />
-      <el-dropdown trigger="click">
+      <el-dropdown trigger="click" :hide-on-click="false">
         <el-button plain>
           更多<i class="el-icon-caret-bottom el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown" class="app-container">
+          <el-date-picker
+            v-model="form.queryDateStart"
+            type="date"
+            value-format="yyyy-MM-dd"
+            :editable = "false"
+            :placeholder="_getFieldName('queryDateStart','开始日期')"
+            :style="small"
+          />
+          <el-date-picker
+            v-model="form.queryDateEnd"
+            type="date"
+            value-format="yyyy-MM-dd"
+            :editable = "false"
+            :placeholder="_getFieldName('queryDateEnd','结束日期')"
+            :style="small"
+          />
           <el-input
             v-model="form.createdBy"
             :placeholder="_getFieldName('createdBy','创建人')"
@@ -85,11 +94,6 @@
     </sticky>
 
     <div v-loading="loading" class="app-container">
-      <!--
-      <div class="filter-container">
-        <el-checkbox v-model="showReviewer" class="filter-item" @change="tableKey=tableKey+1">隐藏1</el-checkbox>
-      </div>
--->
       <el-table
         :key="tableKey"
         :data="list"
@@ -273,7 +277,7 @@
       </el-dialog>
 
       <el-dialog :visible.sync="dialogVisibleDownload" title="请先下载驱动" top="30vh">
-
+        <el-link href="./../../assets/CLodop_Setup_for_Win32NT.exe" target="_blank" type="primary">点击下载</el-link>
         <div style="text-align:right;">
           <el-button type="danger" @click="dialogVisibleDownload= false">取消</el-button>
         </div>
@@ -336,13 +340,6 @@ export default {
     }
   },
   computed: {
-    isHidden() {
-      if (this.dialogType === '查看用户') {
-        return true
-      } else {
-        return false
-      }
-    }
   },
   created() {
     this.getList(getOrderItemList)
