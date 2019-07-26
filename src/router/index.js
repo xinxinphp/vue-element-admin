@@ -225,6 +225,27 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/organization',
+    component: Layout,
+    redirect: '/organization/factory',
+    alwaysShow: true, // will always show the root menu
+    name: 'Organization',
+    meta: {
+      title: '组织架构管理',
+      icon: 'tree'
+    },
+    children: [
+      {
+        path: 'factory',
+        component: () => import('@/views/organization/factory'),
+        name: 'Factory',
+        meta: {
+          title: '工厂管理'
+        }
+      }
+    ]
+  },
+  {
     path: '/authority',
     component: Layout,
     redirect: '/authority/users',
