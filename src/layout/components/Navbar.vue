@@ -20,13 +20,13 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img :src="loginRight" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/profile/index">
-            <el-dropdown-item>个人中心</el-dropdown-item>
-          </router-link>
+<!--          <router-link to="/profile/index">-->
+<!--            <el-dropdown-item>个人中心</el-dropdown-item>-->
+<!--          </router-link>-->
           <router-link to="/">
             <el-dropdown-item>首页</el-dropdown-item>
           </router-link>
@@ -47,8 +47,12 @@ import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
-
 export default {
+  data() {
+    return {
+      loginRight: require('@/assets/login-right.png')
+    }
+  },
   components: {
     Breadcrumb,
     Hamburger,

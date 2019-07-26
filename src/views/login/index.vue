@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">欢迎登陆XX系统</h3>
+        <h3 class="title">辅料包材库存管理系统</h3>
       </div>
 
       <el-form-item prop="username">
