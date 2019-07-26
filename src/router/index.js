@@ -123,6 +123,14 @@ export const asyncRoutes = [
         }
       },
       {
+        path: 'receiptOrders',
+        component: () => import('@/views/documents/receiptOrders'),
+        name: 'ReceiptOrders',
+        meta: {
+          title: '收货单列表'
+        }
+      },
+      {
         path: 'productionOrderRising',
         component: () => import('@/views/documents/productionOrderRising'),
         name: 'ProductionOrderRising',
