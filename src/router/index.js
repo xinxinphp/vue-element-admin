@@ -242,6 +242,30 @@ export const asyncRoutes = [
         meta: {
           title: '工厂管理'
         }
+      },
+      {
+        path: 'warehouses',
+        component: () => import('@/views/organization/warehouses'),
+        name: 'Warehouses',
+        meta: {
+          title: '仓库管理'
+        }
+      },
+      {
+        path: 'warehouseAreas',
+        component: () => import('@/views/organization/warehouseAreas'),
+        name: 'WarehouseAreas',
+        meta: {
+          title: '库区管理'
+        }
+      },
+      {
+        path: 'spots',
+        component: () => import('@/views/organization/spots'),
+        name: 'Spots',
+        meta: {
+          title: '货位管理'
+        }
       }
     ]
   },

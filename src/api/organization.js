@@ -17,3 +17,55 @@ export function setFactories(data) {
     data
   })
 }
+/** *************************************/
+// 获取 仓库列表
+export function getWarehouses(params) {
+  return request({
+    url: `/api/warehouses`,
+    method: 'get',
+    params
+  })
+}
+// 获取 添加/修改仓库
+export function setWarehouses(data) {
+  return request({
+    url: `/api/warehouses`,
+    method: 'post',
+    data
+  })
+}
+/** *************************************/
+// 获取 库区列表
+export function getWarehouseAreas(params) {
+  return request({
+    url: `/api/warehouse_areas`,
+    method: 'get',
+    params
+  })
+}
+// 获取 添加/修改库区
+export function setWarehouseAreas(data) {
+  return request({
+    url: `/api/warehouse_areas`,
+    method: 'post',
+    data
+  })
+}
+/** *************************************/
+// 获取 货位列表
+export function getSpots(params) {
+  return request({
+    url: `/api/spots`,
+    method: 'get',
+    params
+  })
+}
+// 获取 添加/修改货位
+export function setSpots(data) {
+  return request({
+    url: `/api/spots`,
+    method: 'post',
+    data
+  })
+}
+
