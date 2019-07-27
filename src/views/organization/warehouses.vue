@@ -12,8 +12,8 @@
       highlight-current-row
     >
       <el-table-column label="编号" prop="code" />
-      <el-table-column label="工厂" prop="factoryCode" width="90" />
       <el-table-column label="描述" prop="description" min-width="120" />
+      <el-table-column label="工厂" prop="factoryCode" width="90" />
       <el-table-column label="创建人" prop="createdBy" min-width="120" />
       <el-table-column label="创建日期" prop="createdDate" min-width="120" />
       <el-table-column label="最后操作" prop="lastModifiedBy" min-width="120" />
