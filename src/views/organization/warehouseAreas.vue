@@ -116,6 +116,11 @@ import { getWarehouseAreas, setWarehouseAreas } from '@/api/organization'
 import { getWarehousesInfo } from '@/api/common'
 import Pagination from '@/components/Pagination'
 const defaultForm = {
+  code: '',
+  description: '',
+  factoryId: '',
+  warehouseId: '',
+  remark: ''
 }
 
 export default {
