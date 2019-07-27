@@ -82,7 +82,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="仓库" prop="factoryId" :rules="[{ required: true }]">
+          <el-form-item label="仓库" prop="warehouseId" :rules="[{ required: true }]">
             <el-select
               v-model="formQ.warehouseId"
               placeholder="仓库"
