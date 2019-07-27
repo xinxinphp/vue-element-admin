@@ -69,3 +69,11 @@ export function setSpots(data) {
   })
 }
 
+// 获取 删除 货位
+export function deleteSpots(id) {
+  return request({
+    url: `/api/spots/${id}`,
+    method: 'delete'
+  })
+}
+

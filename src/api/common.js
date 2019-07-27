@@ -16,6 +16,14 @@ export function getWarehousesInfo(params) {
     params
   })
 }
+// 根据仓库ID查询库区 /api/warehouse_areas/base_info?warehouseId=111
+export function getWarehouseAreas(params) {
+  return request({
+    url: `/api/warehouse_areas/base_info`,
+    method: 'get',
+    params
+  })
+}
 // 查询所有工厂
 export function getFactoriesAll() {
   return request({
