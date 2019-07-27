@@ -195,7 +195,7 @@ export default {
       this.dialogVisible = true
     },
     handleEdit({ row }) {
-      getWarehousesInfo(row.factoryId)
+      getWarehousesInfo({ factoryId: row.factoryId })
         .then(res => {
           this.formQ = { ...row }
           this.setWarehouse(res.data)

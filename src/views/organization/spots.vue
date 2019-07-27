@@ -98,7 +98,7 @@
         </el-form-item>
 
         <el-form-item label="SAP库存地" prop="stockLocation" :rules="[{ required: true }]">
-          <el-input v-model="formQ.stockLocation" placeholder="输入货物" maxlength="4" minlength="4"/>
+          <el-input v-model="formQ.stockLocation" placeholder="输入货物" maxlength="4" minlength="4" />
         </el-form-item>
 
         <el-form-item label="默认车间领料货位" prop="inWorkshop" :rules="[{ required: true }]">
@@ -106,20 +106,10 @@
           <el-radio v-model="formQ.inWorkshop" :label="false">否</el-radio>
         </el-form-item>
 
-
         <el-form-item label="冻结" prop="frozen" :rules="[{ required: true }]">
           <el-radio v-model="formQ.frozen" :label="true">是</el-radio>
           <el-radio v-model="formQ.frozen" :label="false">否</el-radio>
         </el-form-item>
-
-
-
-
-
-
-
-
-
 
         <el-form-item label="工厂" prop="factoryId" :rules="[{ required: true }]">
           <el-select
@@ -149,7 +139,6 @@
             </el-option>
           </el-select>
 
-
         </el-form-item>
 
         <el-form-item label="库区" prop="warehouseAreaId" :rules="[{ required: true }]">
@@ -165,11 +154,6 @@
             </el-option>
           </el-select>
         </el-form-item>
-
-
-
-
-
 
         <el-form-item label="备注" prop="remark" :rules="[{ required: true }]">
           <el-input v-model="formQ.remark" placeholder="输入备注" />
@@ -299,15 +283,18 @@ export default {
       this.dialogVisible = true
     },
     handleEdit({ row }) {
-      getWarehousesInfo(row.factoryId)
+      getWarehousesInfo({ factoryId: row.factoryId })
         .then(res => {
-          this.formQ = { ...row }
-          this.setWarehouse(res.data)
-          delete this.formQ.createdDate
-          delete this.formQ.lastModifiedDate
-          this.$refs[this.formRef] && this.$refs[this.formRef].resetFields()
-          this.dialogType = '编辑'
-          this.dialogVisible = true
+          getWarehouseAreas({ warehouseId: row.warehouseId })
+            .then(ref => {
+              this.formQ = { ...row }
+              this.setWarehouse(res.data)
+              delete this.formQ.createdDate
+              delete this.formQ.lastModifiedDate
+              this.$refs[this.formRef] && this.$refs[this.formRef].resetFields()
+              this.dialogType = '编辑'
+              this.dialogVisible = true
+            })
         })
     },
     handleDelete({ row }) {
