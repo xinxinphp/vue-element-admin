@@ -251,7 +251,7 @@ export default {
       this.form.warehouseAreaId = ''
       this.formQ.warehouseAreaId = ''
       const data = {
-        factoryId: value
+        warehouseId: value
       }
       getWarehouseAreas(data)
         .then(res => {
