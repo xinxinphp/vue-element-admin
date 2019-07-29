@@ -95,7 +95,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="备注" prop="remark" :rules="[{ required: true }]">
+          <el-form-item label="备注" prop="remark">
             <el-input v-model="formQ.remark" placeholder="输入备注" />
           </el-form-item>
         </el-form>
