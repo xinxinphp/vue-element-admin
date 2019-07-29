@@ -94,11 +94,11 @@
     <el-dialog :visible.sync="dialogVisible" :title="dialogType" :before-close="handleClose">
       <el-form :ref="formRef" :model="formQ" label-width="160px" label-position="right">
         <el-form-item label="货位" prop="description" :rules="[{ required: true }]">
-          <el-input v-model="formQ.description" placeholder="输入货物" maxlength="20" />
+          <el-input v-model="formQ.description" placeholder="输入货位" maxlength="20" />
         </el-form-item>
 
         <el-form-item label="SAP库存地" prop="stockLocation" :rules="[{ required: true }]">
-          <el-input v-model="formQ.stockLocation" placeholder="输入货物" maxlength="4" minlength="4" />
+          <el-input v-model="formQ.stockLocation" placeholder="SAP库存地" maxlength="4" minlength="4" />
         </el-form-item>
 
         <el-form-item label="默认车间领料货位" prop="inWorkshop" :rules="[{ required: true }]">
@@ -279,7 +279,7 @@ export default {
     },
     handleAdd() {
       this.form = {}
-      this.dialogType = '添加库区'
+      this.dialogType = '添加货位'
       this.dialogVisible = true
     },
     handleEdit({ row }) {
