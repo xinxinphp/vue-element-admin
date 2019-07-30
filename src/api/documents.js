@@ -32,3 +32,12 @@ export function setReceiptConfirm(id) {
     method: 'post'
   })
 }
+/** **************************************************/
+// 获取 生产订单 列表
+export function getProductionOrdersOrderItemList(params) {
+  return request({
+    url: '/api/production_orders/order_item_list',
+    method: 'get',
+    params
+  })
+}

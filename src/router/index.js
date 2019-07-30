@@ -125,41 +125,17 @@ export const asyncRoutes = [
       {
         path: 'receiptOrders',
         component: () => import('@/views/documents/receiptOrders'),
-        name: 'ReceiptOrders',
+        name: 'ProductionOrdersOrderItemList',
         meta: {
           title: '收货单列表'
         }
       },
       {
-        path: 'productionOrderRising',
-        component: () => import('@/views/documents/productionOrderRising'),
-        name: 'ProductionOrderRising',
+        path: 'orderItemList',
+        component: () => import('@/views/documents/orderItemList'),
+        name: 'OrderItemList',
         meta: {
-          title: '生产订单抬头'
-        }
-      },
-      {
-        path: 'productionOrderComponent',
-        component: () => import('@/views/documents/productionOrderComponent'),
-        name: 'ProductionOrderComponent',
-        meta: {
-          title: '生产订单组件'
-        }
-      },
-      {
-        path: 'outboundbilloflading',
-        component: () => import('@/views/documents/outboundbilloflading'),
-        name: 'Outboundbilloflading',
-        meta: {
-          title: '出库提单列表'
-        }
-      },
-      {
-        path: 'sapMaterialrequisition',
-        component: () => import('@/views/documents/sapMaterialrequisition'),
-        name: 'SAPMaterialrequisition',
-        meta: {
-          title: 'SAP领料单'
+          title: '生产订单列表'
         }
       }
     ]
