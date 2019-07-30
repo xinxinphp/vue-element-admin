@@ -242,6 +242,14 @@ export const asyncRoutes = [
         meta: {
           title: '货位管理'
         }
+      },
+      {
+        path: 'productionLines',
+        component: () => import('@/views/organization/productionLines'),
+        name: 'ProductionLines',
+        meta: {
+          title: '产线管理'
+        }
       }
     ]
   },

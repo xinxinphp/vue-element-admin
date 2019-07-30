@@ -76,4 +76,29 @@ export function deleteSpots(id) {
     method: 'delete'
   })
 }
+/** *************************************/
+// 获取 产线 列表
+export function getProductionLines(params) {
+  return request({
+    url: `/api/production_lines`,
+    method: 'get',
+    params
+  })
+}
+
+// 保存 产线
+export function setProductionLines(data) {
+  return request({
+    url: `/api/production_lines`,
+    method: 'post',
+    data
+  })
+}
+// 删除 产线
+export function deleteProductionLines(id) {
+  return request({
+    url: `/api/production_lines/${id}`,
+    method: 'delete'
+  })
+}
 
