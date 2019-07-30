@@ -133,7 +133,6 @@ import { fetchList } from '@/api/article'
 import { parseTime } from '@/utils'
 import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
-import orderItemList from '@/api/purchase_orders/order_item_list'
 import formMixin from '@/views/mixin/BaseSearchForm'
 
 export default {
@@ -155,13 +154,6 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(res => {
-        this.list = orderItemList.list
-        this.total = 1
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
-      })
     },
     handleRest() {
       this._mixinReset()
