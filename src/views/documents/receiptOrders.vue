@@ -108,10 +108,10 @@
         style="width: 100%;"
         @sort-change="sortChange"
       >
-        <el-table-column label="质检结果" align="center" width="100">
+        <el-table-column label="质检结果" align="center" width="120">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.inboundConfirmed" type="primary" plain style="min-width: 83px;">{{ scope.row.qualityInspectionStatus }}</el-button>
-            <el-button v-else type="primary" @click="handleEditor(scope)" style="min-width: 83px;">{{ scope.row.qualityInspectionStatus }}</el-button>
+            <el-button v-if="scope.row.inboundConfirmed" type="primary" plain style="min-width: 100px;">{{ scope.row.qualityInspectionStatus }}</el-button>
+            <el-button v-else type="primary" style="min-width: 100px;" @click="handleEditor(scope)">{{ scope.row.qualityInspectionStatus }}</el-button>
           </template>
         </el-table-column>
         <el-table-column label="收货确认" prop="receiptConfirmed" align="center" width="100">
@@ -136,7 +136,11 @@
         <el-table-column label="物料名称" prop="materialName" min-width="420" />
         <el-table-column label="订单数" prop="poiQuantity" align="center" width="100" />
         <el-table-column label="打码未收货数" prop="printNotReceive" align="center" width="70" />
-        <el-table-column label="打码未入库数" prop="printNotInbound" align="center" width="70" />
+        <el-table-column label="打码未入库数" prop="printNotInbound" align="center" width="70">
+          <template slot-scope="scope">
+            <el-button type="text" @click="showPrintNotInbound(scope)">{{ scope.row.printNotInbound }}</el-button>
+          </template>
+        </el-table-column>
         <el-table-column label="收货数量" prop="receiveQuantity" align="center" width="70" />
         <el-table-column label="入库数量" prop="inboundedQuantity" align="center" width="70" />
         <el-table-column label="SAP基本单位" prop="unit" align="center" width="70" />
@@ -189,6 +193,67 @@
           <el-button type="primary" @click="submitForm">保存</el-button>
         </div>
       </el-dialog>
+
+      <el-dialog :visible.sync="dialogPrintNotInbound" title="明细" width="95%" top="3vh">
+        <el-table
+          :data="listPrintNotInbound"
+          border
+          fit
+          height="500"
+          highlight-current-row
+          style="width: 100%;"
+        >
+          <el-table-column label="编辑货位" align="center" width="100">
+            <template slot-scope="{row}">
+              <el-button
+                v-if="row.edit"
+                type="success"
+                size="small"
+                icon="el-icon-circle-check-outline"
+                @click="confirmEdit(row)"
+              >
+                保存
+              </el-button>
+              <el-button
+                v-else
+                type="primary"
+                size="small"
+                icon="el-icon-edit"
+                @click="row.edit=!row.edit"
+              >
+                编辑
+              </el-button>
+
+            </template>
+          </el-table-column>
+          <el-table-column label="关联货位" prop="spotDescription" align="center" width="120">
+            <template slot-scope="{row}">
+              <el-input v-if="row.edit" v-model="row.spotDescription" class="edit-input" size="small" />
+              <span v-else>{{ row.spotDescription }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="创建时间" prop="createdDate" align="center" width="95" />
+          <el-table-column label="打印序列" prop="printSeq" align="center" width="80" />
+          <el-table-column label="标签码" prop="tagNo" align="center" width="95" />
+          <el-table-column label="物料编码" prop="materialCode" align="center" width="115" />
+          <el-table-column label="物料描述" prop="materialName" align="center" min-width="300" />
+          <el-table-column label="版本号" prop="version" align="center" width="70" />
+          <el-table-column label="型号" prop="type" align="center" width="50" />
+          <el-table-column label="数量" prop="quantity" align="center" width="50" />
+          <el-table-column label="单位" prop="unit" align="center" width="50" />
+          <el-table-column label="生产日期" prop="productionDate" align="center" width="95" />
+          <el-table-column label="到厂日期" prop="factoryDate" align="center" width="95" />
+
+        </el-table>
+
+        <pagination
+          :total="totalPrintNotInbound"
+          :page.sync="listQuery.page"
+          :limit.sync="listQuery.limit"
+          @pagination="getPrintNotInboundList()"
+        />
+
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -199,7 +264,7 @@ import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
 import { parseTime } from '@/utils'
-import { getReceiptOrders, setQualityInspectionStatus, setReceiptConfirm } from '@/api/documents'
+import { getReceiptOrders, setQualityInspectionStatus, setReceiptConfirm, getPrintNotInbound, setBindSpot } from '@/api/documents'
 const defaultForm = {
   poNo: '', // 采购订单
   materialCode: '', // 物料编码
@@ -229,8 +294,16 @@ export default {
       dialogForm: {},
       dialogFormRef: 'dialogFormRef',
       dialogType: '',
-      dialogVisible: false
+      dialogVisible: false,
       /** ***以下 xxxx 字段 *****/
+      dialogPrintNotInbound: false,
+      formPrintNotInbound: {
+        spotDescription: ''
+      },
+      listPrintNotInbound: [],
+      totalPrintNotInbound: 1,
+      loadingPrintNotInbound: false,
+      purchaseOrderItemId: {}
     }
   },
   computed: {
@@ -274,6 +347,45 @@ export default {
         })
         .catch(err => {
           this.$message.error(JSON.stringify(err))
+        })
+    },
+    showPrintNotInbound({ row }) {
+      this.totalPrintNotInbound = 1
+      this.itemID = row.id
+      this.dialogPrintNotInbound = true
+      this.purchaseOrderItemId = { purchaseOrderItemId: row.purchaseOrderItemId }
+      this.getPrintNotInboundList(this.purchaseOrderItemId)
+    },
+    getPrintNotInboundList(purchaseOrderItemId = this.purchaseOrderItemId) {
+      this.loading = true
+      getPrintNotInbound({ ...this.listQuery, ...purchaseOrderItemId })
+        .then(res => {
+          this.listPrintNotInbound = res.data.list.map(v => {
+            this.$set(v, 'edit', false)
+            return v
+          })
+          this.totalPrintNotInbound = res.data.total
+          this.loading = false
+        })
+        .catch(() => {
+          this.loading = false
+        })
+    },
+    confirmEdit(row) {
+      const data = {
+        'id': row.id, // itemID
+        'receiptOrderId': this.itemID, // 收货单ID
+        'spotDescription': row.spotDescription// 输入的货位
+      }
+      setBindSpot(data)
+        .then(res => {
+          row.edit = false
+          this.$message.success(res.message)
+        })
+        .catch(err => {
+          row.edit = false
+          row.spotDescription = ''
+          this.$message.err(err)
         })
     },
     handleDownload() {

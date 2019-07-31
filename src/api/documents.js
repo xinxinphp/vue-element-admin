@@ -32,6 +32,25 @@ export function setReceiptConfirm(id) {
     method: 'post'
   })
 }
+
+// 获取 已打印标签但尚未入库的item
+export function getPrintNotInbound(params) {
+  return request({
+    url: '/api/items/print_not_inbound',
+    method: 'get',
+    params
+  })
+}
+
+// 设置绑定货位
+export function setBindSpot(data) {
+  return request({
+    url: '/api/items/bind_spot',
+    method: 'POST',
+    data
+  })
+}
+
 /** **************************************************/
 // 获取 生产订单 列表
 export function getProductionOrdersOrderItemList(params) {
