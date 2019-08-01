@@ -14,7 +14,7 @@
       </el-select>
       <el-input
         v-model="form.orderNo"
-        :placeholder="_getFieldName('orderNo','提单号')"
+        :placeholder="_getFieldName('orderNo','领料单号')"
         :style="small"
         class="filter-item"
         clearable
@@ -39,19 +39,19 @@
         </el-button>
         <el-dropdown-menu slot="dropdown" class="app-container">
           <el-date-picker
-            v-model="form.queryDateStart"
+            v-model="form.bedat"
             type="date"
             value-format="yyyy-MM-dd"
             :editable="false"
-            :placeholder="_getFieldName('queryDateStart','计划出库日期起始')"
+            :placeholder="_getFieldName('bedat','计划领料日期')"
             :style="small"
           />
           <el-date-picker
-            v-model="form.queryDateEnd"
+            v-model="form.apdat"
             type="date"
             value-format="yyyy-MM-dd"
             :editable="false"
-            :placeholder="_getFieldName('queryDateEnd','结束日期')"
+            :placeholder="_getFieldName('apdat','创建日期')"
             :style="small"
           />
           <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
@@ -73,7 +73,7 @@
         style="width: 100%;"
         @sort-change="sortChange"
       >
-        <el-table-column label="提单" prop="orderNo" width="230" sortable="factoryCode">
+        <el-table-column label="领料单号" prop="orderNo" width="230" sortable="factoryCode">
           <template slot-scope="{row}">
             <span>{{ row.orderNo }} &nbsp;
               <el-button v-if="row.enabled" type="success" plain style="min-width: 110px;" @click="handleHarvest(row)">{{ '手持可用' }}</el-button>
@@ -83,14 +83,19 @@
         </el-table-column>
         <el-table-column label="工厂" prop="factoryCode" align="center" width="100" sortable="orderNo" />
         <el-table-column label="库存地点" prop="stockLocation" align="center" width="80" />
-        <el-table-column label="提单类型" prop="loType" width="80" />
-        <el-table-column label="项目类型" prop="pstyv" align="center" width="80" />
-        <el-table-column label="计划出库日期" prop="planShipDate" align="center" width="105" />
-        <el-table-column label="物料编码" prop="materialCode" width="110" />
-        <el-table-column label="物料名称" prop="materialName" min-width="240" />
-        <el-table-column label="计划发货数量" prop="quantity" align="center" min-width="110" />
-        <el-table-column label="已出库数量" prop="shippedQuantity" align="center" min-width="110" />
-        <el-table-column label="单位" prop="unit" align="center" />
+        <el-table-column label="创建人" prop="applicant" align="center" width="90" />
+        <el-table-column label="创建日期" prop="apdat" align="center" width="90" />
+        <el-table-column label="备注" prop="txzhd" align="center" min-width="210" />
+        <el-table-column label="部门" prop="deptDesc" align="center" width="110" />
+        <el-table-column label="业务选择" prop="bstypTxt" align="center" width="110" />
+        <el-table-column label="成本中心" prop="costCenter" align="center" width="110" />
+        <el-table-column label="移动类型" prop="moveType" align="center" width="80" />
+        <el-table-column label="计划领料日期" prop="bedat" align="center" width="120" />
+        <el-table-column label="物料编码" prop="materialCode" align="center" width="120" />
+        <el-table-column label="物料名称" prop="materialName" align="center" width="120" />
+        <el-table-column label="计划领料数量" prop="quantity" align="center" width="120" />
+        <el-table-column label="单位" prop="unit" align="center" width="80" />
+        <el-table-column label="实际领料数量" prop="shippedQuantity" align="center" min-width="120" />
       </el-table>
 
       <pagination
@@ -112,11 +117,11 @@ import formMixin from '@/views/mixin/BaseSearchForm'
 import { parseTime } from '@/utils'
 import { getPickOrders, setPickOrders } from '@/api/documents'
 const defaultForm = {
-  orderNo: '', // 提单号
+  bedat: '', // 计划领料日期
+  orderNo: '', // 领料单号
   materialCode: '', // 物料编码
   materialName: '', // 物料名称
-  queryDateStart: '', // 计划出库日期起始
-  queryDateEnd: '' // 结束日期
+  apdat: ''// 创建日期
 }
 
 export default {
