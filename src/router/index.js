@@ -127,7 +127,7 @@ export const asyncRoutes = [
         component: () => import('@/views/documents/receiptOrders'),
         name: 'ProductionOrdersOrderItemList',
         meta: {
-          title: '收货单列表'
+          title: '收货单'
         }
       },
       {
@@ -135,7 +135,23 @@ export const asyncRoutes = [
         component: () => import('@/views/documents/orderItemList'),
         name: 'OrderItemList',
         meta: {
-          title: '生产订单列表'
+          title: '生产订单'
+        }
+      },
+      {
+        path: 'ladingOrders',
+        component: () => import('@/views/documents/ladingOrders'),
+        name: 'LadingOrders',
+        meta: {
+          title: '出库提单'
+        }
+      },
+      {
+        path: 'pickOrders',
+        component: () => import('@/views/documents/pickOrders'),
+        name: 'PickOrders',
+        meta: {
+          title: 'SAP领料单'
         }
       }
     ]

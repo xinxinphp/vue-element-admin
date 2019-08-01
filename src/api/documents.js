@@ -60,3 +60,35 @@ export function getProductionOrdersOrderItemList(params) {
     params
   })
 }
+/** **************************************************/
+// 获取 出库提单 列表
+export function getLadingOrders(params) {
+  return request({
+    url: '/api/lading_orders/order_item_list',
+    method: 'get',
+    params
+  })
+}
+// 获取 出库提单 列表 切换可用状态
+export function setLadingOrders(loId) {
+  return request({
+    url: `/api/lading_orders/toggle_enabled/${loId}`,
+    method: 'post'
+  })
+}
+/** **************************************************/
+// 获取 SAP领料单 列表
+export function getPickOrders(params) {
+  return request({
+    url: '/api/pick_orders/order_item_list',
+    method: 'get',
+    params
+  })
+}
+// 获取 SAP领料单 列表 切换可用状态
+export function setPickOrders(pkoId) {
+  return request({
+    url: `/api/pick_orders/toggle_enabled/${pkoId}`,
+    method: 'post'
+  })
+}
