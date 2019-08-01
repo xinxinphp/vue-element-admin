@@ -113,6 +113,10 @@
       >
         <el-table-column label="工厂" prop="factoryCode" align="center" width="80" sortable="factoryCode" />
         <el-table-column label="订单号" prop="orderNo" align="center" width="120" sortable="orderNo"/>
+        <el-table-column label="物料编码" prop="materialCode" align="center" width="120" />
+        <el-table-column label="物料名称" prop="materialName" min-width="420" />
+        <el-table-column label="订单数量" prop="quantity" width="100" />
+        <el-table-column label="订单单位" prop="unit" align="center" width="100" />
         <el-table-column label="供应商" prop="vendorCode" align="center" width="120" />
         <el-table-column label="供应商名称" prop="vendorName" min-width="260" />
         <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="120" />
@@ -134,10 +138,6 @@
         </el-table-column>
 
         <el-table-column label="库存地点" prop="stockLocation" align="center" width="120" />
-        <el-table-column label="物料编码" prop="materialCode" align="center" width="120" />
-        <el-table-column label="物料名称" prop="materialName" min-width="420" />
-        <el-table-column label="订单数量" prop="quantity" width="100" />
-        <el-table-column label="订单单位" prop="unit" align="center" width="100" />
         <el-table-column label="已入库数量" prop="processedQuantity" width="100" />
         <el-table-column label="SAP已交货完成" prop="elikz" align="center" width="80">
           <template slot-scope="scope">
