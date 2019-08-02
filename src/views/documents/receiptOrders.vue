@@ -385,7 +385,7 @@ export default {
         .catch(err => {
           row.edit = false
           row.spotDescription = ''
-          this.$message.err(err)
+          this.$message.error(err)
         })
     },
     handleDownload() {

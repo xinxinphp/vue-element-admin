@@ -126,7 +126,7 @@ export default {
           })
         })
         .catch(err => {
-          this.$message.err(err)
+          this.$message.error(err)
         })
     },
     // 删除角色
@@ -143,7 +143,7 @@ export default {
               this.$message.success(res.message)
             })
             .catch(err => {
-              this.$message.err(err)
+              this.$message.error(err)
             })
         })
     },

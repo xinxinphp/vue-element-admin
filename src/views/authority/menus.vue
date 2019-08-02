@@ -138,7 +138,7 @@ export default {
               this.$message.success(res.message)
             })
             .catch(err => {
-              this.$message.err(err)
+              this.$message.error(err)
             })
         })
     },

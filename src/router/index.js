@@ -303,6 +303,15 @@ export const asyncRoutes = [
         meta: {
           title: '菜单管理'
         }
+      },
+      {
+        path: 'changePassword',
+        component: () => import('@/views/authority/changePassword'),
+        name: 'ChangePassword',
+        hidden: true,
+        meta: {
+          title: '修改密码'
+        }
       }
     ]
   },
