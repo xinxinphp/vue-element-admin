@@ -36,16 +36,21 @@ export default {
         if (!valid) { return }
         if (this.form.newPassword2 !== this.form.newPassword) {
           this.$message.error('2次输入密码不一致,请重新输入')
-          this.form.newPassword = ''
           this.form.newPassword2 = ''
           return false
         }
         setChangePassword(this.form.oldPassword, this.form.newPassword)
           .then(res => {
             this.$message.success(res.message)
+            this.form.oldPassword = ''
+            this.form.newPassword = ''
+            this.form.newPassword2 = ''
           })
           .catch(err => {
             this.$message.error(err)
+            this.form.oldPassword = ''
+            this.form.newPassword = ''
+            this.form.newPassword2 = ''
           })
       })
     },
