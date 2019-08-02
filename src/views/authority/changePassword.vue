@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
-    <el-form ref="formRef" :model="form">
+    <el-form ref="formRef" :model="form" label-width="110px" label-position="top">
       <el-form-item label="现密码" :rules="[{ required: true }]" prop="oldPassword">
-        <el-input v-model.trim="form.oldPassword" />
+        <el-input v-model.trim="form.oldPassword" type="password" style="width: 30%" />
       </el-form-item>
       <el-form-item label="新密码" :rules="[{ required: true }]" prop="newPassword">
-        <el-input v-model.trim="form.newPassword" />
+        <el-input v-model.trim="form.newPassword" type="password" style="width: 30%" />
       </el-form-item>
-      <el-form-item label="再次确认新密码" :rules="[{ required: true }]" prop="newPassword2">
-        <el-input v-model.trim="form.newPassword2" type="password" @paste.native.capture.prevent="handlePaste" />
+      <el-form-item label="确认密码" :rules="[{ required: true }]" prop="newPassword2">
+        <el-input v-model.trim="form.newPassword2" type="password" style="width: 30%" @paste.native.capture.prevent="handlePaste" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submit">确认</el-button>
@@ -42,9 +42,9 @@ export default {
         setChangePassword(this.form.oldPassword, this.form.newPassword)
           .then(res => {
             this.$message.success(res.message)
-            this.form.oldPassword = ''
-            this.form.newPassword = ''
-            this.form.newPassword2 = ''
+            setTimeout(() => {
+              this.logout()
+            }, 3000)
           })
           .catch(err => {
             this.$message.error(err)
@@ -54,7 +54,11 @@ export default {
           })
       })
     },
-    handlePaste() {}
+    handlePaste() {},
+    async logout() {
+      await this.$store.dispatch('user/logout')
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    }
   }
 }
 </script>
