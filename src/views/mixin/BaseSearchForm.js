@@ -6,9 +6,11 @@ const formNode = {}
 Object.keys(formNodeDef).forEach(item => {
   formNode[item] = ''
 })
-
+import LongText from '@/components/LongText'
 import { mapState } from 'vuex'
+
 export default {
+  components: { LongText },
   data() {
     return {
       defaultForm: {},
@@ -18,6 +20,7 @@ export default {
       medium,
       small,
       mini,
+      fixHeight: window.innerHeight - 239,
       total: 0,
       list: [],
       loading: true,
@@ -32,10 +35,26 @@ export default {
   created() {
   },
   computed: {
-    ...mapState('user', ['factoryIds']) // 用户下的所有工厂
+    ...mapState('user', ['factoryIds']),
+    // 用户下的所有工厂
+    tdSize: function(thFontNum, tdFontNum, isTdChinese = true, isTdSort = false) {
+      return function(thFontNum, tdFontNum, isTdChinese = true, isTdSort = false) {
+        let size = 25 // 基本长度
+        let tdSort = 0 // 排序占用长度
+        if (isTdSort) {
+          tdSort = 20
+        }
+        if (isTdChinese) {
+          size = size + Math.max(thFontNum * 14, tdFontNum * 14) + tdSort
+        } else {
+          size = size + Math.max(thFontNum * 14, tdFontNum * 8) + tdSort
+        }
+        return size
+      }
+    }
   },
   mounted() {
-    console.log('页面加载完毕 ---- BaseSearchForm.js')
+    // console.log('页面加载完毕 ---- BaseSearchForm.js')
   },
   methods: {
     getList(done) {
