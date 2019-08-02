@@ -101,3 +101,10 @@ export function deleteUsers(id) {
     method: 'delete'
   })
 }
+// 修改密码-POST
+export function setChangePassword(oldPassword, newPassword) {
+  return request({
+    url: `/api/change_password?oldPassword=${oldPassword}&newPassword=${newPassword}`,
+    method: 'post'
+  })
+}
