@@ -2,7 +2,7 @@
   <div>
     <span v-if="textLength <= maxLength">{{ text }}</span>
     <el-tooltip v-else effect="dark" :content="text" placement="top">
-      <el-button type="text" style="margin: 0; padding: 0;">{{ text.toString().substring(0, maxLength) }}...</el-button>
+      <el-button type="text" style="margin: 0; padding: 0; color: #606266">{{ text.toString().substring(0, maxLength) }}...</el-button>
     </el-tooltip>
   </div>
 </template>
@@ -28,4 +28,3 @@ export default {
   }
 }
 </script>
-
