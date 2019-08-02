@@ -17,6 +17,11 @@
       <el-table-column label="手机号码" prop="phoneNumber" width="150" />
       <el-table-column label="部门" prop="dept" width="80" />
       <el-table-column label="职位" prop="position" width="150" />
+      <el-table-column label="是否AD用户" prop="ldapUser" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.ldapUser ? '是':'' }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" width="250">
         <template slot-scope="scope">
           <el-button type="primary" size="small" @click="handleEdit(scope)">编辑</el-button>
@@ -32,7 +37,7 @@
       @pagination="getList"
     />
     <el-dialog :visible.sync="dialogVisible" :title="dialogType" :before-close="handleClose" top="5vh">
-      <el-form :ref="formRef" :model="formQ" label-width="110px" label-position="right" :disabled = "isHidden">
+      <el-form :ref="formRef" :model="formQ" label-width="110px" label-position="right" :disabled="isHidden">
         <el-form-item label="登陆名" prop="login" :rules="[{ required: true }]">
           <el-input v-model="formQ.login" placeholder="输入登陆名" :disabled="isDisabled" />
         </el-form-item>
@@ -76,6 +81,10 @@
           <el-radio v-model="formQ.activated" :label="true">启用</el-radio>
           <el-radio v-model="formQ.activated" :label="false">关闭</el-radio>
         </el-form-item>
+        <el-form-item  label="是否AD用户" prop="ldapUser">
+          <el-radio v-model="formQ.ldapUser" :label="true">是</el-radio>
+          <el-radio v-model="formQ.ldapUser" :label="false">否</el-radio>
+        </el-form-item>
         <el-form-item v-if="isHidden" label="创建人" prop="createdBy">
           <el-input v-model="formQ.createdBy" />
         </el-form-item>
@@ -91,7 +100,7 @@
       </el-form>
       <div style="text-align:right;">
         <el-button type="danger" @click=" resetForm() ? '' : dialogVisible= false">取消</el-button>
-        <el-button type="primary" @click="submitForm" :disabled="isHidden">保存</el-button>
+        <el-button type="primary" :disabled="isHidden" @click="submitForm">保存</el-button>
       </div>
     </el-dialog>
 
@@ -118,6 +127,7 @@ const defaultForm = {
   phoneNumber:	'',
   gender:	1, // 性别 1男 2女
   factoryIds: [],
+  ldapUser: '',
   roleIds: []
 }
 
