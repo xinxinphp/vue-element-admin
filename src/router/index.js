@@ -174,6 +174,14 @@ export const asyncRoutes = [
         meta: {
           title: '工厂物料管理'
         }
+      },
+      {
+        path: 'labelQuery',
+        component: () => import('@/views/masterData/labelQuery'),
+        name: 'LabelQuery',
+        meta: {
+          title: '标签查询'
+        }
       }
     ]
   },

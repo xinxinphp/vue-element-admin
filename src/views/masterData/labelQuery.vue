@@ -5,55 +5,51 @@
         v-model="form.factoryId"
         :placeholder="_getFieldName('factoryId','工厂')"
         :style="mini"
-        class="filter-item"
         clearable
       >
         <el-option v-for="item in factoryIds" :key="item.id + item.name" :label="item.code" :value="item.id">
           <span style="float: left">{{ item.code + '  ----  ' + item.name }}</span>
         </el-option>
       </el-select>
-      <el-input
+      <el-select
         v-model="form.poNo"
-        :placeholder="_getFieldName('poNo','采购订单号')"
+        :placeholder="_getFieldName('poNo','打码方式')"
         :style="small"
-        class="filter-item"
         clearable
-      />
+      >
+        <el-option label="订单" value="1" />
+        <el-option label="无订单" value="2" />
+      </el-select>
       <el-input
         v-model="form.vendorCode"
-        :placeholder="_getFieldName('vendorCode','供应商')"
+        :placeholder="_getFieldName('tagNo','标签码')"
         :style="small"
-        class="filter-item"
         clearable
       />
       <el-input
         v-model="form.vendorName"
-        :placeholder="_getFieldName('vendorName','供应商名称')"
-        :style="small"
-        class="filter-item"
-        clearable
-      />
-      <el-input
-        v-model="form.lastModifiedBy"
-        :placeholder="_getFieldName('lastModifiedBy','创建人')"
-        :style="small"
-        class="filter-item"
-        clearable
-      />
-      <el-input
-        v-model="form.materialCode"
         :placeholder="_getFieldName('materialCode','物料编码')"
         :style="small"
-        class="filter-item"
         clearable
       />
-      <el-input
-        v-model="form.materialName"
-        :placeholder="_getFieldName('materialName','物料名称')"
+      <el-select
+        v-model="form.notZero"
+        :placeholder="_getFieldName('notZero','数量非0')"
         :style="small"
-        class="filter-item"
         clearable
-      />
+      >
+        <el-option label="数量为0" :value="true" />
+        <el-option label="数量非0" :value="false" />
+      </el-select>
+      <el-select
+        v-model="form.frozen"
+        :placeholder="_getFieldName('frozen','冻结')"
+        :style="small"
+        clearable
+      >
+        <el-option label="冻结" :value="true" />
+        <el-option label="未冻结" :value="false" />
+      </el-select>
       <el-dropdown trigger="click" :hide-on-click="false">
         <el-button plain>
           更多<i class="el-icon-caret-bottom el-icon--right" />
@@ -75,6 +71,7 @@
             :placeholder="_getFieldName('queryDateEnd','结束日期')"
             :style="small"
           />
+          <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
@@ -93,44 +90,44 @@
         style="width: 100%;"
         @sort-change="sortChange"
       >
-        <el-table-column label="操作" align="center" width="200">
+        <el-table-column label="打码方式" prop="printType" align="center" width="80" />
+        <el-table-column label="工厂" prop="factoryCode" align="center" :width="tdSize(2,4,false)" />
+        <el-table-column label="标签码" prop="tagNo" align="center" :width="tdSize(3,20,false)" />
+        <el-table-column label="物料编码" prop="materialCode" align="center" :width="tdSize(5,12,false)" />
+        <el-table-column label="物料名称" prop="materialName" align="center" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <span>
-              <el-button type="primary" @click="handlePrint(scope)">补打</el-button>
-              <el-button type="danger" @click="setDisable(scope)">作废</el-button>
-            </span>
+            <LongText :text="scope.row.materialName" />
           </template>
         </el-table-column>
-        <el-table-column label="工厂" prop="factoryCode" align="center" width="80" sortable="factoryCode" />
-        <el-table-column label="打印时间" prop="createdDate" align="center" width="155" sortable="createdDate" />
-        <el-table-column label="打印序列" align="center" width="80">
-          <template slot-scope="{row}">
-            <span>{{ row.printSeq + ' / '+row.ordinal + ' / '+row.totalPrintNum }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="标签码" prop="tagNo" min-width="170" />
-        <el-table-column label="采购订单号" prop="poNo" align="center" width="100" />
-        <el-table-column label="行项目" prop="poiNo" align="center" width="70" />
-        <el-table-column label="供应商" prop="vendorCode" align="center" width="100" />
+        <el-table-column label="数量" prop="quantity" align="center" width="70" />
+        <el-table-column label="SAP基本单位" prop="unit" align="center" width="120" />
+        <el-table-column label="版本号" prop="version" align="center" width="100" />
+        <el-table-column label="作废" prop="disabled" align="center" width="100" />
+        <el-table-column label="冻结" prop="frozen" align="center" width="100" />
+        <el-table-column label="型号" prop="type" align="center" width="100" />
+        <el-table-column label="SAP批次" prop="batch" align="center" width="100" />
+        <el-table-column label="供应商" prop="type" align="center" width="100" />
         <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.vendorName"></LongText>
+            <LongText :text="scope.row.vendorName" />
           </template>
         </el-table-column>
-        <el-table-column label="物料编码" prop="materialCode" width="120" />
-        <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,11)">
-          <template slot-scope="scope">
-            <LongText :text="scope.row.materialName"></LongText>
+        <el-table-column label="生产日期" prop="productionDate" width="95" />
+        <el-table-column label="到厂日期" prop="factoryDate" width="95" />
+        <el-table-column label="采购订单" prop="poNo" align="center" width="100" />
+        <el-table-column label="行项目" prop="poiNo" width="70" />
+        <el-table-column label="收货人" prop="receiptBy" width="100" />
+        <el-table-column label="收货单" prop="roNo" width="100" />
+        <el-table-column label="收货时间" prop="receiptTime" width="100" />
+        <el-table-column label="货位" prop="spotDescription" width="100" />
+        <el-table-column label="创建人" prop="createdBy" width="100" />
+        <el-table-column label="创建时间" prop="createdDate" width="100" />
+        <el-table-column label="打印序列" align="center" width="80">
+          <template slot-scope="{row}">
+            <el-input v-if="row.edit" v-model="row.spotDescription" class="edit-input" size="small" />
+            <span v-else>{{ row.printSeq + ' / '+row.ordinal + ' / '+row.totalPrintNum }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="内部简码" prop="internalShortCode" align="center" width="100" />
-        <el-table-column label="品牌" prop="materialBrand" width="100" />
-        <el-table-column label="类别" prop="materialCategory" width="100" />
-        <el-table-column label="版本号" prop="version" width="100" />
-        <el-table-column label="数量" prop="quantity" width="100" />
-        <el-table-column label="sap单位" prop="unit" width="100" />
-        <el-table-column label="生产日期" prop="productionDate" width="100" />
-        <el-table-column label="到厂日期" prop="factoryDate" width="100" />
       </el-table>
 
       <pagination
@@ -156,23 +153,23 @@
 import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
-import abcMixin from './abcMixin'
+import { parseTime } from '@/utils'
+// import abcMixin from './abcMixin'
 import { getItems, getReprint, setDisable } from '@/api/print'
 
 const defaultForm = {
   factoryId: '', // 工厂
-  poNo:	'', // 采购订单号
-  vendorCode: '', // 供应商
-  vendorName:	'', // 供应商名称
-  lastModifiedBy:	'', // 创建人
-  materialCode:	'', // 物料编码
-  materialName:	''// 物料名称
+  printType: '', // 打码方式
+  tagNo: '', // 标签码
+  materialCode: '', // 物料编码
+  notZero: '', // 数量非0
+  frozen: ''// 冻结
 }
 
 export default {
-  name: 'MissedPatches',
+  name: 'LabelQuery',
   components: { Pagination, Sticky },
-  mixins: [formMixin, abcMixin],
+  mixins: [formMixin],
   data() {
     return {
       defaultForm: defaultForm,
@@ -246,6 +243,29 @@ export default {
               this.$message.error(err)
             })
         })
+    },
+    handleDownload() {
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
+        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
+        const data = this.formatJson(filterVal, this.list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: 'table-list'
+        })
+        this.downloadLoading = false
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        if (j === 'timestamp') {
+          return parseTime(v[j])
+        } else {
+          return v[j]
+        }
+      }))
     }
   }
 }

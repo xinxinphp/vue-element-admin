@@ -129,7 +129,7 @@
         <el-table-column label="收货单" prop="orderNo" :width="tdSize(4,16,false)" />
         <el-table-column label="供应商" prop="vendorCode" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.vendorCode"></LongText>
+            <LongText :text="scope.row.vendorCode" />
           </template>
         </el-table-column>
         <el-table-column label="采购订单" prop="poNo" :width="tdSize(4,10,false)" />
@@ -139,7 +139,7 @@
         <el-table-column label="物料编码" prop="materialCode" align="center" min-width="120" />
         <el-table-column label="物料名称" prop="materialName" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.materialName"></LongText>
+            <LongText :text="scope.row.materialName" />
           </template>
         </el-table-column>
         <el-table-column label="订单数" prop="poiQuantity" align="center" width="100" />
@@ -241,12 +241,16 @@
             </template>
           </el-table-column>
           <el-table-column label="创建时间" prop="createdDate" align="center" width="95" />
-          <el-table-column label="打印序列" prop="printSeq" align="center" width="80" />
+          <el-table-column label="打印序列" align="center" width="80">
+            <template slot-scope="{row}">
+              <span>{{ row.printSeq + ' / '+row.ordinal + ' / '+row.totalPrintNum }}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="标签码" prop="tagNo" align="center" width="95" />
           <el-table-column label="物料编码" prop="materialCode" align="center" width="115" />
           <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,11)">
             <template slot-scope="scope">
-              <LongText :text="scope.row.materialName"></LongText>
+              <LongText :text="scope.row.materialName" />
             </template>
           </el-table-column>
           <el-table-column label="版本号" prop="version" align="center" width="70" />
