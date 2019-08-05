@@ -143,7 +143,7 @@ export const asyncRoutes = [
         component: () => import('@/views/documents/ladingOrders'),
         name: 'LadingOrders',
         meta: {
-          title: '出库提单'
+          title: '提单'
         }
       },
       {
@@ -151,7 +151,7 @@ export const asyncRoutes = [
         component: () => import('@/views/documents/pickOrders'),
         name: 'PickOrders',
         meta: {
-          title: 'SAP领料单'
+          title: '领料单'
         }
       }
     ]
