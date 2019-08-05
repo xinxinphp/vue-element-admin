@@ -68,7 +68,7 @@
         :data="list"
         border
         fit
-        height="500"
+        :height="fixHeight"
         highlight-current-row
         style="width: 100%;"
         @sort-change="sortChange"
@@ -92,7 +92,11 @@
         <el-table-column label="移动类型" prop="moveType" align="center" width="80" />
         <el-table-column label="计划领料日期" prop="bedat" align="center" width="120" />
         <el-table-column label="物料编码" prop="materialCode" align="center" width="120" />
-        <el-table-column label="物料名称" prop="materialName" align="center" width="120" />
+        <el-table-column label="物料名称" prop="materialName" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.materialName"></LongText>
+          </template>
+        </el-table-column>
         <el-table-column label="计划领料数量" prop="quantity" align="center" width="120" />
         <el-table-column label="单位" prop="unit" align="center" width="80" />
         <el-table-column label="实际领料数量" prop="shippedQuantity" align="center" min-width="120" />

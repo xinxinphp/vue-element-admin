@@ -103,37 +103,45 @@
         :data="list"
         border
         fit
-        height="500"
+        :height="fixHeight"
         highlight-current-row
         style="width: 100%;"
         @sort-change="sortChange"
       >
-        <el-table-column label="质检结果" align="center" width="120">
+        <el-table-column label="质检结果" align="center" :width="tdSize(4,6,true,true)">
           <template slot-scope="scope">
             <el-button v-if="scope.row.inboundConfirmed" type="primary" plain style="min-width: 100px;">{{ scope.row.qualityInspectionStatus }}</el-button>
             <el-button v-else type="primary" style="min-width: 100px;" @click="handleEditor(scope)">{{ scope.row.qualityInspectionStatus }}</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="收货确认" prop="receiptConfirmed" align="center" width="100">
+        <el-table-column label="收货确认" prop="receiptConfirmed" align="center" :width="tdSize(4,5,true,true)">
           <template slot-scope="scope">
             <el-button v-if="scope.row.receiptConfirmed" type="success" plain disabled>{{ '已确认' }}</el-button>
             <el-button v-else type="info" plain @click="handleHarvest(scope)">{{ '未确认' }}</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="入库确认" prop="inboundConfirmed" align="center" width="100">
+        <el-table-column label="入库确认" prop="inboundConfirmed" align="center" :width="tdSize(4,5,true,true)">
           <template slot-scope="scope">
             <el-button v-if="scope.row.inboundConfirmed" type="success" plain disabled>{{ '已确认' }}</el-button>
             <el-button v-else type="info" plain @click="handleEditor(scope)">{{ '未确认' }}</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="收货单" prop="orderNo" width="100" />
-        <el-table-column label="供应商" prop="vendorCode" width="120" />
-        <el-table-column label="采购订单" prop="poNo" width="100" />
-        <el-table-column label="采购订单项目" prop="poiNo" align="center" width="80" />
+        <el-table-column label="收货单" prop="orderNo" :width="tdSize(4,16,false)" />
+        <el-table-column label="供应商" prop="vendorCode" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.vendorCode"></LongText>
+          </template>
+        </el-table-column>
+        <el-table-column label="采购订单" prop="poNo" :width="tdSize(4,10,false)" />
+        <el-table-column label="采购订单项目" prop="poiNo" align="center" :width="tdSize(6,10,false)" />
         <el-table-column label="工厂" prop="factoryCode" align="center" width="100" />
-        <el-table-column label="收货日期" prop="createdDate" align="center" width="100" />
+        <el-table-column label="收货日期" prop="createdDate" align="center" :width="tdSize(4,20,false)" />
         <el-table-column label="物料编码" prop="materialCode" align="center" min-width="120" />
-        <el-table-column label="物料名称" prop="materialName" min-width="420" />
+        <el-table-column label="物料名称" prop="materialName" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.materialName"></LongText>
+          </template>
+        </el-table-column>
         <el-table-column label="订单数" prop="poiQuantity" align="center" width="100" />
         <el-table-column label="打码未收货数" prop="printNotReceive" align="center" width="70" />
         <el-table-column label="打码未入库数" prop="printNotInbound" align="center" width="70">
@@ -144,7 +152,7 @@
         <el-table-column label="收货数量" prop="receiveQuantity" align="center" width="70" />
         <el-table-column label="入库数量" prop="inboundedQuantity" align="center" width="70" />
         <el-table-column label="SAP基本单位" prop="unit" align="center" width="70" />
-        <el-table-column label="质检备注" prop="qualityInspectionRemark" align="center" width="100" />
+        <el-table-column label="质检备注" prop="qualityInspectionRemark" align="center" :width="tdSize(4,8)" />
         <el-table-column label="物料凭证" prop="docNo" align="center" width="100" />
         <el-table-column label="年度" prop="year" align="center" width="100" />
       </el-table>
@@ -236,7 +244,11 @@
           <el-table-column label="打印序列" prop="printSeq" align="center" width="80" />
           <el-table-column label="标签码" prop="tagNo" align="center" width="95" />
           <el-table-column label="物料编码" prop="materialCode" align="center" width="115" />
-          <el-table-column label="物料描述" prop="materialName" align="center" min-width="300" />
+          <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,11)">
+            <template slot-scope="scope">
+              <LongText :text="scope.row.materialName"></LongText>
+            </template>
+          </el-table-column>
           <el-table-column label="版本号" prop="version" align="center" width="70" />
           <el-table-column label="型号" prop="type" align="center" width="50" />
           <el-table-column label="数量" prop="quantity" align="center" width="50" />

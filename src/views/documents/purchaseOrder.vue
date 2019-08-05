@@ -130,7 +130,7 @@
           </template>
         </el-table-column>
         <el-table-column label="创建日期" prop="sapCreatedDate" align="center" :width="tdSize(4,8,false)" />
-        <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" width="120" :width="tdSize(4,8,false)"/>
+        <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" :width="tdSize(4,8,false)"/>
         <el-table-column label="退货标记" prop="retPo" align="center" :width="tdSize(4,1)">
           <template slot-scope="scope">
             <span>{{ scope.row.retPo ? '是': '' }}</span>
@@ -190,7 +190,6 @@ export default {
   },
   created() {
     this.getList(getOrderItemList)
-    console.log(window.innerHeight)
   },
   methods: {
     handleDownload() {

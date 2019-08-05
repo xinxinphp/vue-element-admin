@@ -68,7 +68,7 @@
         :data="list"
         border
         fit
-        height="500"
+        :height="fixHeight"
         highlight-current-row
         style="width: 100%;"
         @sort-change="sortChange"
@@ -87,7 +87,11 @@
         <el-table-column label="项目类型" prop="pstyv" align="center" width="80" />
         <el-table-column label="计划出库日期" prop="planShipDate" align="center" width="105" />
         <el-table-column label="物料编码" prop="materialCode" width="110" />
-        <el-table-column label="物料名称" prop="materialName" min-width="240" />
+        <el-table-column label="物料名称" prop="materialName" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.materialName"></LongText>
+          </template>
+        </el-table-column>
         <el-table-column label="计划发货数量" prop="quantity" align="center" min-width="110" />
         <el-table-column label="已出库数量" prop="shippedQuantity" align="center" min-width="110" />
         <el-table-column label="单位" prop="unit" align="center" />

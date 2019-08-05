@@ -101,7 +101,11 @@
         <el-table-column label="工厂" prop="factoryCode" align="center" width="80"></el-table-column>
         <el-table-column label="订单号" prop="orderNo" align="center" width="120" ></el-table-column>
         <el-table-column label="供应商" prop="vendorCode" align="center" width="120" ></el-table-column>
-        <el-table-column label="供应商名称" prop="vendorName" align="center" min-width="220" ></el-table-column>
+        <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.vendorName"></LongText>
+          </template>
+        </el-table-column>
         <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="120" ></el-table-column>
         <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" width="120" ></el-table-column>
         <el-table-column label="退货标记" prop="retPo" align="center" width="120" ></el-table-column>
@@ -129,7 +133,6 @@
 </template>
 
 <script>
-import { fetchList } from '@/api/article'
 import { parseTime } from '@/utils'
 import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'

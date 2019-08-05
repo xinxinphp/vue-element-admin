@@ -84,7 +84,7 @@
         :data="list"
         border
         fit
-        height="500"
+        :height="fixHeight"
         highlight-current-row
         style="width: 100%;"
         @sort-change="sortChange"
@@ -95,7 +95,11 @@
         <el-table-column label="产线名称" prop="crtxt" width="160" />
         <el-table-column label="计划开始日期" prop="gstrp" align="center" width="120" />
         <el-table-column label="产品编码" prop="plnbez" align="center" width="120" />
-        <el-table-column label="产品名称" prop="productMaterialName" align="center" min-width="260" />
+        <el-table-column label="产品名称" prop="productMaterialName" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.productMaterialName"></LongText>
+          </template>
+        </el-table-column>
         <el-table-column label="订单数量" prop="productQuantity" align="center" width="80" />
         <el-table-column label="订单单位" prop="productUnit" align="center" width="80" />
         <el-table-column label="订单状态" prop="states" align="center" width="300">
@@ -104,7 +108,11 @@
           </template>
         </el-table-column>
         <el-table-column label="组件编码" prop="materialCode" align="center" width="100" />
-        <el-table-column label="组件名称" prop="materialName" align="center" min-width="260" />
+        <el-table-column label="组件名称" prop="materialName" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.materialName"></LongText>
+          </template>
+        </el-table-column>
         <el-table-column label="数量" prop="quantity" align="center" width="80" />
         <el-table-column label="单位" prop="unit" align="center" min-width="80" />
         <el-table-column label="预留号" prop="rsnum" align="center" width="100" />

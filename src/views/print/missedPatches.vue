@@ -88,7 +88,7 @@
         :data="list"
         border
         fit
-        height="500"
+        :height="fixHeight"
         highlight-current-row
         style="width: 100%;"
         @sort-change="sortChange"
@@ -108,9 +108,17 @@
         <el-table-column label="采购订单号" prop="poNo" align="center" width="100" />
         <el-table-column label="行项目" prop="poiNo" align="center" width="70" />
         <el-table-column label="供应商" prop="vendorCode" align="center" width="100" />
-        <el-table-column label="供应商名称" prop="vendorName" align="center" width="130" />
+        <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.vendorName"></LongText>
+          </template>
+        </el-table-column>
         <el-table-column label="物料编码" prop="materialCode" width="120" />
-        <el-table-column label="物料描述" prop="materialName" min-width="420" />
+        <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.materialName"></LongText>
+          </template>
+        </el-table-column>
         <el-table-column label="内部简码" prop="internalShortCode" align="center" width="100" />
         <el-table-column label="品牌" prop="materialBrand" width="100" />
         <el-table-column label="类别" prop="materialCategory" width="100" />

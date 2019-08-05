@@ -62,7 +62,7 @@
         :data="list"
         border
         fit
-        height="500"
+        :height="fixHeight"
         highlight-current-row
         style="width: 100%;"
         @sort-change="sortChange"
@@ -74,7 +74,11 @@
         </el-table-column>
         <el-table-column label="物料类型" prop="materialType" width="80" />
         <el-table-column label="物料编码" prop="materialCode" width="120" />
-        <el-table-column label="物料描述" prop="materialName" min-width="420" />
+        <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.materialName"></LongText>
+          </template>
+        </el-table-column>
         <el-table-column label="SAP批次管理" prop="batchEnabled" align="center" width="120">
           <template slot-scope="scope">
             <span>{{ scope.row.retPo ? '启用': '' }}</span>
