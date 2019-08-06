@@ -157,6 +157,27 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/report',
+    component: Layout,
+    redirect: '/report/inOutDetail',
+    alwaysShow: true, // will always show the root menu
+    name: 'Documents',
+    meta: {
+      title: '报表',
+      icon: 'documentation'
+    },
+    children: [
+      {
+        path: 'inOutDetail',
+        component: () => import('@/views/report/inOutDetail'),
+        name: 'InOutDetail',
+        meta: {
+          title: '出入库明细'
+        }
+      }
+    ]
+  },
+  {
     path: '/masterData',
     component: Layout,
     redirect: '/masterData/factoryMaterialInfo',

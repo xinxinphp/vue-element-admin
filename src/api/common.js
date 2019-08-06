@@ -24,6 +24,13 @@ export function getWarehouseAreas(params) {
     params
   })
 }
+// 查询库区下货位 /api/spots/base_info?warehouseAreaId=xx
+export function getWarehouseAreaId(warehouseAreaId) {
+  return request({
+    url: `/api/spots/base_info?warehouseAreaId=${warehouseAreaId}`,
+    method: 'get'
+  })
+}
 // 查询所有工厂
 export function getFactoriesAll() {
   return request({
