@@ -164,7 +164,7 @@ export const asyncRoutes = [
     name: 'Documents',
     meta: {
       title: '报表',
-      icon: 'documentation'
+      icon: 'chart'
     },
     children: [
       {
