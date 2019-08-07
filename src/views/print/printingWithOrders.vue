@@ -163,63 +163,63 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="品牌" prop="materialBrand">
-                <el-input v-model="form.materialBrand" placeholder="输入品牌" disabled />
+                <el-input v-model="form.materialBrand" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="类别" prop="materialCategory">
-                <el-input v-model="form.materialCategory" placeholder="输入类别" disabled />
+                <el-input v-model="form.materialCategory" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="物料描述" prop="materialName">
-                <el-input v-model="form.materialName" placeholder="输入物料描述" disabled />
+                <el-input v-model="form.materialName" disabled />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
               <el-form-item label="物料编码" prop="materialCode">
-                <el-input v-model="form.materialCode" placeholder="输入物料编码" disabled />
+                <el-input v-model="form.materialCode" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="内部简码" prop="internalShortCode">
-                <el-input v-model="form.internalShortCode" placeholder="输入内部简码" disabled />
+                <el-input v-model="form.internalShortCode" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="供应商名称" prop="vendorName">
-                <el-input v-model="form.vendorName" placeholder="输入供应商名称" disabled />
+                <el-input v-model="form.vendorName" disabled />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
               <el-form-item label="SAP工厂代码" prop="factoryCode">
-                <el-input v-model="form.factoryCode" placeholder="输入SAP工厂代码" disabled />
+                <el-input v-model="form.factoryCode" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="包装单位" prop="pkgUnit">
-                <el-input v-model="form.pkgUnit" placeholder="输入包装单位" disabled />
+                <el-input v-model="form.pkgUnit" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="包装规格" prop="pkgSpec">
-                <el-input v-model="form.pkgSpec" placeholder="输入包装规格" disabled />
+                <el-input v-model="form.pkgSpec" disabled />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
               <el-form-item label="型号" prop="type">
-                <el-input v-model="form.type" placeholder="输入型号" disabled />
+                <el-input v-model="form.type" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="SAP批次" prop="batch">
-                <el-input v-model="form.batch" placeholder="输入SAP批次" />
+              <el-form-item label="批次" prop="batch">
+                <el-input v-model="form.batch" placeholder="输入批次" />
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -236,7 +236,7 @@
                   style="width: 100%"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  placeholder="输入生产日期"
+                  placeholder="选择生产日期"
                   :editable="false"
                 />
               </el-form-item>
@@ -248,7 +248,7 @@
                   style="width: 100%"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  placeholder="输入到厂日期"
+                  placeholder="选择到厂日期"
                   :editable="false"
                 />
               </el-form-item>
