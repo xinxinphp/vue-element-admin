@@ -69,7 +69,7 @@
       >
         <el-table-column label="操作" align="center" width="120">
           <template slot-scope="scope">
-            <span><el-button type="primary" @click="handleEditor(scope)">编辑</el-button></span>
+            <el-button type="primary" size="mini" @click="handleEditor(scope)">编辑</el-button>
           </template>
         </el-table-column>
         <el-table-column label="物料类型" prop="materialType" width="80" />

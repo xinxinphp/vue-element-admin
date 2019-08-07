@@ -11,8 +11,8 @@
       <el-table-column align="center" label="最后修改时间" prop="lastModifiedDate" width="180" />
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope)">编辑</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope)">删除</el-button>
+          <el-button type="primary" size="mini" @click="handleEdit(scope)">编辑</el-button>
+          <el-button type="danger" size="mini" @click="handleDelete(scope)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -50,7 +50,7 @@
         <el-table-column label="备注" prop="remark" min-width="120" />
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="primary" size="small" @click="handleEdit(scope)">编辑</el-button>
+            <el-button type="primary" size="mini" @click="handleEdit(scope)">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>

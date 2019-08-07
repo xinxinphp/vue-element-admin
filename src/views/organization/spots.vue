@@ -80,8 +80,8 @@
       <el-table-column label="备注" prop="remark" />
       <el-table-column label="操作" align="center" min-width="150">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope)">编辑</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope)">删除</el-button>
+          <el-button type="primary" size="mini" @click="handleEdit(scope)">编辑</el-button>
+          <el-button type="danger" size="mini" @click="handleDelete(scope)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
