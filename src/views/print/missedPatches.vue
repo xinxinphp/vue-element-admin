@@ -96,8 +96,8 @@
         <el-table-column label="操作" align="center" width="200">
           <template slot-scope="scope">
             <span>
-              <el-button type="primary" @click="handlePrint(scope)">补打</el-button>
-              <el-button type="danger" @click="setDisable(scope)">作废</el-button>
+              <el-button type="primary" size="mini" @click="handlePrint(scope)">补打</el-button>
+              <el-button type="danger" size="mini" @click="setDisable(scope)">作废</el-button>
             </span>
           </template>
         </el-table-column>

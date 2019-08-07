@@ -76,8 +76,8 @@
         <el-table-column label="领料单号" prop="orderNo" width="230" sortable="factoryCode">
           <template slot-scope="{row}">
             <span>{{ row.orderNo }} &nbsp;
-              <el-button v-if="row.enabled" type="success" plain style="min-width: 110px;" @click="handleHarvest(row)">{{ '手持可用' }}</el-button>
-              <el-button v-else type="info" plain @click="handleHarvest(row)">{{ '手持不可用' }}</el-button>
+              <el-button v-if="row.enabled" type="success" size="mini" plain style="min-width: 110px;" @click="handleHarvest(row)">{{ '手持可用' }}</el-button>
+              <el-button v-else type="info" size="mini" plain @click="handleHarvest(row)">{{ '手持不可用' }}</el-button>
             </span>
           </template>
         </el-table-column>

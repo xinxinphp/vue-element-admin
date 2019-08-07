@@ -106,7 +106,7 @@
       >
         <el-table-column label="打印条码" align="center" width="120">
           <template slot-scope="scope">
-            <span><el-button type="primary" @click="handlePrint(scope)">打印条码</el-button></span>
+            <span><el-button type="primary" size="mini" @click="handlePrint(scope)">打印条码</el-button></span>
           </template>
         </el-table-column>
         <el-table-column label="工厂" prop="factoryCode" align="center" width="80" sortable="factoryCode" />
