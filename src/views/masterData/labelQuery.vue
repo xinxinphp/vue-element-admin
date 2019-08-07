@@ -21,13 +21,13 @@
         <el-option label="无订单" value="2" />
       </el-select>
       <el-input
-        v-model="form.vendorCode"
+        v-model="form.tagNo"
         :placeholder="_getFieldName('tagNo','标签码')"
         :style="small"
         clearable
       />
       <el-input
-        v-model="form.vendorName"
+        v-model="form.materialCode"
         :placeholder="_getFieldName('materialCode','物料编码')"
         :style="small"
         clearable
