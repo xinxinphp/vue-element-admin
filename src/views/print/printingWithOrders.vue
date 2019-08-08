@@ -383,7 +383,7 @@ export default {
       }
     },
     formFieldRules(res) {
-      const { pkgUnit, pkgSpec } = res
+      const { pkgUnit, pkgSpec } = res.data
       if (pkgUnit && pkgSpec) {
         this.isPkgQuantityDisabled = false
       }
