@@ -223,9 +223,6 @@ export default {
             }
             this.startPrint(data)
           })
-          .catch(err => {
-            this.$message.error(JSON.stringify(err))
-          })
       } else {
         this.dialogVisibleDownload = true
       }

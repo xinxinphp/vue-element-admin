@@ -344,9 +344,6 @@ export default {
               row.receiptConfirmed = !row.receiptConfirmed
               this.$message.success(res.message)
             })
-            .catch(err => {
-              this.$message.error(JSON.stringify(err))
-            })
         })
     },
     submitForm() {
@@ -360,9 +357,6 @@ export default {
           this.getList(getReceiptOrders)
           this.$message.success(res.message)
           this.dialogVisible = false
-        })
-        .catch(err => {
-          this.$message.error(JSON.stringify(err))
         })
     },
     showPrintNotInbound({ row }) {

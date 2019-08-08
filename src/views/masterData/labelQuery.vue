@@ -220,9 +220,6 @@ export default {
             }
             this.startPrint(data)
           })
-          .catch(err => {
-            this.$message.error(JSON.stringify(err))
-          })
       } else {
         this.dialogVisibleDownload = true
       }
@@ -238,9 +235,6 @@ export default {
             .then(res => {
               this.getList(getItems)
               this.$message.success(res.message)
-            })
-            .catch(err => {
-              this.$message.error(err)
             })
         })
     },

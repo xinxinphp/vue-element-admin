@@ -161,9 +161,6 @@ export default {
               this.getList(getPickOrders)
               this.$message.success(res.message)
             })
-            .catch(err => {
-              this.$message.error(err)
-            })
         })
     },
     handleDownload() {

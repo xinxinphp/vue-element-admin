@@ -156,9 +156,6 @@ export default {
               this.getList(getLadingOrders)
               this.$message.success(res.message)
             })
-            .catch(err => {
-              this.$message.error(err)
-            })
         })
     },
     handleDownload() {
