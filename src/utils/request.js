@@ -74,7 +74,7 @@ service.interceptors.response.use(
           })
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.data.message || 'Error'))
     } else {
       console.log(res, '接口-获取-拦截器')
       return res
