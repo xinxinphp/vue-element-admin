@@ -56,7 +56,7 @@
             v-model="form.queryDateStart"
             type="date"
             value-format="yyyy-MM-dd"
-            :editable = "false"
+            :editable="false"
             :placeholder="_getFieldName('queryDateStart','开始日期')"
             :style="small"
           />
@@ -64,7 +64,7 @@
             v-model="form.queryDateEnd"
             type="date"
             value-format="yyyy-MM-dd"
-            :editable = "false"
+            :editable="false"
             :placeholder="_getFieldName('queryDateEnd','结束日期')"
             :style="small"
           />
@@ -114,7 +114,7 @@
         <el-table-column label="供应商" prop="vendorCode" align="center" width="120" />
         <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.vendorName"></LongText>
+            <LongText :text="scope.row.vendorName" />
           </template>
         </el-table-column>
         <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="120" />
@@ -139,7 +139,7 @@
         <el-table-column label="物料编码" prop="materialCode" align="center" width="120" />
         <el-table-column label="物料名称" prop="materialName" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.materialName"></LongText>
+            <LongText :text="scope.row.materialName" />
           </template>
         </el-table-column>
         <el-table-column label="订单数量" prop="quantity" width="100" />
@@ -358,7 +358,7 @@ export default {
       // this.startPrint()
       // return false
       const initPrintStatus = this.initPrint()
-      if (initPrintStatus) {
+      if (1 || initPrintStatus) {
         console.log('打印机 已开启,开始打印')
         getOrdersInitItemInfo(row.id)
           .then(res => {
