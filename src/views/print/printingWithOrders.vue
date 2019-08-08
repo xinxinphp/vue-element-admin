@@ -267,7 +267,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="基本单位数量" prop="baseQuantity" :rules="[{ required: true }]">
-                <el-input v-model="form.baseQuantity" placeholder="输入基本单位数量" />
+                <el-input-number v-model="form.baseQuantity" :min="0" style="width: 100%" />
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -367,7 +367,8 @@ export default {
               purchaseOrderItemId: row.id,
               totalPrintNum: 1,
               printSeq: 1,
-              pkgQuantity: 0
+              pkgQuantity: 0,
+              baseQuantity: 0
             }
             this.formFieldRules(res)
             this.form = { ...defValue, ...res.data }
