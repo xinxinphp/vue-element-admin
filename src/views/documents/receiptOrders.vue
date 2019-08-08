@@ -123,7 +123,7 @@
         <el-table-column label="入库确认" prop="inboundConfirmed" align="center" :width="tdSize(4,5,true,true)">
           <template slot-scope="scope">
             <el-button v-if="scope.row.inboundConfirmed" size="mini" type="success" plain disabled>{{ '已确认' }}</el-button>
-            <el-button v-else type="info" plain size="mini" @click="handleEditor(scope)">{{ '未确认' }}</el-button>
+            <el-button v-else type="info" plain size="mini" @click="handleConfirm(scope)">{{ '未确认' }}</el-button>
           </template>
         </el-table-column>
         <el-table-column label="收货单" prop="orderNo" :width="tdSize(4,16,false)" />
@@ -280,7 +280,7 @@ import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
 import { parseTime } from '@/utils'
-import { getReceiptOrders, setQualityInspectionStatus, setReceiptConfirm, getPrintNotInbound, setBindSpot } from '@/api/documents'
+import { getReceiptOrders, setQualityInspectionStatus, setReceiptConfirm, setInboundConfirm, getPrintNotInbound, setBindSpot } from '@/api/documents'
 const defaultForm = {
   poNo: '', // 采购订单
   materialCode: '', // 物料编码
@@ -342,6 +342,20 @@ export default {
           setReceiptConfirm(row.id)
             .then(res => {
               row.receiptConfirmed = !row.receiptConfirmed
+              this.$message.success(res.message)
+            })
+        })
+    },
+    handleConfirm({ row }) {
+      this.$confirm('确认入库?', '警告', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setInboundConfirm(row.id)
+            .then(res => {
+              row.inboundConfirmed = !row.inboundConfirmed
               this.$message.success(res.message)
             })
         })

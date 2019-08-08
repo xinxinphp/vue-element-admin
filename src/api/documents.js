@@ -25,10 +25,17 @@ export function setQualityInspectionStatus(data) {
     data
   })
 }
-// 获取 收货单 收货确认
+// 收货确认
 export function setReceiptConfirm(id) {
   return request({
     url: `/api/receipt_orders/receipt_confirm/${id}`,
+    method: 'post'
+  })
+}
+// 入库确认
+export function setInboundConfirm(id) {
+  return request({
+    url: `/api/receipt_orders/inbound_confirm/${id}`,
     method: 'post'
   })
 }
