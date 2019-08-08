@@ -219,7 +219,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="批次" prop="batch">
-                <el-input v-model="form.batch" placeholder="输入批次" />
+                <el-input v-model="form.batch" placeholder="输入批次" :disabled="isBatchDisabled" />
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -340,6 +340,7 @@ export default {
       /** ***一下打印*****/
       form: Object.assign({}, defaultForm),
       isPkgQuantityDisabled: true,
+      isBatchDisabled: true, // 批次是否能输入
       formRef: 'formRef',
       dialogType: '',
       dialogVisible: false,
@@ -371,6 +372,7 @@ export default {
               baseQuantity: 0
             }
             this.formFieldRules(res)
+            this.formBatchFieldRules(res)
             this.form = { ...defValue, ...res.data }
             this.$refs[this.formRef] && this.$refs[this.formRef].resetFields()
             this.dialogType = '打印订单'
@@ -387,6 +389,14 @@ export default {
       const { pkgUnit, pkgSpec } = res.data
       if (pkgUnit && pkgSpec) {
         this.isPkgQuantityDisabled = false
+      }
+    },
+    formBatchFieldRules(res) {
+      const { batch } = res.data
+      if (batch) {
+        this.isBatchDisabled = true
+      } else {
+        this.isBatchDisabled = false
       }
     },
     submitForm() {
