@@ -111,7 +111,11 @@
         </el-table-column>
         <el-table-column label="工厂" prop="factoryCode" align="center" width="80" sortable="factoryCode" />
         <el-table-column label="订单号" prop="orderNo" align="center" width="120" sortable="orderNo" />
-        <el-table-column label="供应商" prop="vendorCode" align="center" width="120" />
+        <el-table-column label="供应商" prop="vendorCode" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.vendorCode" />
+          </template>
+        </el-table-column>
         <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
           <template slot-scope="scope">
             <LongText :text="scope.row.vendorName" />

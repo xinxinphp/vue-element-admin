@@ -123,7 +123,11 @@
         <el-table-column label="订单数量" prop="quantity" :width="tdSize(4,7,false)" />
 
         <el-table-column label="订单单位" prop="unit" align="center" :width="tdSize(4,4,false)" />
-        <el-table-column label="供应商" prop="vendorCode" align="center" :width="tdSize(4,10,false)" />
+        <el-table-column label="供应商" prop="vendorCode" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.vendorCode" />
+          </template>
+        </el-table-column>
         <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
           <template slot-scope="scope">
             <LongText :text="scope.row.vendorName"></LongText>
