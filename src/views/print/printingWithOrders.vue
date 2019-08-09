@@ -322,6 +322,7 @@ const defaultForm = {
   totalPrintNum: '', // 打印张数：
   pkgQuantity: '', // 包装单位数量
   baseQuantity: '', // 基本单位数量
+  printedQuantity: '', // 已打印数量
   printSeq: '', // 打印序次
   purchaseOrderItemId: ''// 隐藏de ID
 }
