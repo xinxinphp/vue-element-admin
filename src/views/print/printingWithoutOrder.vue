@@ -66,7 +66,7 @@
           />
           <el-select
             v-model="form.retPo"
-            :placeholder="_getFieldName('retPo','退货标记')"
+            :placeholder="_getFieldName('retPo','退货')"
             :style="medium"
             class="filter-item"
             clearable
@@ -108,9 +108,9 @@
         </el-table-column>
         <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="120" ></el-table-column>
         <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" width="120" ></el-table-column>
-        <el-table-column label="退货标记" prop="retPo" align="center" width="120" ></el-table-column>
-        <el-table-column label="删除标记" prop="sapDeleted" align="center" width="120" ></el-table-column>
-        <el-table-column label="是否寄售" prop="pstyp" align="center" width="120" ></el-table-column>
+        <el-table-column label="退货" prop="retPo" align="center" width="120" ></el-table-column>
+        <el-table-column label="删除" prop="sapDeleted" align="center" width="120" ></el-table-column>
+        <el-table-column label="寄售" prop="pstyp" align="center" width="120" ></el-table-column>
         <el-table-column label="库存地点" prop="stockLocation" align="center" width="120" ></el-table-column>
         <el-table-column label="物料编码" prop="materialCode" align="center" width="120" ></el-table-column>
         <el-table-column label="物料名称" prop="materialName" align="center" min-width="320"></el-table-column>

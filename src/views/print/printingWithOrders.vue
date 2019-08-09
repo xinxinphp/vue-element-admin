@@ -77,7 +77,7 @@
           />
           <el-select
             v-model="form.retPo"
-            :placeholder="_getFieldName('retPo','退货标记')"
+            :placeholder="_getFieldName('retPo','退货')"
             :style="medium"
             class="filter-item"
             clearable
@@ -119,17 +119,17 @@
         </el-table-column>
         <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="120" />
         <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" width="120" />
-        <el-table-column label="退货标记" prop="retPo" align="center" width="120">
+        <el-table-column label="退货" prop="retPo" align="center" width="120">
           <template slot-scope="scope">
             <span>{{ scope.row.retPo ? '是': '' }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="删除标记" prop="sapDeleted" align="center" width="120">
+        <el-table-column label="删除" prop="sapDeleted" align="center" width="120">
           <template slot-scope="scope">
             <span>{{ scope.row.sapDeleted ? '是': '' }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="是否寄售" prop="pstyp" align="center" width="120">
+        <el-table-column label="寄售" prop="pstyp" align="center" width="120">
           <template slot-scope="scope">
             <span>{{ scope.row.pstyp === '2' ? '是': '' }}</span>
           </template>
@@ -369,7 +369,7 @@ export default {
               totalPrintNum: 1,
               printSeq: 1,
               pkgQuantity: 0,
-              baseQuantity: 0
+              baseQuantity: 1
             }
             this.formFieldRules(res)
             this.formBatchFieldRules(res)
@@ -405,10 +405,12 @@ export default {
           saveCreateItems(this.form)
             .then(res => {
               this.dialogVisible = false
+              this.resetForm()
               this.startPrint({ data: res.data, form: this.form })
             })
             .catch(err => {
               console.log(err, 'err打印返回参数')
+              this.resetForm()
             })
         } else {
           return false

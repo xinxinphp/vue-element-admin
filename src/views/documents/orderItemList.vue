@@ -117,7 +117,7 @@
         <el-table-column label="单位" prop="unit" align="center" min-width="80" />
         <el-table-column label="预留号" prop="rsnum" align="center" width="100" />
         <el-table-column label="预留行项目" prop="orderItemNo" align="center" width="100" />
-        <el-table-column label="删除标记" prop="sapDeleted" align="center" width="80">
+        <el-table-column label="删除" prop="sapDeleted" align="center" width="80">
           <template slot-scope="scope">
             <span>{{ scope.row.sapDeleted ? '删除': '' }}</span>
           </template>

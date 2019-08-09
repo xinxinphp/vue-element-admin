@@ -5,7 +5,7 @@ const nodeField = {
   'orderNo': '订单号',
   'materialCode': '物料编码',
   'materialName': '物料名称',
-  'retPo': '退货标记',
+  'retPo': '退货',
   'vendorCode': '供应商',
   'vendorName': '供应商名称',
   'createdBy': '创建人'

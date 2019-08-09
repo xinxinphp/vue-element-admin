@@ -77,7 +77,7 @@
           />
           <el-select
             v-model="form.retPo"
-            :placeholder="_getFieldName('retPo','退货标记')"
+            :placeholder="_getFieldName('retPo','退货')"
             :style="medium"
             class="filter-item"
             clearable
@@ -131,17 +131,17 @@
         </el-table-column>
         <el-table-column label="创建日期" prop="sapCreatedDate" align="center" :width="tdSize(4,8,false)" />
         <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" :width="tdSize(4,8,false)"/>
-        <el-table-column label="退货标记" prop="retPo" align="center" :width="tdSize(4,1)">
+        <el-table-column label="退货" prop="retPo" align="center" :width="tdSize(4,1)">
           <template slot-scope="scope">
             <span>{{ scope.row.retPo ? '是': '' }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="删除标记" prop="sapDeleted" align="center" :width="tdSize(4,1)">
+        <el-table-column label="删除" prop="sapDeleted" align="center" :width="tdSize(4,1)">
           <template slot-scope="scope">
             <span>{{ scope.row.sapDeleted ? '是': '' }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="是否寄售" prop="pstyp" align="center" :width="tdSize(4,1)">
+        <el-table-column label="寄售" prop="pstyp" align="center" :width="tdSize(4,1)">
           <template slot-scope="scope">
             <span>{{ scope.row.pstyp === '2' ? '是': '' }}</span>
           </template>
