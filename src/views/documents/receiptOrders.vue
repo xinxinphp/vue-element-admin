@@ -202,7 +202,7 @@
         </div>
       </el-dialog>
 
-      <el-dialog :visible.sync="dialogPrintNotInbound" title="明细" width="95%" top="3vh">
+      <el-dialog :visible.sync="dialogPrintNotInbound" title="明细" width="70%" top="8vh">
         <el-table
           :data="listPrintNotInbound"
           border
@@ -257,8 +257,8 @@
           <el-table-column label="型号" prop="type" align="center" width="50" />
           <el-table-column label="数量" prop="quantity" align="center" width="50" />
           <el-table-column label="单位" prop="unit" align="center" width="50" />
-          <el-table-column label="生产日期" prop="productionDate" align="center" width="95" />
-          <el-table-column label="到厂日期" prop="factoryDate" align="center" width="95" />
+          <el-table-column label="生产日期" prop="productionDate" align="center" min-width="95" />
+          <el-table-column label="到厂日期" prop="factoryDate" align="center" min-width="95" />
 
         </el-table>
 
