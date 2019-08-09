@@ -145,6 +145,7 @@
         <el-table-column label="订单数量" prop="quantity" width="100" />
         <el-table-column label="订单单位" prop="unit" align="center" width="100" />
         <el-table-column label="已入库数量" prop="processedQuantity" width="100" />
+        <el-table-column label="已打印数量" prop="printedQuantity" width="100" />
         <el-table-column label="SAP已交货完成" prop="elikz" align="center" width="80">
           <template slot-scope="scope">
             <span>{{ scope.row.elikz ? '是': '' }}</span>
