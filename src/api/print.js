@@ -8,7 +8,7 @@ export function getOrdersInitItemInfo(poiId) {
     method: 'get'
   })
 }
-// 点击确认打印
+// 点击确认打印printingWithOrders
 export function saveCreateItems(data) {
   return request({
     url: '/api/items/create_items',
@@ -37,5 +37,22 @@ export function setDisable(id) {
   return request({
     url: `/api/items/disable/${id}`,
     method: 'post'
+  })
+}
+
+// 根据工厂和物料，初始化item信息
+export function getInitItemInfo(params) {
+  return request({
+    url: `/api/materials/init_item_info/`,
+    method: 'get',
+    params
+  })
+}
+// 供应商生成标签 item
+export function setcreateItemsByVendor(data) {
+  return request({
+    url: `/api/items/create_items_by_vendor/`,
+    method: 'post',
+    data
   })
 }

@@ -236,6 +236,14 @@ export const asyncRoutes = [
         }
       },
       {
+        path: 'supplierPrint',
+        component: () => import('@/views/print/supplierPrint'),
+        name: 'SupplierPrint',
+        meta: {
+          title: '供应商打码'
+        }
+      },
+      {
         path: 'missedPatches',
         component: () => import('@/views/print/missedPatches'),
         name: 'MissedPatches',
