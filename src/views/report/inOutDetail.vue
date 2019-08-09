@@ -124,7 +124,11 @@
       <el-table-column label="仓库" prop="warehouseCode" :width="tdSize(2,6,false)" />
       <el-table-column label="库区" prop="warehouseAreaCode" :width="tdSize(2,9,false)" />
       <el-table-column label="货位" prop="spotDescription" :width="tdSize(2,12,false)" />
-      <el-table-column label="业务类型" prop="bizType" :width="tdSize(4,7)" />
+      <el-table-column label="业务类型" :width="tdSize(4,7)">
+        <template slot-scope="{row}">
+          <span>{{ row.bizType + '-'+row.direction }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="出入库单" prop="orderNo" width="150" />
       <el-table-column label="前置单据" prop="preOrderNo" width="150" />
       <el-table-column label="物料编码" prop="materialCode" width="150" />
@@ -141,11 +145,11 @@
       <el-table-column label="版本" prop="version" width="70" />
       <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
         <template slot-scope="scope">
-          <LongText :text="scope.row.vendorName"></LongText>
+          <LongText :text="scope.row.vendorName" />
         </template>
       </el-table-column>
       <el-table-column label="操作人" prop="operator" min-width="120" />
-      <el-table-column label="操作时间" prop="operateTime" width="170"/>
+      <el-table-column label="操作时间" prop="operateTime" width="170" />
     </el-table>
     <pagination
       :total="total"
