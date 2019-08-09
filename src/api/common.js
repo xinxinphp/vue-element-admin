@@ -8,6 +8,14 @@ export function getFactories(id) {
     method: 'get'
   })
 }
+// 根据工厂查询供应商
+export function getFindbyFactory(params) {
+  return request({
+    url: `/api/factoryVendor/findbyFactory`,
+    method: 'get',
+    params
+  })
+}
 // 根据工厂id查询仓库 factoryId=3
 export function getWarehousesInfo(params) {
   return request({

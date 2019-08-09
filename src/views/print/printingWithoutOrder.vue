@@ -8,18 +8,24 @@
         class="filter-item"
         clearable
       >
-        <el-option key="1" label="名称1" value="1" />
-        <el-option key="2" label="名称2" value="2" />
+        <el-option v-for="item in factoryIds" :key="item.id + item.name" :label="item.code" :value="item.id">
+          <span style="float: left">{{ item.code + '  ----  ' + item.name }}</span>
+        </el-option>
       </el-select>
-      <el-date-picker
-        v-model="form.sapCreatedDate"
-        type="date"
-        :placeholder="_getFieldName('sapCreatedDate','创建日期')"
-        :style="small"
-      />
+      <el-select
+        v-model="form.materialSmallCategory"
+        :placeholder="_getFieldName('materialSmallCategory','小类')"
+        :style="mini"
+        class="filter-item"
+        clearable
+      >
+        <el-option v-for="item in materialSmallCategory" :key="item.id" :label="item.name" :value="item.name">
+          <span style="float: left">{{ item.name }}</span>
+        </el-option>
+      </el-select>
       <el-input
-        v-model="form.orderNo"
-        :placeholder="_getFieldName('orderNo','订单号')"
+        v-model="form.materialType"
+        :placeholder="_getFieldName('materialType','SAP物料类型')"
         :style="small"
         class="filter-item"
         clearable
@@ -32,181 +38,339 @@
         clearable
       />
       <el-input
+        v-model="form.internalShortCode"
+        :placeholder="_getFieldName('internalShortCode','内部简码')"
+        :style="small"
+        class="filter-item"
+        clearable
+      />
+      <el-input
         v-model="form.materialName"
-        :placeholder="_getFieldName('materialName','物料名称')"
-        :style="small"
-        class="filter-item"
-        clearable
-      />
-      <el-input
-        v-model="form.vendorCode"
-        :placeholder="_getFieldName('vendorCode','供应商')"
-        :style="small"
-        class="filter-item"
-        clearable
-      />
-      <el-input
-        v-model="form.vendorName"
-        :placeholder="_getFieldName('vendorName','供应商名称')"
+        :placeholder="_getFieldName('materialName','物料描述')"
         :style="medium"
         class="filter-item"
         clearable
       />
-      <el-dropdown trigger="click">
-        <el-button plain>
-          更多<i class="el-icon-caret-bottom el-icon--right" />
-        </el-button>
-        <el-dropdown-menu slot="dropdown" class="app-container">
-          <el-input
-            v-model="form.createdBy"
-            :placeholder="_getFieldName('createdBy','创建人')"
-            :style="medium"
-            class="filter-item"
-            clearable
-          />
-          <el-select
-            v-model="form.retPo"
-            :placeholder="_getFieldName('retPo','退货')"
-            :style="medium"
-            class="filter-item"
-            clearable
-          >
-            <el-option key="12" :label="1" value="it1em" />
-          </el-select>
-          <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
-
-        </el-dropdown-menu>
-      </el-dropdown>
-
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
+      <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="handleRest()">重置</el-button>
 
     </sticky>
 
-    <div v-loading="listLoading" class="app-container">
-<!--
-      <div class="filter-container">
-        <el-checkbox v-model="showReviewer" class="filter-item" @change="tableKey=tableKey+1">隐藏1</el-checkbox>
-      </div>
--->
+    <div v-loading="loading" class="app-container">
       <el-table
         :key="tableKey"
         :data="list"
         border
         fit
+        :height="fixHeight"
         highlight-current-row
         style="width: 100%;"
         @sort-change="sortChange"
       >
-        <el-table-column label="工厂" prop="factoryCode" align="center" width="80"></el-table-column>
-        <el-table-column label="订单号" prop="orderNo" align="center" width="120" ></el-table-column>
-        <el-table-column label="供应商" prop="vendorCode" align="center" width="120" ></el-table-column>
-        <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
+        <el-table-column label="操作" align="center" width="120">
           <template slot-scope="scope">
-            <LongText :text="scope.row.vendorName"></LongText>
+            <el-button type="primary" size="mini" @click="handlePrint(scope)">打印</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="120" ></el-table-column>
-        <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" width="120" ></el-table-column>
-        <el-table-column label="退货" prop="retPo" align="center" width="120" ></el-table-column>
-        <el-table-column label="删除" prop="sapDeleted" align="center" width="120" ></el-table-column>
-        <el-table-column label="寄售" prop="pstyp" align="center" width="120" ></el-table-column>
-        <el-table-column label="库存地点" prop="stockLocation" align="center" width="120" ></el-table-column>
-        <el-table-column label="物料编码" prop="materialCode" align="center" width="120" ></el-table-column>
-        <el-table-column label="物料名称" prop="materialName" align="center" min-width="320"></el-table-column>
-        <el-table-column label="订单数量" prop="quantity" align="center" width="120" ></el-table-column>
-        <el-table-column label="订单单位" prop="unit" align="center" width="80" ></el-table-column>
-        <el-table-column label="已入库数量" prop="processedQuantity" align="center" width="120" ></el-table-column>
-        <el-table-column label="收货标记" prop="elikz" align="center" width="80" ></el-table-column>
+        <el-table-column label="物料类型" prop="materialType" width="80" />
+        <el-table-column label="物料编码" prop="materialCode" width="120" />
+        <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,11)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.materialName" />
+          </template>
+        </el-table-column>
+        <el-table-column label="SAP批次管理" prop="batchEnabled" align="center" width="120">
+          <template slot-scope="scope">
+            <span>{{ scope.row.retPo ? '启用': '' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="SAP基本单位" prop="unit" align="center" width="120" />
+        <el-table-column label="包装单位" prop="pkgUnit" align="center" width="120" />
+        <el-table-column label="包装规格" prop="pkgSpec" min-width="80" />
+        <el-table-column label="品牌" prop="materialBrand" width="100" />
+        <el-table-column label="类别" prop="materialCategory" align="center" width="100" />
+        <el-table-column label="小类" prop="materialSmallCategory" width="100" />
+        <el-table-column label="内部简码" prop="internalShortCode" width="100" />
       </el-table>
 
       <pagination
-        v-show="total>0"
         :total="total"
         :page.sync="listQuery.page"
         :limit.sync="listQuery.limit"
-        @pagination="getList"
+        @pagination="getList(done)"
       />
 
+      <el-dialog :visible.sync="dialogVisible" :title="dialogType" :before-close="handleClose" width="65%">
+        <el-form :ref="formRef" :model="form" label-width="120px" label-position="right">
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="品牌" prop="materialBrand">
+                <el-input v-model="form.materialBrand" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="类别" prop="materialCategory">
+                <el-input v-model="form.materialCategory" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="物料描述" prop="materialName">
+                <el-input v-model="form.materialName" disabled />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="物料编码" prop="materialCode">
+                <el-input v-model="form.materialCode" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="内部简码" prop="internalShortCode">
+                <el-input v-model="form.internalShortCode" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="供应商名称" prop="vendorName" :rules="[{ required: true }]">
+                <el-select
+                  v-model="form.vendorName"
+                  placeholder="供应商名称"
+                  class="filter-item"
+                  clearable
+                >
+                  <el-option v-for="item in vendorNameAll" :key="item.id" :label="item.vendorName" :value="item.vendorName">
+                    <span style="float: left">{{ item.vendorName }}</span>
+                  </el-option>
+                </el-select>
+
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="SAP工厂代码" prop="factoryCode">
+                <el-input v-model="form.factoryCode" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="包装单位" prop="pkgUnit">
+                <el-input v-model="form.pkgUnit" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="包装规格" prop="pkgSpec">
+                <el-input v-model="form.pkgSpec" disabled />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="型号" prop="type">
+                <el-input v-model="form.type" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="批次" prop="batch">
+                <el-input v-model="form.batch" placeholder="输入批次" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="版本号" prop="version" :rules="[{ required: true }]">
+                <el-input v-model="form.version" placeholder="输入版本号" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="生产日期" prop="productionDate">
+                <el-date-picker
+                  v-model="form.productionDate"
+                  style="width: 100%"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择生产日期"
+                  :editable="false"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="到厂日期" prop="factoryDate" :rules="[{ required: true }]">
+                <el-date-picker
+                  v-model="form.factoryDate"
+                  style="width: 100%"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择到厂日期"
+                  :editable="false"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="打印张数" prop="totalPrintNum">
+                <el-input-number v-model="form.totalPrintNum" :min="1" style="width: 100%" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="包装单位数量" prop="pkgQuantity">
+                <el-input v-model="form.pkgQuantity" placeholder="输入包装单位数量" :disabled="isPkgQuantityDisabled" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="基本单位数量" prop="baseQuantity" :rules="[{ required: true }]">
+                <el-input-number v-model="form.baseQuantity" :min="0" style="width: 100%" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="打印序次" prop="printSeq">
+                <el-input-number v-model="form.printSeq" :min="1" style="width: 100%" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+        </el-form>
+        <div style="text-align:right;">
+          <el-button type="danger" @click="resetForm() ? '' : dialogVisible= false">取消</el-button>
+          <el-button type="primary" @click="submitForm">打印</el-button>
+        </div>
+      </el-dialog>
+
+      <el-dialog :visible.sync="dialogVisibleDownload" title="请先下载驱动" top="30vh">
+        <el-link href="./../../assets/CLodop_Setup_for_Win32NT.exe" target="_blank" type="primary">点击下载</el-link>
+        <div style="text-align:right;">
+          <el-button type="danger" @click="dialogVisibleDownload= false">取消</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { parseTime } from '@/utils'
+
 import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
+import abcMixin from './abcMixin'
+import { getMaterialsInfo, getMaterialBrand, getMaterialCategory, getMaterialSmallCategory } from '@/api/masterData'
+import { getFindbyFactory } from '@/api/common'
+import { getInitItemInfo, setcreateItemsByVendor } from '@/api/print'
+import * as U from '@/utils'
+
+const defaultForm = {
+  materialSmallCategory: '',	// 小类
+  materialCategory: '', // 类别
+  materialType: '', // SAP物料类型	materialType
+  materialCode: '', // 物料编码
+  internalShortCode: '', // 内部简码
+  materialName: ''// 物料描述
+}
 
 export default {
-  name: 'PrintingWithoutOrder',
+  name: 'SupplierPrint',
   components: { Pagination, Sticky },
-  mixins: [formMixin],
+  mixins: [formMixin, abcMixin],
   data() {
     return {
+      defaultForm: defaultForm,
+      form: Object.assign({}, defaultForm),
       tableKey: 0,
       list: null,
       total: 0,
-      listLoading: true,
-      downloadLoading: false
+      loading: true,
+      downloadLoading: false,
+      materialBrand: [],
+      materialCategory: [],
+      materialSmallCategory: [],
+      /** ***一下打印*****/
+      dialogForm: {},
+      isPkgQuantityDisabled: true,
+      formRef: 'formRef',
+      dialogType: '',
+      dialogVisible: false,
+      /** ***一下打印*****/
+      dialogVisibleDownload: false,
+      vendorNameAll: []
     }
   },
+  computed: {
+  },
   created() {
-    this.getList()
+    this.getList(getMaterialsInfo)
+    getMaterialBrand()
+      .then(res => {
+        this.materialBrand = res.data // 品牌
+      })
+    getMaterialCategory()
+      .then(res => {
+        this.materialCategory = res.data // 类别
+      })
+    getMaterialSmallCategory()
+      .then(res => {
+        this.materialSmallCategory = res.data // 小类
+      })
   },
   methods: {
-    getList() {
-      this.listLoading = true
-    },
-    handleRest() {
-      this._mixinReset()
-    },
-    sortChange(data) {
-      const { prop, order } = data
-      if (prop === 'id') {
-        this.sortByID(order)
-      }
-    },
-    sortByID(order) {
-      if (order === 'ascending') {
-        this.listQuery.sort = '+id'
-      } else {
-        this.listQuery.sort = '-id'
-      }
-      this.handleFilter()
-    },
-    handleFilter() {
-      this.listQuery.page = 1
-      this.getList()
-    },
-    handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-        const data = this.formatJson(filterVal, this.list)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: 'table-list'
+    getVendorNameAll(factoryId) {
+      getFindbyFactory({ factoryId })
+        .then(res => {
+          this.vendorNameAll = res.data
         })
-        this.downloadLoading = false
-      })
     },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
-          return parseTime(v[j])
+    handlePrint({ row }) {
+      // this.startPrint()
+      // return false
+      this.getVendorNameAll(row.factoryId)
+      const initPrintStatus = this.initPrint()
+      if (initPrintStatus) {
+        console.log('打印机 已开启,开始打印', row)
+        getInitItemInfo({ factoryId: row.factoryId, materialId: row.materialId })
+          .then(res => {
+            const defValue = {
+              factoryDate: U.parseTime(new Date(), '{y}-{m}-{d}'),
+              purchaseOrderItemId: row.id,
+              totalPrintNum: 1,
+              printSeq: 1,
+              pkgQuantity: 0,
+              baseQuantity: 1
+            }
+            this.formFieldRules(res)
+            this.form = { ...defValue, ...res.data, factoryId: row.factoryId }
+            this.$refs[this.formRef] && this.$refs[this.formRef].resetFields()
+            this.dialogType = '打印订单'
+            this.dialogVisible = true
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        this.dialogVisibleDownload = true
+      }
+    },
+    formFieldRules(res) {
+      const { pkgUnit, pkgSpec } = res.data
+      if (pkgUnit && pkgSpec) {
+        this.isPkgQuantityDisabled = false
+      }
+    },
+    submitForm() {
+      this.$refs[this.formRef].validate((valid) => {
+        if (valid) {
+          setcreateItemsByVendor(this.form)
+            .then(res => {
+              this.dialogVisible = false
+              this.startPrint({ data: res.data, form: this.form })
+              this.resetForm()
+            })
+            .catch(err => {
+              this.resetForm()
+              console.log(err, 'err打印返回参数')
+            })
         } else {
-          return v[j]
+          return false
         }
-      }))
+      })
     }
   }
 }
 </script>
-<style scoped>
-  .el-popper[x-placement^="bottom"] {
-    margin-top: 0;
-  }
-</style>

@@ -230,7 +230,6 @@ export const asyncRoutes = [
         path: 'printingWithoutOrder',
         component: () => import('@/views/print/printingWithoutOrder'),
         name: 'PrintingWithoutOrder',
-        hidden: true,
         meta: {
           title: '无订单打印'
         }
