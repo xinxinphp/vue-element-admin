@@ -117,11 +117,11 @@
         <el-table-column label="采购订单" prop="poNo" align="center" width="100" />
         <el-table-column label="行项目" prop="poiNo" width="70" />
         <el-table-column label="收货人" prop="receiptBy" width="100" />
-        <el-table-column label="收货单" prop="roNo" width="100" />
-        <el-table-column label="收货时间" prop="receiptTime" width="100" />
+        <el-table-column label="收货单" prop="roNo" width="160" />
+        <el-table-column label="收货时间" prop="receiptTime" width="160" />
         <el-table-column label="货位" prop="spotDescription" width="100" />
         <el-table-column label="创建人" prop="createdBy" width="100" />
-        <el-table-column label="创建时间" prop="createdDate" width="100" />
+        <el-table-column label="创建时间" prop="createdDate" width="160" />
         <el-table-column label="打印序列" align="center" width="80">
           <template slot-scope="{row}">
             <el-input v-if="row.edit" v-model="row.spotDescription" class="edit-input" size="small" />

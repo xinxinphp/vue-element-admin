@@ -83,11 +83,11 @@
         </el-table-column>
         <el-table-column label="工厂" prop="factoryCode" align="center" width="100" sortable="orderNo" />
         <el-table-column label="库存地点" prop="stockLocation" align="center" width="80" />
-        <el-table-column label="创建人" prop="applicant" align="center" width="90" />
+        <el-table-column label="创建人" prop="applicant" align="center" width="120" />
         <el-table-column label="创建日期" prop="apdat" align="center" width="90" />
         <el-table-column label="备注" prop="txzhd" align="center" min-width="210" />
         <el-table-column label="部门" prop="deptDesc" align="center" width="110" />
-        <el-table-column label="业务选择" prop="bstypTxt" align="center" width="110" />
+        <el-table-column label="业务选择" prop="bstypTxt" align="center" width="160" />
         <el-table-column label="成本中心" prop="costCenter" align="center" width="110" />
         <el-table-column label="移动类型" prop="moveType" align="center" width="80" />
         <el-table-column label="计划领料日期" prop="bedat" align="center" width="120" />

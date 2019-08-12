@@ -102,13 +102,13 @@
         </el-table-column>
         <el-table-column label="订单数量" prop="productQuantity" align="center" width="80" />
         <el-table-column label="订单单位" prop="productUnit" align="center" width="80" />
-        <el-table-column label="订单状态" prop="states" align="center" width="300">
+        <el-table-column label="订单状态" prop="states" width="340">
           <template slot-scope="scope">
             {{ scope.row.states }}
           </template>
         </el-table-column>
         <el-table-column label="组件编码" prop="materialCode" align="center" width="100" />
-        <el-table-column label="组件名称" prop="materialName" :width="tdSize(5,11)">
+        <el-table-column label="组件名称" :width="tdSize(5,11)">
           <template slot-scope="scope">
             <LongText :text="scope.row.materialName"></LongText>
           </template>
