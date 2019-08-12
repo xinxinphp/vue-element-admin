@@ -174,6 +174,14 @@ export const asyncRoutes = [
         meta: {
           title: '出入库明细'
         }
+      },
+      {
+        path: 'accountingRecords',
+        component: () => import('@/views/report/accountingRecords'),
+        name: 'AccountingRecords',
+        meta: {
+          title: 'SAP过账记录'
+        }
       }
     ]
   },

@@ -16,3 +16,25 @@ export function getBizTypes() {
     method: 'get'
   })
 }
+// SAP过账记录-GET
+export function getPostLogs() {
+  return request({
+    url: `/api/post_logs`,
+    method: 'get'
+  })
+}
+// SAP过账明细-GET
+export function getPostLogsList(id) {
+  return request({
+    url: `/api/post_logs/${id}`,
+    method: 'get'
+  })
+}
+// SAP过账重传-POST
+export function getPostLogsRepost(id) {
+  return request({
+    url: `/api/post_logs/repost/${id}`,
+    method: 'post'
+  })
+}
+
