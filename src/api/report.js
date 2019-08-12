@@ -17,10 +17,11 @@ export function getBizTypes() {
   })
 }
 // SAP过账记录-GET
-export function getPostLogs() {
+export function getPostLogs(params) {
   return request({
     url: `/api/post_logs`,
-    method: 'get'
+    method: 'get',
+    params
   })
 }
 // SAP过账明细-GET
