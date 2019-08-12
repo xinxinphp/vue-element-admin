@@ -103,7 +103,7 @@
         </el-table-column>
         <el-table-column label="工厂" prop="factoryCode" align="center" width="80" sortable="factoryCode" />
         <el-table-column label="打印时间" prop="createdDate" align="center" width="155" sortable="createdDate" />
-        <el-table-column label="打印序列" align="center" width="80">
+        <el-table-column label="打印序列" width="100">
           <template slot-scope="{row}">
             <span>{{ row.printSeq + ' / '+row.ordinal + ' / '+row.totalPrintNum }}</span>
           </template>

@@ -241,7 +241,7 @@
             </template>
           </el-table-column>
           <el-table-column label="创建时间" prop="createdDate" align="center" width="95" />
-          <el-table-column label="打印序列" align="center" width="80">
+          <el-table-column label="打印序列" width="100">
             <template slot-scope="{row}">
               <span>{{ row.printSeq + ' / '+row.ordinal + ' / '+row.totalPrintNum }}</span>
             </template>

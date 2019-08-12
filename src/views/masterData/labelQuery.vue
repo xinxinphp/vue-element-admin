@@ -122,7 +122,7 @@
         <el-table-column label="货位" prop="spotDescription" width="100" />
         <el-table-column label="创建人" prop="createdBy" width="100" />
         <el-table-column label="创建时间" prop="createdDate" width="160" />
-        <el-table-column label="打印序列" align="center" width="80">
+        <el-table-column label="打印序列" width="100">
           <template slot-scope="{row}">
             <el-input v-if="row.edit" v-model="row.spotDescription" class="edit-input" size="small" />
             <span v-else>{{ row.printSeq + ' / '+row.ordinal + ' / '+row.totalPrintNum }}</span>
