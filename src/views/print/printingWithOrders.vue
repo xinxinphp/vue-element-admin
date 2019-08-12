@@ -375,7 +375,7 @@ export default {
               totalPrintNum: 1,
               printSeq: 1,
               pkgQuantity: 0,
-              baseQuantity: 1
+              baseQuantity: 0
             }
             this.formFieldRules(res)
             this.formBatchFieldRules(res)
@@ -408,16 +408,20 @@ export default {
     submitForm() {
       this.$refs[this.formRef].validate((valid) => {
         if (valid) {
-          saveCreateItems(this.form)
-            .then(res => {
-              this.dialogVisible = false
-              this.resetForm()
-              this.startPrint({ data: res.data, form: this.form })
-            })
-            .catch(err => {
-              console.log(err, 'err打印返回参数')
-              this.resetForm()
-            })
+          if (this.form.pkgQuantity || this.form.baseQuantity) {
+            saveCreateItems(this.form)
+              .then(res => {
+                this.dialogVisible = false
+                this.resetForm()
+                this.startPrint({ data: res.data, form: this.form })
+              })
+              .catch(err => {
+                console.log(err, 'err打印返回参数')
+                this.resetForm()
+              })
+          } else {
+            this.$message.error('包装单位数量/基本单位数量至少一个不为0')
+          }
         } else {
           return false
         }
