@@ -7,9 +7,6 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /* Router Modules */
-import componentsRouter from './modules/components'
-import tableRouter from './modules/table'
-import nestedRouter from './modules/nested'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.gitee.io/vue-element-admin-site/zh/guide/essentials/router-and-nav.html#配置项
@@ -125,7 +122,7 @@ export const asyncRoutes = [
       {
         path: 'receiptOrders',
         component: () => import('@/views/documents/receiptOrders'),
-        name: 'ProductionOrdersOrderItemList',
+        name: 'ReceiptOrders',
         meta: {
           title: '收货单'
         }
@@ -161,7 +158,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/report/inOutDetail',
     alwaysShow: true, // will always show the root menu
-    name: 'Documents',
+    name: 'Report',
     meta: {
       title: '报表',
       icon: 'chart'
@@ -214,7 +211,6 @@ export const asyncRoutes = [
       }
     ]
   },
-
   {
     path: '/print',
     component: Layout,
@@ -359,24 +355,6 @@ export const asyncRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/icon',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/icons/index'),
-  //       name: 'Icons',
-  //       meta: { title: '图标', icon: 'icon', noCache: true }
-  //     }
-  //   ]
-  // },
-
-  /** when your routing map is too long, you can split it into small modules **/
-  // componentsRouter,
-  // nestedRouter,
-  // tableRouter,
-  // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
 

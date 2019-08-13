@@ -11,13 +11,13 @@
       highlight-current-row
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column label="名称" prop="title" width="150" />
+      <el-table-column label="名称" prop="title" width="160" />
       <el-table-column label="图标" prop="icon" width="120" />
       <el-table-column label="排序" prop="seq" width="50" align="center" />
-      <el-table-column label="访问url路径" prop="path" min-width="200" />
+      <el-table-column label="访问url路径" prop="path" width="220" />
       <el-table-column label="组件名称" prop="name" width="220" />
-      <el-table-column label="组件路径" prop="component" />
-      <el-table-column label="操作" align="center" min-width="100">
+      <el-table-column label="组件路径" prop="component" min-width="380" />
+      <el-table-column label="操作" align="center" width="150">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleEdit(scope)">编辑</el-button>
           <el-button type="danger" size="mini" :disabled="!!scope.row.children" @click="handleDelete(scope)">删除</el-button>

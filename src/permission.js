@@ -39,7 +39,7 @@ router.beforeEach(async(to, from, next) => {
           // note: 角色必须是一个对象数组。如: ['admin'] or ,['developer','editor']
           // console.log('%c 未在--VUEX中-已获取 角色', 'color:#FF7F00', store.getters.roles, store.getters.roles.length)
           const getInfoData = await store.dispatch('user/getInfo')
-          const { roles } = getInfoData.user
+          const roles = getInfoData.menus
 
           // generate accessible routes map based on roles 生成基于角色访问的路游
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
