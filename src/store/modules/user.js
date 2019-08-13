@@ -73,7 +73,6 @@ const actions = {
         commit('SET_FACTORYIDS', factories)
         resolve(data)
       }).catch(error => {
-        console.log(4444)
         reject(error)
       })
     })

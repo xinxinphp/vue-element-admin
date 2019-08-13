@@ -415,8 +415,7 @@ export default {
                 this.resetForm()
                 this.startPrint({ data: res.data, form: this.form })
               })
-              .catch(err => {
-                console.log(err, 'err打印返回参数')
+              .catch(() => {
                 this.resetForm()
               })
           } else {

@@ -103,7 +103,6 @@ export default {
   watch: {
     $route: {
       handler: function(route) {
-        console.log('login 页面 监控到数据变化')
         const query = route.query
         if (query) {
           this.redirect = query.redirect
@@ -171,7 +170,6 @@ export default {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
           return false
         }
       })

@@ -109,7 +109,6 @@ export default {
       getFactoriesAll()
         .then(res => {
           this.factoriesAll = res.data
-          console.log(this.factoriesAll, '2321')
         })
     },
     getList() {

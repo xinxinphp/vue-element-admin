@@ -22,7 +22,6 @@ export default {
       return getLodop()
     },
     startPrint(data) {
-      console.log(data, 'startPrint--1233')
       const checkItems = data.data.tagList
       const commonInfo = data.data.commonInfo
       const form = data.form

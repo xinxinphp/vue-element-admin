@@ -29,7 +29,6 @@ service.interceptors.request.use(
   },
   error => {
     // do something with request error
-    console.log(error) // for debug
     return Promise.reject(error)
   }
 )
@@ -60,7 +59,6 @@ service.interceptors.response.use(
     }
 
     if (flag) {
-      console.log(res, '接口-拦截器-获取错误')
       Message({ message: res.message || 'Error', type: 'error', duration: 5 * 1000 })
       if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
         // to re-login
@@ -76,7 +74,6 @@ service.interceptors.response.use(
       }
       return Promise.reject(new Error(res.data.message || 'Error'))
     } else {
-      console.log(res, '接口-获取-拦截器')
       return res
     }
   },
