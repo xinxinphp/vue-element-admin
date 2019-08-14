@@ -192,6 +192,7 @@
                   value-format="yyyy-MM-dd"
                   placeholder="选择到厂日期"
                   :editable="false"
+                  disabled
                 />
               </el-form-item>
             </el-col>
@@ -338,6 +339,7 @@ export default {
             setcreateItemsByVendor(this.form)
               .then(res => {
                 this.dialogVisible = false
+                this.form.factoryDate = ''
                 this.startPrint({ data: res.data, form: this.form })
                 this.resetForm()
               })

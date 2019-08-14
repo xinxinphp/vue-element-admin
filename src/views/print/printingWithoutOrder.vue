@@ -254,7 +254,7 @@ import formMixin from '@/views/mixin/BaseSearchForm'
 import abcMixin from './abcMixin'
 import { getMaterialsInfo, getMaterialBrand, getMaterialCategory, getMaterialSmallCategory } from '@/api/masterData'
 import { getFindbyFactory } from '@/api/common'
-import { getInitItemInfo, setcreateItemsByVendor } from '@/api/print'
+import { getInitItemInfo, setcreateItemsByNoOrder } from '@/api/print'
 import * as U from '@/utils'
 
 const defaultForm = {
@@ -357,7 +357,7 @@ export default {
       this.$refs[this.formRef].validate((valid) => {
         if (valid) {
           if (this.form.pkgQuantity || this.form.baseQuantity) {
-            setcreateItemsByVendor(this.form)
+            setcreateItemsByNoOrder(this.form)
               .then(res => {
                 this.dialogVisible = false
                 this.startPrint({ data: res.data, form: this.form })

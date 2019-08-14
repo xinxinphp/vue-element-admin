@@ -56,3 +56,11 @@ export function setcreateItemsByVendor(data) {
     data
   })
 }
+// 无订单打印 供应商生成标签 item
+export function setcreateItemsByNoOrder(data) {
+  return request({
+    url: `/api/items/create_items_by_noOrder`,
+    method: 'post',
+    data
+  })
+}
