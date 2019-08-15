@@ -118,13 +118,13 @@
         </el-table-column>
         <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.vendorName"></LongText>
+            <LongText :text="scope.row.vendorName" />
           </template>
         </el-table-column>
         <el-table-column label="物料编码" prop="materialCode" width="120" />
         <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.materialName"></LongText>
+            <LongText :text="scope.row.materialName" />
           </template>
         </el-table-column>
         <el-table-column label="内部简码" prop="internalShortCode" align="center" width="100" />
@@ -145,7 +145,7 @@
       />
 
       <el-dialog :visible.sync="dialogVisibleDownload" title="请先下载驱动" top="30vh">
-        <el-link href="./../../assets/CLodop_Setup_for_Win32NT.exe" target="_blank" type="primary">点击下载</el-link>
+        <el-link href="/CLodop_Setup_for_Win32NT.zip" target="_blank" type="primary">点击下载</el-link>
         <div style="text-align:right;">
           <el-button type="danger" @click="dialogVisibleDownload= false">取消</el-button>
         </div>
