@@ -290,7 +290,7 @@
       </el-dialog>
 
       <el-dialog :visible.sync="dialogVisibleDownload" title="请先下载驱动" top="30vh">
-        <el-link href="/CLodop_Setup_for_Win32NT.zip" target="_blank" type="primary">点击下载</el-link>
+        <a href="/CLodop_Setup_for_Win32NT.zip" target="_blank" type="primary">点击下载</a>
         <div style="text-align:right;">
           <el-button type="danger" @click="dialogVisibleDownload= false">取消</el-button>
         </div>
