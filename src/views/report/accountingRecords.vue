@@ -125,7 +125,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="过账单据ID">
+              <el-form-item label="Mule transid">
                 <span> {{ dialogForm.transId }}</span>
               </el-form-item>
             </el-col>
@@ -139,14 +139,21 @@
             <el-col :span="24">
               <el-form-item label="过账内容">
                 <p style="word-wrap:break-word; line-height: 16px;"> {{ dialogForm.postContent }}</p>
-<!--                <LongText :text="dialogForm.postContent" />-->
+                <!--                <LongText :text="dialogForm.postContent" />-->
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="过账结果">
+                <p style="word-wrap:break-word; line-height: 16px;"> {{ dialogForm.message }}</p>
+                <!--                <LongText :text="dialogForm.postContent" />-->
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
         <div style="text-align:right;">
-          <el-button type="danger" @click="dialogVisible= false">返回</el-button>
-          <el-button type="primary" @click="dialogVisible= false">确认</el-button>
+          <el-button type="danger" @click="dialogVisible= false">关闭</el-button>
         </div>
       </el-dialog>
     </div>
