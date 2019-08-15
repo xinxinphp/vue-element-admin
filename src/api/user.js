@@ -16,8 +16,5 @@ export function getInfo() {
 }
 
 export function logout() {
-  return request({
-    url: '/api/authorities', // 使用的是info接口,应该有个退出接口
-    method: 'get'
-  })
+  return Promise.resolve('out')
 }
