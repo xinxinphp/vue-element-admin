@@ -128,6 +128,14 @@ export const asyncRoutes = [
         }
       },
       {
+        path: 'inspection',
+        component: () => import('@/views/documents/inspection'),
+        name: 'Inspection',
+        meta: {
+          title: '质检'
+        }
+      },
+      {
         path: 'orderItemList',
         component: () => import('@/views/documents/orderItemList'),
         name: 'OrderItemList',
