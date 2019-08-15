@@ -33,7 +33,7 @@ const mutations = {
 }
 
 const actions = {
-  // 用户 登陆
+  // 用户 登录
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {

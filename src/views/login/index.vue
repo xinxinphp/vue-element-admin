@@ -67,7 +67,7 @@ export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (value.length>20) {
+      if (value.length > 20) {
         callback(new Error('请输入正确的用户名'))
       } else {
         callback()
@@ -152,7 +152,7 @@ export default {
         this.$refs.password.focus()
       })
     },
-    // 登陆
+    // 登录
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {

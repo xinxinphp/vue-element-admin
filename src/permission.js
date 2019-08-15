@@ -21,10 +21,10 @@ router.beforeEach(async(to, from, next) => {
   const hasToken = getToken()
 
   if (hasToken) {
-    // console.log('发现了ToKen--用户已登陆')
+    // console.log('发现了ToKen--用户已登录')
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
-      // console.log('发现了ToKen--用户已登陆')
+      // console.log('发现了ToKen--用户已登录')
       next({ path: '/' })
       NProgress.done()
     } else {

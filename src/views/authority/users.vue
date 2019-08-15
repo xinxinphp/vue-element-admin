@@ -11,7 +11,7 @@
       fit
       highlight-current-row
     >
-      <el-table-column label="登陆名" prop="login" width="150" />
+      <el-table-column label="登录名" prop="login" width="150" />
       <el-table-column label="姓名" prop="name" width="80" />
       <el-table-column label="邮箱" prop="email" min-width="220" />
       <el-table-column label="手机号码" prop="phoneNumber" width="150" />
@@ -38,8 +38,8 @@
     />
     <el-dialog :visible.sync="dialogVisible" :title="dialogType" :before-close="handleClose" top="5vh">
       <el-form :ref="formRef" :model="formQ" label-width="110px" label-position="right" :disabled="isHidden">
-        <el-form-item label="登陆名" prop="login" :rules="[{ required: true }]">
-          <el-input v-model="formQ.login" placeholder="输入登陆名" :disabled="isDisabled" />
+        <el-form-item label="登录名" prop="login" :rules="[{ required: true }]">
+          <el-input v-model="formQ.login" placeholder="输入登录名" :disabled="isDisabled" />
         </el-form-item>
         <el-form-item label="姓名" prop="name" :rules="[{ required: true }]">
           <el-input v-model="formQ.name" placeholder="输入姓名" />
@@ -81,7 +81,7 @@
           <el-radio v-model="formQ.activated" :label="true">启用</el-radio>
           <el-radio v-model="formQ.activated" :label="false">关闭</el-radio>
         </el-form-item>
-        <el-form-item  label="是否AD用户" prop="ldapUser">
+        <el-form-item label="是否AD用户" prop="ldapUser">
           <el-radio v-model="formQ.ldapUser" :label="true">是</el-radio>
           <el-radio v-model="formQ.ldapUser" :label="false">否</el-radio>
         </el-form-item>
