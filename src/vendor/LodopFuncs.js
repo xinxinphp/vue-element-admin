@@ -61,12 +61,9 @@ export function getLodop(oOBJECT,oEMBED){
         var isIE = (navigator.userAgent.indexOf('MSIE')>=0) || (navigator.userAgent.indexOf('Trident')>=0);
         if (needCLodop()) {
           try {LODOP = getCLodop()} catch (err) {}
-          console.log(LODOP, 'LODOP 状态')
           if (!LODOP) {
-            console.log('打印机驱动没有开启')
             return false;
           } else {
-            console.log('打印机驱动 --- 开启')
             return LODOP;
           }
         } else {

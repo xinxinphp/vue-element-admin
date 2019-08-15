@@ -366,7 +366,6 @@ export default {
       // return false
       const initPrintStatus = this.initPrint()
       if (1 || initPrintStatus) {
-        console.log('打印机 已开启,开始打印')
         getOrdersInitItemInfo(row.id)
           .then(res => {
             const defValue = {
@@ -383,9 +382,6 @@ export default {
             this.$refs[this.formRef] && this.$refs[this.formRef].resetFields()
             this.dialogType = '打印订单'
             this.dialogVisible = true
-          })
-          .catch(err => {
-            console.log(err)
           })
       } else {
         this.dialogVisibleDownload = true
