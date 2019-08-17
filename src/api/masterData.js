@@ -41,3 +41,11 @@ export function setMaterialsInfo(data) {
     data
   })
 }
+// 获取物料 小类
+export function getItemsVendor(params) {
+  return request({
+    url: '/api/items/vendor',
+    method: 'get',
+    params
+  })
+}

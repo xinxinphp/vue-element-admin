@@ -11,15 +11,18 @@
           <span style="float: left">{{ item.code + '  ----  ' + item.name }}</span>
         </el-option>
       </el-select>
-      <el-select
-        v-model="form.poNo"
-        :placeholder="_getFieldName('poNo','打码方式')"
+      <el-input
+        v-model="form.vendorCode"
+        :placeholder="_getFieldName('vendorCode','供应商代码')"
         :style="small"
         clearable
-      >
-        <el-option label="订单" value="1" />
-        <el-option label="无订单" value="2" />
-      </el-select>
+      />
+      <el-input
+        v-model="form.vendorName"
+        :placeholder="_getFieldName('vendorName','供应商名称')"
+        :style="small"
+        clearable
+      />
       <el-input
         v-model="form.tagNo"
         :placeholder="_getFieldName('tagNo','标签码')"
@@ -139,11 +142,12 @@ import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
 import { parseTime } from '@/utils'
 // import abcMixin from './abcMixin'
-import { getItems, getReprint, setDisable } from '@/api/print'
+import { getReprint, setDisable } from '@/api/print'
+import { getItemsVendor } from '@/api/masterData'
 
 const defaultForm = {
-  factoryId: '', // 工厂
-  printType: '', // 打码方式
+  vendorCode: '', // 供应商代码
+  vendorName: '', // 供应商名称
   tagNo: '', // 标签码
   materialCode: '', // 物料编码
   notZero: '', // 数量非0
@@ -151,7 +155,7 @@ const defaultForm = {
 }
 
 export default {
-  name: 'LabelQuery',
+  name: 'SupplierLabelQuery',
   components: { Pagination, Sticky },
   mixins: [formMixin],
   data() {
@@ -169,7 +173,7 @@ export default {
     }
   },
   created() {
-    this.getList(getItems)
+    this.getList(getItemsVendor)
   },
   methods: {
     handlePrint({ row }) {
@@ -217,7 +221,7 @@ export default {
         .then(() => {
           setDisable(row.id)
             .then(res => {
-              this.getList(getItems)
+              this.getList(getItemsVendor)
               this.$message.success(res.message)
             })
         })

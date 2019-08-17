@@ -216,6 +216,14 @@ export const asyncRoutes = [
         meta: {
           title: '标签查询'
         }
+      },
+      {
+        path: 'supplierLabelQuery',
+        component: () => import('@/views/masterData/supplierLabelQuery'),
+        name: 'SupplierLabelQuery',
+        meta: {
+          title: '供应商标签查询'
+        }
       }
     ]
   },
