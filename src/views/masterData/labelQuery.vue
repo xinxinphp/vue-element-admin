@@ -106,7 +106,7 @@
         <el-table-column label="冻结" prop="frozen" align="center" width="100" />
         <el-table-column label="型号" prop="type" align="center" width="100" />
         <el-table-column label="SAP批次" prop="batch" align="center" width="100" />
-        <el-table-column label="供应商" prop="type" align="center" width="100" />
+        <el-table-column label="供应商" prop="vendorCode" align="center" width="100" />
         <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
           <template slot-scope="scope">
             <LongText :text="scope.row.vendorName" />
