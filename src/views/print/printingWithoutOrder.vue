@@ -336,6 +336,7 @@ export default {
             }
             this.formFieldRules(res)
             this.form = { ...defValue, ...res.data, factoryId: row.factoryId }
+            this.form.vendorName = ''
             this.$refs[this.formRef] && this.$refs[this.formRef].resetFields()
             this.dialogType = '打印订单'
             this.dialogVisible = true
