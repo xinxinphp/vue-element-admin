@@ -132,7 +132,12 @@
             <LongText :text="scope.row.vendorName" />
           </template>
         </el-table-column>
-        <el-table-column label="采购订单" prop="poNo" :width="tdSize(4,10,false)" />
+        <el-table-column label="采购订单" prop="poNo" :width="tdSize(4,10,false)">
+          <template slot-scope="scope">
+            <el-button v-if="scope.row.poNo" type="text" size="mini">{{ scope.row.poNo }}</el-button>
+            <el-button v-else type="text" size="mini" @click="showProcurement(scope)">{{ "点击关联" }}</el-button>
+          </template>
+        </el-table-column>
         <el-table-column label="采购订单项目" prop="poiNo" align="center" :width="tdSize(6,10,false)" />
         <el-table-column label="工厂" prop="factoryCode" align="center" width="100" />
         <el-table-column label="收货日期" prop="createdDate" align="center" :width="tdSize(4,20,false)" />
@@ -207,7 +212,7 @@
           :data="listPrintNotInbound"
           border
           fit
-          height="500"
+          max-height="500"
           highlight-current-row
           style="width: 100%;"
         >
@@ -270,6 +275,105 @@
         />
 
       </el-dialog>
+
+      <el-dialog :visible.sync="dialogProcurement" title="关联采购订单" width="90%" top="5vh">
+        <div class="filter-container">
+          <el-input
+            v-model="procurementForm.factoryCode"
+            :placeholder="_getFieldName('factoryCode','工厂')"
+            :style="small"
+            class="filter-item"
+            clearable
+            disabled
+          />
+          <el-input
+            v-model="procurementForm.materialName"
+            :title="procurementForm.materialName"
+            :placeholder="_getFieldName('materialName','物料名称')"
+            :style="small"
+            class="filter-item"
+            clearable
+            disabled
+          />
+          <el-input
+            v-model="procurementForm.vendorName"
+            :title="procurementForm.vendorName"
+            :placeholder="_getFieldName('vendorName','供应商')"
+            :style="small"
+            class="filter-item"
+            clearable
+            disabled
+          />
+          <el-input
+            v-model="procurementForm.orderNo"
+            :placeholder="_getFieldName('orderNo','采购订单')"
+            :style="small"
+            class="filter-item"
+            clearable
+          />
+          <el-date-picker
+            v-model="procurementForm.queryDateStart"
+            type="date"
+            value-format="yyyy-MM-dd"
+            class="filter-item"
+            :editable="false"
+            :placeholder="_getFieldName('queryDateStart','创建日期始')"
+            :style="small"
+          />
+          <el-date-picker
+            v-model="procurementForm.queryDateEnd"
+            type="date"
+            value-format="yyyy-MM-dd"
+            class="filter-item"
+            :editable="false"
+            :placeholder="_getFieldName('queryDateEnd','创建日期止')"
+            :style="small"
+          />
+          <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleSeach">搜索</el-button>
+          <el-button class="filter-item" type="success" icon="el-icon-plus" :disabled="!multipleSelection.length" style="float: right" @click="handleAdd">添加关联</el-button>
+
+        </div>
+        <el-table
+          ref="multipleTable"
+          v-loading="loadingProcurement"
+          :data="listProcurement"
+          border
+          fit
+          max-height="500"
+          highlight-current-row
+          style="width: 100%;"
+          @selection-change="handleSelectionChange"
+        >
+          <el-table-column type="selection" width="55" />
+          <el-table-column label="采购订单" prop="orderNo" align="center" width="100" />
+          <el-table-column label="行项目" prop="orderItemNo" align="center" width="110" />
+          <el-table-column label="寄售" prop="pstyp" align="center" :width="tdSize(4,1)">
+            <template slot-scope="scope">
+              <span>{{ scope.row.pstyp === '2' ? '是': '' }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="订单数量" prop="quantity" align="center" width="110" />
+          <el-table-column label="未收数" prop="availableQuantity" align="center" min-width="95" />
+          <el-table-column label="已收数" prop="processedQuantity" align="center" min-width="95" />
+          <el-table-column label="交货完成" prop="elikz" align="center" min-width="95">
+            <template slot-scope="scope">
+              <span>{{ scope.row.elikz? '完成': '' }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="物料" prop="materialCode" align="center" min-width="95" />
+          <el-table-column label="描述" prop="materialName" align="center" min-width="95" />
+          <el-table-column label="供应商" prop="vendorCode" align="center" min-width="95" />
+          <el-table-column label="名称" prop="vendorName" align="center" min-width="95" show-overflow-tooltip />
+        </el-table>
+
+        <pagination
+          :total="totalProcurement"
+          :page.sync="listQuery.page"
+          :limit.sync="listQuery.limit"
+          @pagination="handleSeach()"
+        />
+
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -280,7 +384,7 @@ import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
 import { parseTime } from '@/utils'
-import { getReceiptOrders, setQualityInspectionStatus, setReceiptConfirm, setInboundConfirm, getPrintNotInbound, setBindSpot } from '@/api/documents'
+import { getReceiptOrders, setQualityInspectionStatus, setReceiptConfirm, setInboundConfirm, getPrintNotInbound, setBindSpot, getreceiptOrderItemList, setbindPurchaseOrder } from '@/api/documents'
 const defaultForm = {
   poNo: '', // 采购订单
   materialCode: '', // 物料编码
@@ -319,7 +423,21 @@ export default {
       listPrintNotInbound: [],
       totalPrintNotInbound: 1,
       loadingPrintNotInbound: false,
-      purchaseOrderItemId: {}
+      purchaseOrderItemId: {},
+      /** ***以下 xxxx 字段 *****/
+      dialogProcurement: false,
+      procurementForm: {
+        factoryCode: '',
+        materialName: '',
+        vendorName: '',
+        orderNo: '',
+        queryDateStart: '',
+        queryDateEnd: ''
+      },
+      loadingProcurement: false,
+      totalProcurement: 1,
+      listProcurement: [],
+      multipleSelection: []
     }
   },
   computed: {
@@ -371,6 +489,55 @@ export default {
           this.getList(getReceiptOrders)
           this.$message.success(res.message)
           this.dialogVisible = false
+        })
+    },
+    showProcurement({ row }) {
+      const now = new Date()
+      const mont = now.setMonth(now.getMonth() - 1)
+      this.procurementForm.factoryCode = row.factoryCode
+      this.procurementForm.materialName = row.materialName
+      this.procurementForm.vendorName = row.vendorName
+      this.procurementForm.queryDateStart = parseTime(mont, '{y}-{m}-{d}')
+      this.procurementForm.queryDateEnd = parseTime(new Date(), '{y}-{m}-{d}')
+      this.totalProcurement = 1
+      this.itemID = row.id
+      this.dialogProcurement = true
+      this.purchaseOrderItemId = { purchaseOrderItemId: row.purchaseOrderItemId }
+      this.handleSeach(this.purchaseOrderItemId)
+    },
+    handleSeach() {
+      this.loadingProcurement = true
+      getreceiptOrderItemList({ ...this.procurementForm, ...this.listQuery })
+        .then(res => {
+          this.loadingProcurement = false
+          this.listProcurement = res.data.list
+        })
+    },
+    handleSelectionChange(val) {
+      if (val.length === 1) {
+        this.multipleSelection = [...val]
+        this.$refs.multipleTable.toggleRowSelection(val[0], true)
+      } else if (val.length === 2) {
+        const de = [...val]
+        this.$refs.multipleTable.clearSelection()
+        this.$refs.multipleTable.toggleRowSelection(de[1], true)
+        this.multipleSelection = [de[1]]
+      } else {
+        this.multipleSelection = []
+        this.$refs.multipleTable.clearSelection()
+      }
+    },
+    handleAdd() {
+      const data = {
+        receiptId: this.itemID,
+        purchaseItemId: this.multipleSelection[0].id
+      }
+      setbindPurchaseOrder(data)
+        .then(res => {
+          this.$message.success(res.message)
+          this.loadingProcurement = false
+          this.dialogProcurement = false
+          this.getList(getReceiptOrders)
         })
     },
     showPrintNotInbound({ row }) {

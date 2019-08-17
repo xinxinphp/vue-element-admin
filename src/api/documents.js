@@ -99,3 +99,20 @@ export function setPickOrders(pkoId) {
     method: 'post'
   })
 }
+//
+// 获取
+export function getreceiptOrderItemList(params) {
+  return request({
+    url: `/api/purchase_orders/receipt_order_item_list`,
+    method: 'get',
+    params
+  })
+}
+// 获取
+export function setbindPurchaseOrder(params) {
+  return request({
+    url: `/api/receipt_orders/bind_purchase_order`,
+    method: 'get',
+    params
+  })
+}

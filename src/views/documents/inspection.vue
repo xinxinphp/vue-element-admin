@@ -207,7 +207,7 @@
           :data="listPrintNotInbound"
           border
           fit
-          height="500"
+          max-height="500"
           highlight-current-row
           style="width: 100%;"
         >
