@@ -276,7 +276,7 @@
 
       </el-dialog>
 
-      <el-dialog :visible.sync="dialogProcurement" title="关联采购订单" width="90%" top="5vh">
+      <el-dialog :visible.sync="dialogProcurement" title="关联采购订单" width="80%" top="5vh">
         <div class="filter-container">
           <el-input
             v-model="procurementForm.factoryCode"
@@ -346,28 +346,28 @@
         >
           <el-table-column type="selection" width="55" />
           <el-table-column label="采购订单" prop="orderNo" align="center" width="100" />
-          <el-table-column label="行项目" prop="orderItemNo" align="center" width="110" />
+          <el-table-column label="行项目" prop="orderItemNo" align="center" width="70" />
+          <el-table-column label="供应商" prop="vendorName" width="100">
+            <template slot-scope="scope">
+              <LongText :text="scope.row.vendorCode" />
+            </template>
+          </el-table-column>
+          <el-table-column label="供应商名称" prop="vendorName" align="center" width="130" show-overflow-tooltip />
           <el-table-column label="寄售" prop="pstyp" align="center" :width="tdSize(4,1)">
             <template slot-scope="scope">
               <span>{{ scope.row.pstyp === '2' ? '是': '' }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="订单数量" prop="quantity" align="center" width="110" />
-          <el-table-column label="未收数" prop="availableQuantity" align="center" min-width="95" />
-          <el-table-column label="已收数" prop="processedQuantity" align="center" min-width="95" />
-          <el-table-column label="交货完成" prop="elikz" align="center" min-width="95">
+          <el-table-column label="订单数量" prop="quantity" align="center" width="90" />
+          <el-table-column label="未收数" prop="availableQuantity" align="center" width="90" />
+          <el-table-column label="已收数" prop="processedQuantity" align="center" width="90" />
+          <el-table-column label="交货完成" prop="elikz" align="center" width="90">
             <template slot-scope="scope">
               <span>{{ scope.row.elikz? '完成': '' }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="物料" prop="materialCode" align="center" min-width="95" />
-          <el-table-column label="描述" prop="materialName" align="center" min-width="95" />
-          <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
-            <template slot-scope="scope">
-              <LongText :text="scope.row.vendorName" />
-            </template>
-          </el-table-column>
-          <el-table-column label="名称" prop="vendorName" align="center" min-width="95" show-overflow-tooltip />
+          <el-table-column label="物料" prop="materialCode" align="center" width="120" />
+          <el-table-column label="描述" prop="materialName" align="center" min-width="125" show-overflow-tooltip />
         </el-table>
 
         <pagination
