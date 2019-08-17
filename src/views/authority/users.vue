@@ -13,10 +13,17 @@
     >
       <el-table-column label="登录名" prop="login" width="150" />
       <el-table-column label="姓名" prop="name" width="80" />
-      <el-table-column label="邮箱" prop="email" min-width="220" />
+      <el-table-column label="邮箱" prop="email" min-width="160" show-overflow-tooltip />
       <el-table-column label="手机号码" prop="phoneNumber" width="150" />
       <el-table-column label="部门" prop="dept" width="80" />
       <el-table-column label="职位" prop="position" width="150" />
+      <el-table-column label="供应商名称" prop="vendorName" width="150" show-overflow-tooltip />
+      <el-table-column label="供应商编码" prop="vendorCode" width="150" />
+      <el-table-column label="是否为供应商用户" prop="vendorUser" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.vendorUser ? '是':'' }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="是否AD用户" prop="ldapUser" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.ldapUser ? '是':'' }}</span>
@@ -37,7 +44,7 @@
       @pagination="getList"
     />
     <el-dialog :visible.sync="dialogVisible" :title="dialogType" :before-close="handleClose" top="5vh">
-      <el-form :ref="formRef" :model="formQ" label-width="110px" label-position="right" :disabled="isHidden">
+      <el-form :ref="formRef" :model="formQ" label-width="140px" label-position="right" :disabled="isHidden">
         <el-form-item label="登录名" prop="login" :rules="[{ required: true }]">
           <el-input v-model="formQ.login" placeholder="输入登录名" :disabled="isDisabled" />
         </el-form-item>
@@ -59,6 +66,16 @@
         </el-form-item>
         <el-form-item label="职位" prop="position">
           <el-input v-model="formQ.position" placeholder="输入职位" />
+        </el-form-item>
+        <el-form-item label="供应商名称" prop="vendorName">
+          <el-input v-model="formQ.vendorName" placeholder="输入职位" />
+        </el-form-item>
+        <el-form-item label="供应商编码" prop="vendorCode">
+          <el-input v-model="formQ.vendorCode" placeholder="输入职位" />
+        </el-form-item>
+        <el-form-item label="是否为供应商用户" prop="vendorUser">
+          <el-radio v-model="formQ.vendorUser" :label="true">是</el-radio>
+          <el-radio v-model="formQ.vendorUser" :label="false">否</el-radio>
         </el-form-item>
         <el-form-item label="SAP帐号" prop="sapAccount">
           <el-input v-model="formQ.sapAccount" placeholder="输入SAP帐号" />
@@ -128,7 +145,10 @@ const defaultForm = {
   gender:	1, // 性别 1男 2女
   factoryIds: [],
   ldapUser: '',
-  roleIds: []
+  roleIds: [],
+  vendorName: '',
+  vendorCode: '',
+  vendorUser: ''
 }
 
 export default {
