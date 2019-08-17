@@ -127,9 +127,9 @@
           </template>
         </el-table-column>
         <el-table-column label="收货单" prop="orderNo" :width="tdSize(4,16,false)" />
-        <el-table-column label="供应商" prop="vendorCode" :width="tdSize(5,11)">
+        <el-table-column label="供应商" prop="vendorName" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.vendorCode" />
+            <LongText :text="scope.row.vendorName" />
           </template>
         </el-table-column>
         <el-table-column label="采购订单" prop="poNo" :width="tdSize(4,10,false)" />

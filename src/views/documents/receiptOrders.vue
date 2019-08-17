@@ -362,7 +362,11 @@
           </el-table-column>
           <el-table-column label="物料" prop="materialCode" align="center" min-width="95" />
           <el-table-column label="描述" prop="materialName" align="center" min-width="95" />
-          <el-table-column label="供应商" prop="vendorCode" align="center" min-width="95" />
+          <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
+            <template slot-scope="scope">
+              <LongText :text="scope.row.vendorName" />
+            </template>
+          </el-table-column>
           <el-table-column label="名称" prop="vendorName" align="center" min-width="95" show-overflow-tooltip />
         </el-table>
 

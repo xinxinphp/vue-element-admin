@@ -112,29 +112,29 @@
         @sort-change="sortChange"
       >
         <el-table-column label="工厂" prop="factoryCode" align="center" :width="tdSize(2,4,false,true)" sortable="factoryCode" />
-        <el-table-column label="订单号" prop="orderNo" align="center" :width="tdSize(3,10,false,true)"  sortable="orderNo" />
+        <el-table-column label="订单号" prop="orderNo" align="center" :width="tdSize(3,10,false,true)" sortable="orderNo" />
         <el-table-column label="物料编码" prop="materialCode" align="center" :width="tdSize(3,12,false)" />
         <el-table-column label="物料名称" prop="materialName" min-width="180">
           <template slot-scope="scope">
-            <LongText :text="scope.row.materialName"></LongText>
+            <LongText :text="scope.row.materialName" />
           </template>
         </el-table-column>
 
         <el-table-column label="订单数量" prop="quantity" :width="tdSize(4,7,false)" />
 
         <el-table-column label="订单单位" prop="unit" align="center" :width="tdSize(4,4,false)" />
-        <el-table-column label="供应商" prop="vendorCode" :width="tdSize(5,11)">
+        <el-table-column label="供应商" prop="vendorName" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.vendorCode" />
+            <LongText :text="scope.row.vendorName" />
           </template>
         </el-table-column>
         <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.vendorName"></LongText>
+            <LongText :text="scope.row.vendorName" />
           </template>
         </el-table-column>
         <el-table-column label="创建日期" prop="sapCreatedDate" align="center" :width="tdSize(4,8,false)" />
-        <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" :width="tdSize(4,8,false)"/>
+        <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" :width="tdSize(4,8,false)" />
         <el-table-column label="退货" prop="retPo" align="center" :width="tdSize(4,1)">
           <template slot-scope="scope">
             <span>{{ scope.row.retPo ? '是': '' }}</span>
