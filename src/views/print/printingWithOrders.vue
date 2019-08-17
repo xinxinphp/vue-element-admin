@@ -104,25 +104,36 @@
         style="width: 100%;"
         @sort-change="sortChange"
       >
-        <el-table-column label="打印条码" align="center" width="120">
+        <el-table-column label="打印" align="center" width="75">
           <template slot-scope="scope">
-            <span><el-button type="primary" size="mini" @click="handlePrint(scope)">打印条码</el-button></span>
+            <span><el-button type="primary" size="mini" @click="handlePrint(scope)">打印</el-button></span>
           </template>
         </el-table-column>
-        <el-table-column label="工厂" prop="factoryCode" align="center" width="80" sortable="factoryCode" />
-        <el-table-column label="订单号" prop="orderNo" align="center" width="120" sortable="orderNo" />
-        <el-table-column label="供应商" prop="vendorCode" :width="tdSize(5,11)">
+        <el-table-column label="工厂" prop="factoryCode" align="center" width="65" />
+        <el-table-column label="订单号" prop="orderNo" align="center" :width="tdSize(3,11, false)" />
+        <el-table-column label="行项目" prop="orderItemNo" align="center" :width="tdSize(3,5, false)" />
+        <el-table-column label="物料编码" prop="materialCode" align="center" width="120" />
+        <el-table-column label="物料名称" prop="materialName" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.vendorCode" />
+            <LongText :text="scope.row.materialName" />
           </template>
         </el-table-column>
+        <el-table-column label="订单数量" prop="quantity" width="100" />
+        <el-table-column label="已打印数量" prop="printedQuantity" width="100" />
+        <el-table-column label="订单单位" prop="unit" align="center" width="100" />
+        <el-table-column label="已入库数量" prop="processedQuantity" width="100" />
         <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
           <template slot-scope="scope">
             <LongText :text="scope.row.vendorName" />
           </template>
         </el-table-column>
-        <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="120" />
-        <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" width="120" />
+        <el-table-column label="供应商" prop="vendorCode" :width="tdSize(3,10, false)">
+          <template slot-scope="scope">
+            <LongText :text="scope.row.vendorCode" />
+          </template>
+        </el-table-column>
+        <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="90" />
+        <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" width="90" />
         <el-table-column label="退货" prop="retPo" align="center" width="120">
           <template slot-scope="scope">
             <span>{{ scope.row.retPo ? '是': '' }}</span>
@@ -139,18 +150,8 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="库存地点" prop="stockLocation" align="center" width="120" />
-        <el-table-column label="物料编码" prop="materialCode" align="center" width="120" />
-        <el-table-column label="物料名称" prop="materialName" :width="tdSize(5,11)">
-          <template slot-scope="scope">
-            <LongText :text="scope.row.materialName" />
-          </template>
-        </el-table-column>
-        <el-table-column label="订单数量" prop="quantity" width="100" />
-        <el-table-column label="订单单位" prop="unit" align="center" width="100" />
-        <el-table-column label="已入库数量" prop="processedQuantity" width="100" />
-        <el-table-column label="已打印数量" prop="printedQuantity" width="100" />
-        <el-table-column label="SAP已交货完成" prop="elikz" align="center" width="80">
+        <el-table-column label="库存地点" prop="stockLocation" align="center" width="80" />
+        <el-table-column label="SAP已交货完成" prop="elikz" align="center" width="120">
           <template slot-scope="scope">
             <span>{{ scope.row.elikz ? '是': '' }}</span>
           </template>
