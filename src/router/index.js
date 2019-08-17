@@ -226,7 +226,7 @@ export const asyncRoutes = [
     alwaysShow: true, // will always show the root menu
     name: 'Print',
     meta: {
-      title: '打印',
+      title: '标签打印',
       icon: 'pdf'
     },
     children: [
