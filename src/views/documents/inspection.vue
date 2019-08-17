@@ -165,10 +165,10 @@
       />
 
       <el-dialog :visible.sync="dialogVisible" :title="dialogType">
-        <el-form :model="dialogForm" label-width="220px" label-position="right">
+        <el-form :ref="dialogForm" :model="dialogForm" label-width="220px" label-position="right">
           <el-row>
             <el-col :span="24">
-              <el-form-item label="质检状态">
+              <el-form-item label="质检状态" prop="qualityInspectionStatus" :rules="[{ required: true }]">
                 <el-select
                   v-model="dialogForm.qualityInspectionStatus"
                   placeholder="质检状态"
@@ -307,7 +307,9 @@ export default {
       materialCategory: [],
       materialSmallCategory: [],
       /** ***以下dialog字段 *****/
-      dialogForm: {},
+      dialogForm: {
+        qualityInspectionStatus: ''
+      },
       dialogFormRef: 'dialogFormRef',
       dialogType: '',
       dialogVisible: false,
@@ -366,12 +368,18 @@ export default {
         qualityInspectionStatus: this.dialogForm.qualityInspectionStatus,
         qualityInspectionRemark: this.dialogForm.qualityInspectionRemark
       }
-      setQualityInspectionStatus(data)
-        .then(res => {
-          this.getList(getReceiptOrders)
-          this.$message.success(res.message)
-          this.dialogVisible = false
-        })
+      this.$refs[this.dialogForm].validate((valid) => {
+        if (valid) {
+          setQualityInspectionStatus(data)
+            .then(res => {
+              this.getList(getReceiptOrders)
+              this.$message.success(res.message)
+              this.dialogVisible = false
+            })
+        } else {
+          return false
+        }
+      })
     },
     showPrintNotInbound({ row }) {
       this.totalPrintNotInbound = 1
