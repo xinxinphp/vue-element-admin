@@ -68,10 +68,10 @@
           <el-input v-model="formQ.position" placeholder="输入职位" />
         </el-form-item>
         <el-form-item label="供应商名称" prop="vendorName">
-          <el-input v-model="formQ.vendorName" placeholder="输入职位" />
+          <el-input v-model="formQ.vendorName" placeholder="输入供应商名称" />
         </el-form-item>
         <el-form-item label="供应商编码" prop="vendorCode">
-          <el-input v-model="formQ.vendorCode" placeholder="输入职位" />
+          <el-input v-model="formQ.vendorCode" placeholder="输入供应商编码" />
         </el-form-item>
         <el-form-item label="是否为供应商用户" prop="vendorUser">
           <el-radio v-model="formQ.vendorUser" :label="true">是</el-radio>
