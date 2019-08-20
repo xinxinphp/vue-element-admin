@@ -218,6 +218,14 @@ export const asyncRoutes = [
         }
       },
       {
+        path: 'labelFreeze',
+        component: () => import('@/views/masterData/labelFreeze'),
+        name: 'LabelFreeze',
+        meta: {
+          title: '标签冻结'
+        }
+      },
+      {
         path: 'supplierLabelQuery',
         component: () => import('@/views/masterData/supplierLabelQuery'),
         name: 'SupplierLabelQuery',

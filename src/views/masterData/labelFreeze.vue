@@ -4,31 +4,45 @@
       <el-select
         v-model="form.factoryId"
         :placeholder="_getFieldName('factoryId','工厂')"
-        :style="mini"
+        :style="small"
+        class="filter-item"
         clearable
+        @change="handleChange"
       >
         <el-option v-for="item in factoryIds" :key="item.id + item.name" :label="item.code" :value="item.id">
           <span style="float: left">{{ item.code + '  ----  ' + item.name }}</span>
         </el-option>
       </el-select>
       <el-select
-        v-model="form.poNo"
-        :placeholder="_getFieldName('poNo','打码方式')"
+        v-model="form.warehouseId"
+        placeholder="仓库"
         :style="small"
         clearable
       >
-        <el-option label="订单" value="1" />
-        <el-option label="无订单" value="2" />
+        <el-option v-for="item in warehouseAll" :key="item.id + item.description" :label="item.code" :value="item.id">
+          <span style="float: left">{{ item.code + '  ----  ' + item.description }}</span>
+        </el-option>
       </el-select>
+      <el-select
+        v-model="form.materialCategory"
+        placeholder="类别"
+        :style="small"
+        clearable
+      >
+        <el-option v-for="item in materialCategoryAll" :key="item.id + item.name" :label="item.name" :value="item.name">
+          <span style="float: left">{{ item.name }}</span>
+        </el-option>
+      </el-select>
+
       <el-input
-        v-model="form.tagNo"
-        :placeholder="_getFieldName('tagNo','标签码')"
+        v-model="form.materialCode"
+        :placeholder="_getFieldName('materialCode','物料编码')"
         :style="small"
         clearable
       />
       <el-input
-        v-model="form.materialCode"
-        :placeholder="_getFieldName('materialCode','物料编码')"
+        v-model="form.materialName"
+        :placeholder="_getFieldName('materialName','物料名称')"
         :style="small"
         clearable
       />
@@ -55,7 +69,19 @@
             :placeholder="_getFieldName('queryDateEnd','结束日期')"
             :style="small"
           />
-          <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
+          <el-input
+            v-model="form.batch"
+            :placeholder="_getFieldName('batch','批次')"
+            :style="small"
+            clearable
+          />
+          <el-input
+            v-model="form.version"
+            :placeholder="_getFieldName('version','版本号')"
+            :style="small"
+            clearable
+          />
+          <!--          <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>-->
         </el-dropdown-menu>
       </el-dropdown>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
@@ -64,6 +90,9 @@
     </sticky>
 
     <div v-loading="loading" class="app-container">
+      <el-button class="filter-item" type="success" size="mini" plain @click="handleFreezeRest">冻结</el-button>
+      <el-button type="info" plain size="mini" @click="handleFreezeAdd">解冻</el-button>
+
       <el-table
         :key="tableKey"
         :data="list"
@@ -71,9 +100,12 @@
         fit
         :height="fixHeight"
         highlight-current-row
-        style="width: 100%;"
+        style="margin-top:10px;width: 100%;"
         @sort-change="sortChange"
+        @selection-change="handleSelectionChange"
       >
+        >
+        <el-table-column type="selection" align="center" width="55" fixed />
         <el-table-column label="打码方式" prop="printType" align="center" width="80" />
         <el-table-column label="工厂" prop="factoryCode" align="center" :width="tdSize(2,4,false)" />
         <el-table-column label="标签码" prop="tagNo" align="center" :width="tdSize(3,20,false)" />
@@ -129,52 +161,75 @@
 import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
+import { getWarehousesInfo, getCategory } from '@/api/common'
 import { parseTime } from '@/utils'
-// import abcMixin from './abcMixin'
-import { getItems, setDisable } from '@/api/print'
+import { getItems } from '@/api/print'
 
 const defaultForm = {
   factoryId: '', // 工厂
+  warehouseId: '', // 仓库
   printType: '', // 打码方式
+  materialCategory: '', // 类别
   tagNo: '', // 标签码
+  batch: '', // 批次
+  version: '', // 版本号
   materialCode: '', // 物料编码
+  materialName: '', // 物料名称
   notZero: '', // 数量非0
   frozen: ''// 冻结
 }
 
 export default {
-  name: 'LabelQuery',
+  name: 'LabelFreeze',
   components: { Pagination, Sticky },
   mixins: [formMixin],
   data() {
     return {
       defaultForm: defaultForm,
+      warehouseAll: [], // 所有仓库
+      materialCategoryAll: [], // 所有类别
       tableKey: 0,
       list: null,
       total: 0,
       loading: true,
       downloadLoading: false,
       /** ***一下打印*****/
-      form: Object.assign({}, defaultForm)
+      form: Object.assign({}, defaultForm),
       /** ***一下打印*****/
+      multipleSelection: []
     }
   },
   created() {
     this.getList(getItems)
+    this.initSetCategory()
   },
   methods: {
-    setDisable({ row }) {
-      this.$confirm('确认作废?', '警告', {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          setDisable(row.id)
-            .then(res => {
-              this.getList(getItems)
-              this.$message.success(res.message)
-            })
+    initSetCategory() {
+      getCategory()
+        .then(res => {
+          this.materialCategoryAll = res.data
+        })
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
+    handleFreezeAdd() {
+    },
+    handleFreezeRest() {
+
+    },
+    setWarehouse(data) {
+      this.form.warehouseId = ''
+      this.warehouseAll = data
+    },
+    handleChange(value) {
+      this.form.warehouseId = ''
+      const data = {
+        factoryId: value
+      }
+      getWarehousesInfo(data)
+        .then(res => {
+          this.setWarehouse(res.data)
         })
     },
     handleDownload() {

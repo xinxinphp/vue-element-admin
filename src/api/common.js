@@ -47,3 +47,12 @@ export function getFactoriesAll() {
   })
 }
 
+// 获取类别
+export function getCategory(params) {
+  return request({
+    url: '/api/material_dicts/type/category',
+    method: 'get',
+    params
+  })
+}
+
