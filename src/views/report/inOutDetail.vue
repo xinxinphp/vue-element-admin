@@ -137,7 +137,11 @@
           <LongText :text="scope.row.materialName" />
         </template>
       </el-table-column>
-      <el-table-column label="数量" prop="quantity" width="70" />
+      <el-table-column label="数量" prop="quantity" width="70">
+        <template slot-scope="scope">
+          <span>{{ scope.row.direction ==='出库' ? '-'+scope.row.quantity : ' &nbsp;'+scope.row.quantity }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="单位" prop="unit" width="70" />
       <el-table-column label="标签码" prop="tagNo" :width="tdSize(4,18,false)" />
       <el-table-column label="到厂日期" prop="factoryDate" width="110" />
