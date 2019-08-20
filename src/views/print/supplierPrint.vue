@@ -81,7 +81,7 @@
         </el-table-column>
         <el-table-column label="SAP批次管理" prop="batchEnabled" align="center" width="120">
           <template slot-scope="scope">
-            <span>{{ scope.row.retPo ? '启用': '' }}</span>
+            <span>{{ scope.row.batchEnabled ? '启用': '' }}</span>
           </template>
         </el-table-column>
         <el-table-column label="SAP基本单位" prop="unit" align="center" width="120" />
