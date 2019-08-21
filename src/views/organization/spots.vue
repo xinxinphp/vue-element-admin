@@ -66,19 +66,26 @@
 
       <el-table-column label="货位" prop="description" min-width="120" />
       <el-table-column label="货位标签码" prop="tagNo" min-width="150" />
-      <el-table-column label="默认车间领料货位" prop="inWorkshop" min-width="120">
+      <el-table-column label="SAP库存地" prop="stockLocation" min-width="120" />
+      <el-table-column label="默认车间领料货位" prop="inWorkshop" min-width="140" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.inWorkshop?'是':'' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="冻结" prop="frozen" max-width="90">
+      <el-table-column label="冻结" prop="frozen" min-width="90" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.frozen?'是':'' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="SAP库存地" prop="stockLocation" min-width="120" />
+      <el-table-column label="投料口货位" prop="feedingSpot" min-width="100" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.feedingSpot?'是':'' }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="产线代码" prop="productionLineCode" min-width="100" />
+      <el-table-column label="投料物料类别" prop="materialCategories" min-width="110" />
       <el-table-column label="备注" prop="remark" />
-      <el-table-column label="操作" align="center" min-width="150">
+      <el-table-column label="操作" align="center" min-width="150" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleEdit(scope)">编辑</el-button>
           <el-button type="danger" size="mini" @click="handleDelete(scope)">删除</el-button>
@@ -102,13 +109,47 @@
         </el-form-item>
 
         <el-form-item label="默认车间领料货位" prop="inWorkshop" :rules="[{ required: true }]">
-          <el-radio v-model="formQ.inWorkshop" :label="true">是</el-radio>
+          <el-radio v-model="formQ.inWorkshop" :label="true" @change="onInWorkshopYes">是</el-radio>
           <el-radio v-model="formQ.inWorkshop" :label="false">否</el-radio>
         </el-form-item>
 
         <el-form-item label="冻结" prop="frozen" :rules="[{ required: true }]">
           <el-radio v-model="formQ.frozen" :label="true">是</el-radio>
           <el-radio v-model="formQ.frozen" :label="false">否</el-radio>
+        </el-form-item>
+
+        <el-form-item label="投料口货位" prop="feedingSpot" :rules="[{ required: true }]">
+          <el-radio v-model="formQ.feedingSpot" :label="true" @change="onFeedingSpotYes">是</el-radio>
+          <el-radio v-model="formQ.feedingSpot" :label="false" @change="onFeedingSpotNo">否</el-radio>
+        </el-form-item>
+
+        <el-form-item label="产线" prop="productionLineCode">
+          <el-select
+            v-model="formQ.productionLineCode"
+            placeholder="产线"
+            style="width: 100%"
+            :disabled="!formQ.feedingSpot"
+            clearable
+          >
+            <el-option v-for="item in productionLineAll" :key="item.id" :label="item.code" :value="item.code">
+              <span style="float: left">{{ item.code + '  ----  ' + item.name }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="物料类别" prop="materialCategoryList">
+          <el-select
+            v-model="formQ.materialCategoryList"
+            multiple
+            placeholder="物料类别"
+            style="width: 100%"
+            :disabled="!formQ.feedingSpot"
+            clearable
+          >
+            <el-option v-for="item in materialCategoryAll" :key="item.name" :label="item.name" :value="item.name">
+              <span style="float: left">{{ item.name }}</span>
+            </el-option>
+          </el-select>
         </el-form-item>
 
         <el-form-item label="工厂" prop="factoryId" :rules="[{ required: true }]">
@@ -171,14 +212,18 @@
 
 <script>
 import formMixin from '@/views/mixin/BaseSearchForm'
-import { getSpots, setSpots, deleteSpots } from '@/api/organization'
+import { getSpots, setSpots, deleteSpots, getProductionLinesAll } from '@/api/organization'
+import { getMaterialCategory } from '@/api/masterData'
 import { getWarehousesInfo, getWarehouseAreas } from '@/api/common'
 import Pagination from '@/components/Pagination'
 const defaultForm = {
   description: '',
   stockLocation: '',
-  inWorkshop: '',
-  frozen: '',
+  inWorkshop: false,
+  frozen: false,
+  feedingSpot: false,
+  productionLineCode: '',
+  materialCategoryList: [],
   factoryId: '',
   warehouseId: '',
   warehouseAreaId: '',
@@ -193,6 +238,7 @@ export default {
     return {
       formQ: Object.assign({}, defaultForm),
       form: {
+        productionLineCode: '',
         warehouseId: '',
         warehouseAreaId: '',
         description: ''
@@ -211,7 +257,9 @@ export default {
       dialogVisible: false,
       factoriesAll: [], // 本页使用的
       warehouseAll: [], // 本页使用的 所有仓库
-      warehouseAreaAll: [] // 本页使用的 所有库区
+      warehouseAreaAll: [], // 本页使用的 所有库区
+      productionLineAll: [],
+      materialCategoryAll: []
     }
   },
   computed: {
@@ -339,6 +387,32 @@ export default {
     handleClose(done) {
       done()
       this.resetForm()
+    },
+    onFeedingSpotYes(value) {
+      if (value === true) {
+        this.formQ.inWorkshop = false
+        getProductionLinesAll().then(res => {
+          this.productionLineAll = res.data
+        })
+        getMaterialCategory().then(res => {
+          this.materialCategoryAll = res.data
+        })
+      }
+    },
+    onFeedingSpotNo(value) {
+      if (value === false) {
+        this.materialCategoryAll = []
+        this.productionLineAll = []
+        this.formQ.materialCategoryList = []
+        this.formQ.productionLineCode = ''
+      }
+    },
+    onInWorkshopYes(value) {
+      if (value === true) {
+        this.formQ.feedingSpot = false
+        this.formQ.materialCategoryList = []
+        this.formQ.productionLineCode = ''
+      }
     }
   }
 }

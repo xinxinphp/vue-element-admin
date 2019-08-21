@@ -86,6 +86,15 @@ export function getProductionLines(params) {
   })
 }
 
+// 获取 产线 列表(不分页)
+export function getProductionLinesAll(params) {
+  return request({
+    url: `/api/production_lines/all`,
+    method: 'get',
+    params
+  })
+}
+
 // 保存 产线
 export function setProductionLines(data) {
   return request({
