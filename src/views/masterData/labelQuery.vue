@@ -87,7 +87,11 @@
         <el-table-column label="SAP基本单位" prop="unit" align="center" width="120" />
         <el-table-column label="版本号" prop="version" align="center" width="100" />
         <el-table-column label="作废" prop="disabled" align="center" width="100" />
-        <el-table-column label="冻结" prop="frozen" align="center" width="100" />
+        <el-table-column label="冻结" prop="frozen" align="center" width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.frozen?'是':'' }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="型号" prop="type" align="center" width="100" />
         <el-table-column label="SAP批次" prop="batch" align="center" width="100" />
         <el-table-column label="供应商" prop="vendorCode" align="center" width="100" />

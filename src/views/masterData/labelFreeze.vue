@@ -90,8 +90,8 @@
     </sticky>
 
     <div v-loading="loading" class="app-container">
-      <el-button class="filter-item" type="success" size="mini" plain @click="handleFreezeRest">冻结</el-button>
-      <el-button type="info" plain size="mini" @click="handleFreezeAdd">解冻</el-button>
+      <el-button class="filter-item" type="success" size="mini" plain @click="handleFreeze('add')">冻结</el-button>
+      <el-button type="info" plain size="mini" @click="handleFreeze('rest')">解冻</el-button>
 
       <el-table
         :key="tableKey"
@@ -106,9 +106,11 @@
       >
         >
         <el-table-column type="selection" align="center" width="55" fixed />
-        <el-table-column label="打码方式" prop="printType" align="center" width="80" />
         <el-table-column label="工厂" prop="factoryCode" align="center" :width="tdSize(2,4,false)" />
-        <el-table-column label="标签码" prop="tagNo" align="center" :width="tdSize(3,20,false)" />
+        <el-table-column label="仓库" prop="warehouseCode" align="center" :width="tdSize(3,20,false)" />
+        <el-table-column label="库区" prop="warehouseAreaCode" align="center" :width="tdSize(5,12,false)" />
+        <el-table-column label="货位" prop="spotDescription" align="center" :width="tdSize(5,12,false)" />
+        <el-table-column label="标签" prop="tagNo" align="center" :width="tdSize(5,12,false)" />
         <el-table-column label="物料编码" prop="materialCode" align="center" :width="tdSize(5,12,false)" />
         <el-table-column label="物料名称" prop="materialName" align="center" :width="tdSize(5,11)">
           <template slot-scope="scope">
@@ -116,12 +118,16 @@
           </template>
         </el-table-column>
         <el-table-column label="数量" prop="quantity" align="center" width="70" />
-        <el-table-column label="SAP基本单位" prop="unit" align="center" width="120" />
-        <el-table-column label="版本号" prop="version" align="center" width="100" />
-        <el-table-column label="作废" prop="disabled" align="center" width="100" />
-        <el-table-column label="冻结" prop="frozen" align="center" width="100" />
+        <el-table-column label="合格" prop="qualityInspectionStatus" align="center" width="120" />
+        <el-table-column label="冻结" prop="frozen" align="center" width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.frozen?'是':'' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="SAP基本单位" prop="unit" align="center" width="100" />
+        <el-table-column label="版本" prop="version" align="center" width="100" />
         <el-table-column label="型号" prop="type" align="center" width="100" />
-        <el-table-column label="SAP批次" prop="batch" align="center" width="100" />
+        <el-table-column label="批次" prop="batch" align="center" width="100" />
         <el-table-column label="供应商" prop="vendorCode" align="center" width="100" />
         <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
           <template slot-scope="scope">
@@ -130,20 +136,6 @@
         </el-table-column>
         <el-table-column label="生产日期" prop="productionDate" width="95" />
         <el-table-column label="到厂日期" prop="factoryDate" width="95" />
-        <el-table-column label="采购订单" prop="poNo" align="center" width="100" />
-        <el-table-column label="行项目" prop="poiNo" width="70" />
-        <el-table-column label="收货人" prop="receiptBy" width="100" />
-        <el-table-column label="收货单" prop="roNo" width="160" />
-        <el-table-column label="收货时间" prop="receiptTime" width="160" />
-        <el-table-column label="货位" prop="spotDescription" width="100" />
-        <el-table-column label="创建人" prop="createdBy" width="100" />
-        <el-table-column label="创建时间" prop="createdDate" width="160" />
-        <el-table-column label="打印序列" width="100">
-          <template slot-scope="{row}">
-            <el-input v-if="row.edit" v-model="row.spotDescription" class="edit-input" size="small" />
-            <span v-else>{{ row.printSeq + ' / '+row.ordinal + ' / '+row.totalPrintNum }}</span>
-          </template>
-        </el-table-column>
       </el-table>
 
       <pagination
@@ -163,7 +155,7 @@ import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
 import { getWarehousesInfo, getCategory } from '@/api/common'
 import { parseTime } from '@/utils'
-import { getItems } from '@/api/print'
+import { getItemsFrozen, setItemsFrozenType } from '@/api/masterData'
 
 const defaultForm = {
   factoryId: '', // 工厂
@@ -200,7 +192,7 @@ export default {
     }
   },
   created() {
-    this.getList(getItems)
+    this.getList(getItemsFrozen)
     this.initSetCategory()
   },
   methods: {
@@ -213,10 +205,31 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
-    handleFreezeAdd() {
-    },
-    handleFreezeRest() {
-
+    handleFreeze(name) {
+      if (!this.multipleSelection.length) {
+        this.$message.error('请先勾选项目')
+        return
+      }
+      const data = {
+        frozenType: '1',
+        frozenName: '冻结'
+      }
+      if (name === 'rest') {
+        data.frozenType = '2'
+        data.frozenName = '解冻'
+      }
+      this.$confirm(`确认${data.frozenName}?`, '警告', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setItemsFrozenType(data.frozenType, this.multipleSelection)
+            .then(res => {
+              this.getList(getItemsFrozen)
+              this.$message.success(res.message)
+            })
+        })
     },
     setWarehouse(data) {
       this.form.warehouseId = ''

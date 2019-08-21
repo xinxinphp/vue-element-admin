@@ -49,3 +49,20 @@ export function getItemsVendor(params) {
     params
   })
 }
+
+export function getItemsFrozen(params) {
+  return request({
+    url: '/api/items/frozen',
+    method: 'get',
+    params
+  })
+}
+
+// frozenType 1冻结 2解冻
+export function setItemsFrozenType(frozenType, data) {
+  return request({
+    url: `/api/items/frozenItem/${frozenType}`,
+    method: 'put',
+    data
+  })
+}
