@@ -343,9 +343,6 @@ export default {
                 this.startPrint({ data: res.data, form: this.form })
                 this.resetForm()
               })
-              .catch(() => {
-                this.resetForm()
-              })
           } else {
             this.$message.error('包装单位数量/基本单位数量至少一个不为0')
           }
