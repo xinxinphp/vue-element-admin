@@ -225,7 +225,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="批次" prop="batch">
-                <el-input v-model="form.batch" placeholder="输入批次" :disabled="isBatchDisabled" />
+                <el-input v-model="form.batch" placeholder="输入批次" maxlength="10" :disabled="isBatchDisabled" />
               </el-form-item>
             </el-col>
             <el-col :span="8">
