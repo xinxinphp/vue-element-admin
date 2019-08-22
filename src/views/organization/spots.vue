@@ -331,12 +331,16 @@ export default {
       this.dialogVisible = true
     },
     handleEdit({ row }) {
+      getMaterialCategory().then(res => {
+        this.materialCategoryAll = res.data
+      })
       getWarehousesInfo({ factoryId: row.factoryId })
         .then(res => {
           getWarehouseAreas({ warehouseId: row.warehouseId })
             .then(ref => {
               this.formQ = { ...row }
               this.setWarehouse(res.data)
+              this.setWarehouseArea(ref.data)
               delete this.formQ.createdDate
               delete this.formQ.lastModifiedDate
               this.$refs[this.formRef] && this.$refs[this.formRef].resetFields()
