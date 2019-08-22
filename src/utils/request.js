@@ -80,7 +80,7 @@ service.interceptors.response.use(
   error => {
     // console.log(JSON.stringify(error), error.response.data.message) // for debug
     Message({
-      message: error.response.data.message + '1233',
+      message: error.response.data.message,
       type: 'error',
       // duration: 30 * 1000,
       showClose: true
