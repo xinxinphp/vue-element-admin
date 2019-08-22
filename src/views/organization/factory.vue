@@ -13,6 +13,12 @@
     >
       <el-table-column label="编号" prop="code" width="150" />
       <el-table-column label="名称" prop="name" width="320" />
+      <el-table-column label="SAP过账" prop="postEnabled">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.postEnabled" type="success">启用</el-tag>
+          <el-tag v-else type="danger">未启用</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="备注" prop="remark" min-width="220" />
       <el-table-column label="操作" align="center" width="250">
         <template slot-scope="scope">
@@ -34,6 +40,9 @@
         <el-form-item label="名称" prop="name" :rules="[{ required: true }]">
           <el-input v-model="formQ.name" placeholder="输入名称" />
         </el-form-item>
+        <el-form-item label="启用SAP过账" prop="name">
+          <el-switch v-model="formQ.postEnabled" />
+        </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="formQ.remark" placeholder="输入备注" />
         </el-form-item>
@@ -54,6 +63,7 @@ import Pagination from '@/components/Pagination'
 const defaultForm = {
   code: '',
   name: '',
+  postEnabled: true,
   remark:	''
 }
 
