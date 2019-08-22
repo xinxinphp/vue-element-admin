@@ -259,7 +259,7 @@ export default {
       warehouseAll: [], // 本页使用的 所有仓库
       warehouseAreaAll: [], // 本页使用的 所有库区
       productionLineAll: [],
-      materialCategoryAll: []
+      materialCategoryAll: [] // 物料类别
     }
   },
   computed: {
