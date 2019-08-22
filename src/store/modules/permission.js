@@ -19,7 +19,8 @@ function filterRoutes(asyncRoutes, roles) {
     asyncRoutes.forEach(item => {
       const ilist = { ...item }
       ilist.meta ? '' : ilist.meta = {}
-      if ((tem.title === ilist.meta.title) && (tem.path === ilist.path)) {
+      if ((tem.path === ilist.path) && (tem.path === ilist.path)) {
+        item.meta.title = tem.title
         res.push(item)
         if (tem.children) {
           item.children = filterRoutes(ilist.children, tem.children)
