@@ -187,6 +187,14 @@ export const asyncRoutes = [
         meta: {
           title: 'SAP过账记录'
         }
+      },
+      {
+        path: 'inventoryState',
+        component: () => import('@/views/report/inventoryState'),
+        name: 'InventoryState',
+        meta: {
+          title: '库存报表'
+        }
       }
     ]
   },
