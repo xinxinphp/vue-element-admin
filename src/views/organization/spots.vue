@@ -146,7 +146,7 @@
             :disabled="!formQ.feedingSpot"
             clearable
           >
-            <el-option v-for="item in materialCategoryAll" :key="item.name" :label="item.name" :value="item.name">
+            <el-option v-for="item in materialCategoryAll" :key="item.id" :label="item.name" :value="item.name">
               <span style="float: left">{{ item.name }}</span>
             </el-option>
           </el-select>
@@ -338,7 +338,7 @@ export default {
         .then(res => {
           getWarehouseAreas({ warehouseId: row.warehouseId })
             .then(ref => {
-              this.formQ = { ...row }
+              this.formQ = { ...row, materialCategoryList: row.materialCategoryList }
               this.setWarehouse(res.data)
               this.setWarehouseArea(ref.data)
               delete this.formQ.createdDate
