@@ -116,14 +116,12 @@
         </el-table-column>
         <el-table-column label="收货确认" prop="receiptConfirmed" align="center" :width="tdSize(4,5,true,true)">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.receiptConfirmed" type="success" size="mini" plain disabled>{{ '已确认' }}</el-button>
-            <el-button v-else type="info" plain size="mini" @click="/*handleHarvest(scope)*/">{{ '未确认' }}</el-button>
+            <span>{{ scope.row.receiptConfirmed? '已确认':'未确认' }}</span>
           </template>
         </el-table-column>
         <el-table-column label="入库确认" prop="inboundConfirmed" align="center" :width="tdSize(4,5,true,true)">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.inboundConfirmed" size="mini" type="success" plain disabled>{{ '已确认' }}</el-button>
-            <el-button v-else type="info" plain size="mini" @click="/*handleConfirm(scope)*/">{{ '未确认' }}</el-button>
+            <span>{{ scope.row.inboundConfirmed? '已确认':'未确认' }}</span>
           </template>
         </el-table-column>
         <el-table-column label="收货单" prop="orderNo" :width="tdSize(4,16,false)" />

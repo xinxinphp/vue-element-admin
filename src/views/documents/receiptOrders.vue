@@ -110,8 +110,7 @@
       >
         <el-table-column label="质检结果" align="center" :width="tdSize(4,6,true,true)">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.inboundConfirmed" type="primary" size="mini" disabled plain style="min-width: 100px;">{{ scope.row.qualityInspectionStatus }}</el-button>
-            <el-button v-else type="primary" style="min-width: 100px;" size="mini" disabled @click="handleEditor(scope)">{{ scope.row.qualityInspectionStatus }}</el-button>
+            <span>{{ scope.row.qualityInspectionStatus }}</span>
           </template>
         </el-table-column>
         <el-table-column label="收货确认" prop="receiptConfirmed" align="center" :width="tdSize(4,5,true,true)">
