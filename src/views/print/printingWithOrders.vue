@@ -127,17 +127,17 @@
         </el-table-column>
         <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="90" />
         <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" width="90" />
-        <el-table-column label="退货" prop="retPo" align="center" width="120">
+        <el-table-column label="退货" prop="retPo" align="center" width="70">
           <template slot-scope="scope">
             <span>{{ scope.row.retPo ? '是': '' }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="删除" prop="sapDeleted" align="center" width="120">
+        <el-table-column label="删除" prop="sapDeleted" align="center" width="70">
           <template slot-scope="scope">
             <span>{{ scope.row.sapDeleted ? '是': '' }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="寄售" prop="pstyp" align="center" width="120">
+        <el-table-column label="寄售" prop="pstyp" align="center" width="70">
           <template slot-scope="scope">
             <span>{{ scope.row.pstyp === '2' ? '是': '' }}</span>
           </template>
@@ -352,14 +352,15 @@ export default {
   },
   created() {
     this.getList(getOrderItemList)
-    // console.log(window.innerHeight)
   },
   methods: {
     handlePrint({ row }) {
-      // this.startPrint()
-      // return false
+      if (row.retPo || row.sapDeleted) {
+        this.$message.error('退货或删除订单不允许打印')
+        return false
+      }
       const initPrintStatus = this.initPrint()
-      if (1 || initPrintStatus) {
+      if (initPrintStatus) {
         getOrdersInitItemInfo(row.id)
           .then(res => {
             const defValue = {
