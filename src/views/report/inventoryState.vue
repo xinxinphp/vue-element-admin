@@ -47,12 +47,16 @@
           <span style="float: left">{{ item.description }}</span>
         </el-option>
       </el-select>
-      <el-input
+      <el-select
         v-model="form.materialCategory"
-        placeholder="类别"
-        :style="small"
+        placeholder="物料类别"
+        :style="mini"
         clearable
-      />
+      >
+        <el-option v-for="item in materialCategoryAll" :key="item.id" :label="item.name" :value="item.name">
+          <span style="float: left">{{ item.name }}</span>
+        </el-option>
+      </el-select>
       <el-input
         v-model="form.materialCode"
         placeholder="物料编码"
@@ -90,13 +94,9 @@
           <LongText :text="scope.row.materialName" />
         </template>
       </el-table-column>
-      <el-table-column label="合格" prop="quantity" width="70" />
-      <el-table-column label="不合格" prop="quantity" width="70" />
-      <el-table-column label="冻结" prop="frozen" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.frozen?'是':'' }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column label="合格" prop="qualifiedQuantity" width="70" />
+      <el-table-column label="不合格" prop="disqualificationQuantity" width="70" />
+      <el-table-column label="冻结" prop="frozenQuantity" align="center" width="70" />
       <el-table-column label="SAP基本单位" prop="unit" :width="tdSize(4,18,false)" />
       <el-table-column label="版本" prop="version" width="110" />
       <el-table-column label="型号" prop="type" width="110" />
@@ -121,8 +121,8 @@
 
 <script>
 import formMixin from '@/views/mixin/BaseSearchForm'
-import { getReportInOutDetail, getBizTypes } from '@/api/report'
-import { getWarehousesInfo, getWarehouseAreas, getWarehouseAreaId } from '@/api/common'
+import { getReportInventory } from '@/api/report'
+import { getWarehousesInfo, getWarehouseAreas, getWarehouseAreaId, getCategory } from '@/api/common'
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination'
 const defaultForm = {
@@ -134,7 +134,7 @@ const defaultForm = {
   materialName: '', // 物料描述
   tagNo: '', // 标签码
   operator: '', // 操作人
-  bizType: '' // 业务类型
+  materialCategory: '' // 物料类型
 }
 
 export default {
@@ -156,16 +156,23 @@ export default {
       warehouseAreaAll: [], // 本页使用的 所有库区
       descriptionAll: [], // 本页使用的 所有货位
       bizTypeAll: [], // 本页使用的 所有业务类型
+      materialCategoryAll: [], // 本页使用的 物料类别
       dialogVisibleDownload: false
     }
   },
   computed: {
   },
   created() {
-    this.getList(getReportInOutDetail)
-    this.setBizTypeAll()
+    this.getList(getReportInventory)
+    this.initSetCategory()
   },
   methods: {
+    initSetCategory() {
+      getCategory()
+        .then(res => {
+          this.materialCategoryAll = res.data
+        })
+    },
     // 给 仓库 字段 进行赋值
     setWarehouse(data) {
       this.form.warehouseId = ''
@@ -180,13 +187,6 @@ export default {
     setWarehouseAreaId(data) {
       this.form.description = ''
       this.descriptionAll = data
-    },
-    // 给 业务类型 进行赋值
-    setBizTypeAll() {
-      getBizTypes()
-        .then(res => {
-          this.bizTypeAll = res.data
-        })
     },
     handleChange(value) {
       this.form.warehouseId = ''

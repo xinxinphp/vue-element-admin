@@ -39,3 +39,12 @@ export function getPostLogsRepost(id) {
   })
 }
 
+// 库存报表-GET
+export function getReportInventory(params) {
+  return request({
+    url: `/api/report/inventory`,
+    method: 'get',
+    params
+  })
+}
+
