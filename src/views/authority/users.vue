@@ -14,25 +14,28 @@
       <el-table-column label="登录名" prop="login" width="150" />
       <el-table-column label="姓名" prop="name" width="80" />
       <el-table-column label="邮箱" prop="email" min-width="160" show-overflow-tooltip />
-      <el-table-column label="手机号码" prop="phoneNumber" width="150" />
-      <el-table-column label="部门" prop="dept" width="80" />
+      <el-table-column label="手机号码" prop="phoneNumber" width="120" />
+      <el-table-column label="部门" prop="dept" width="120" />
       <el-table-column label="职位" prop="position" width="150" />
       <el-table-column label="供应商名称" prop="vendorName" width="150" show-overflow-tooltip />
-      <el-table-column label="供应商编码" prop="vendorCode" width="150" />
-      <el-table-column label="是否为供应商用户" prop="vendorUser" width="150">
+      <el-table-column label="供应商编码" prop="vendorCode" width="120" />
+      <el-table-column label="供应商用户" prop="vendorUser" width="100" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.vendorUser ? '是':'' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否AD用户" prop="ldapUser" width="150">
+      <el-table-column label="AD用户" prop="ldapUser" width="80" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.ldapUser ? '是':'' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="250">
+      <el-table-column label="创建者" prop="createdBy" width="120" />
+      <el-table-column label="创建时间" prop="createdDate" width="160" />
+      <el-table-column label="最后修改者" prop="createdBy" width="120" />
+      <el-table-column label="最后修改时间" prop="createdDate" width="160" />
+      <el-table-column label="操作" align="center" width="150" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleEdit(scope)">编辑</el-button>
-          <el-button type="success" size="mini" @click="handleAbout(scope)">详情</el-button>
           <el-button type="danger" size="mini" @click="handleDelete(scope)">删除</el-button>
         </template>
       </el-table-column>
@@ -232,15 +235,6 @@ export default {
           this.formQ = { ...res.data }
           this.$refs[this.formRef] && this.$refs[this.formRef].resetFields()
           this.dialogType = '编辑用户'
-          this.dialogVisible = true
-        })
-    },
-    handleAbout({ row }) {
-      getOneUsers(row.id)
-        .then(res => {
-          this.formQ = { ...res.data }
-          this.$refs[this.formRef] && this.$refs[this.formRef].resetFields()
-          this.dialogType = '查看用户'
           this.dialogVisible = true
         })
     },

@@ -10,7 +10,9 @@
 
         <error-log class="errLog-container right-menu-item hover-effect" />
 
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
+        <el-tooltip content="全屏" effect="dark" placement="bottom">
+          <screenfull id="screenfull" class="right-menu-item hover-effect" />
+        </el-tooltip>
 
         <el-tooltip content="字体大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
@@ -48,11 +50,6 @@ import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
 export default {
-  data() {
-    return {
-      loginRight: require('@/assets/login-right.png')
-    }
-  },
   components: {
     Breadcrumb,
     Hamburger,
@@ -60,6 +57,11 @@ export default {
     Screenfull,
     SizeSelect,
     Search
+  },
+  data() {
+    return {
+      loginRight: require('@/assets/login-right.png')
+    }
   },
   computed: {
     ...mapGetters([

@@ -40,7 +40,6 @@
       />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="handleRest()">重置</el-button>
-      <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
     </sticky>
 
     <div v-loading="loading" class="app-container">
@@ -54,15 +53,15 @@
         style="width: 100%;"
         @sort-change="sortChange"
       >
-        <el-table-column label="操作" align="center" width="150">
+        <el-table-column label="操作" align="center" width="150" fixed="left">
           <template slot-scope="{row}">
             <el-button type="primary" size="mini" @click="handleEditor(row)">明细</el-button>
-            <el-button :type="row.success?'info':'success'" plain size="mini" :disabled="row.success" @click="handleDb(row)">重传</el-button>
+            <el-button type="success" size="mini" :disabled="row.success" @click="handleDb(row)">重传</el-button>
           </template>
         </el-table-column>
         <el-table-column label="过账成功" width="80" align="center">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.success" type="success">成功</el-tag><el-tag v-else type="warning">失败</el-tag>
+            <el-tag v-if="scope.row.success" type="success">成功</el-tag><el-tag v-else type="danger">失败</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="交易ID" prop="intid" width="180" />
@@ -218,20 +217,6 @@ export default {
               this.$message.success(res.message)
             })
         })
-    },
-    handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-        const data = this.formatJson(filterVal, this.list)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: 'table-list'
-        })
-        this.downloadLoading = false
-      })
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {

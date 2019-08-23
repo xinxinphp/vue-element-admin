@@ -5,9 +5,9 @@
     <el-table v-loading="loading" :data="rolesList" style="width: 100%;margin-top:30px;" border>
       <el-table-column align="center" label="角色描述" prop="description" width="180" />
       <el-table-column align="center" label="代码" prop="code" width="180" />
-      <el-table-column align="center" label="创建者" prop="createdBy" width="180" />
+      <el-table-column align="center" label="创建者" prop="createdBy" width="120" />
       <el-table-column align="center" label="创建日期" prop="createdDate" width="180" />
-      <el-table-column align="center" label="最后修改着" prop="lastModifiedBy" width="180" />
+      <el-table-column align="center" label="最后修改者" prop="lastModifiedBy" width="120" />
       <el-table-column align="center" label="最后修改时间" prop="lastModifiedDate" width="180" />
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">

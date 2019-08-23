@@ -72,7 +72,7 @@
 
       <el-button type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
-      <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
+      <!-- <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button> -->
     </div>
 
     <el-table
