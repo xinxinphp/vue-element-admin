@@ -356,7 +356,12 @@ export default {
   methods: {
     handlePrint({ row }) {
       if (row.retPo || row.sapDeleted) {
-        this.$message.error('退货或删除订单不允许打印')
+        this.$message({
+          message: '退货或删除订单不允许打印',
+          type: 'error',
+          duration: 0,
+          showClose: true
+        })
         return false
       }
       const initPrintStatus = this.initPrint()
