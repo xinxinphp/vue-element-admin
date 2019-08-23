@@ -47,31 +47,22 @@
         class="filter-item"
         clearable
       />
-      <el-dropdown trigger="click" :hide-on-click="false">
-        <el-button>
-          更多<i class="el-icon-caret-bottom el-icon--right" />
-        </el-button>
-        <el-dropdown-menu slot="dropdown" class="app-container">
-          <el-date-picker
-            v-model="form.queryDateStart"
-            type="date"
-            value-format="yyyy-MM-dd"
-            :editable="false"
-            :placeholder="_getFieldName('queryDateStart','开始日期')"
-            :style="small"
-          />
-          <el-date-picker
-            v-model="form.queryDateEnd"
-            type="date"
-            value-format="yyyy-MM-dd"
-            :editable="false"
-            :placeholder="_getFieldName('queryDateEnd','结束日期')"
-            :style="small"
-          />
-          <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
-
-        </el-dropdown-menu>
-      </el-dropdown>
+      <el-date-picker
+        v-model="form.queryDateStart"
+        type="date"
+        value-format="yyyy-MM-dd"
+        :editable="false"
+        :placeholder="_getFieldName('queryDateStart','开始日期')"
+        :style="small"
+      />
+      <el-date-picker
+        v-model="form.queryDateEnd"
+        type="date"
+        value-format="yyyy-MM-dd"
+        :editable="false"
+        :placeholder="_getFieldName('queryDateEnd','结束日期')"
+        :style="small"
+      />
 
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
@@ -97,7 +88,7 @@
         <el-table-column label="产品编码" prop="plnbez" align="center" width="120" />
         <el-table-column label="产品名称" prop="productMaterialName" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.productMaterialName"></LongText>
+            <LongText :text="scope.row.productMaterialName" />
           </template>
         </el-table-column>
         <el-table-column label="订单数量" prop="productQuantity" align="center" width="80" />
@@ -110,7 +101,7 @@
         <el-table-column label="组件编码" prop="materialCode" align="center" width="100" />
         <el-table-column label="组件名称" :width="tdSize(5,11)">
           <template slot-scope="scope">
-            <LongText :text="scope.row.materialName"></LongText>
+            <LongText :text="scope.row.materialName" />
           </template>
         </el-table-column>
         <el-table-column label="数量" prop="quantity" align="center" width="80" />
@@ -140,7 +131,6 @@
 import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
-import { parseTime } from '@/utils'
 import { getProductionOrdersOrderItemList } from '@/api/documents'
 const defaultForm = {
   orderNo: '', // 生产订单号
@@ -180,35 +170,8 @@ export default {
   },
   created() {
     this.getList(getProductionOrdersOrderItemList)
-    // console.log(window.innerHeight)
   },
   methods: {
-    statesed(states) {
-      return states.split(',')
-    },
-    handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-        const data = this.formatJson(filterVal, this.list)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: 'table-list'
-        })
-        this.downloadLoading = false
-      })
-    },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
-          return parseTime(v[j])
-        } else {
-          return v[j]
-        }
-      }))
-    }
   }
 }
 </script>

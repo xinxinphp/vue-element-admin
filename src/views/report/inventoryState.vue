@@ -65,16 +65,9 @@
         :style="small"
         clearable
       />
-      <el-dropdown trigger="click" :hide-on-click="false">
-        <el-button plain>
-          更多<i class="el-icon-caret-bottom el-icon--right" />
-        </el-button>
-        <el-dropdown-menu slot="dropdown" class="app-container">
-          <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
-        </el-dropdown-menu>
-      </el-dropdown>
       <el-button type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
+      <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
     </div>
 
     <el-table

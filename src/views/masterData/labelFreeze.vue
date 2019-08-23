@@ -48,42 +48,34 @@
       />
       <el-checkbox v-model="form.notZero">数量非0</el-checkbox>
       <el-checkbox v-model="form.frozen">冻结</el-checkbox>
-      <el-dropdown trigger="click" :hide-on-click="false">
-        <el-button plain>
-          更多<i class="el-icon-caret-bottom el-icon--right" />
-        </el-button>
-        <el-dropdown-menu slot="dropdown" class="app-container">
-          <el-date-picker
-            v-model="form.queryDateStart"
-            type="date"
-            value-format="yyyy-MM-dd"
-            :editable="false"
-            :placeholder="_getFieldName('queryDateStart','开始日期')"
-            :style="small"
-          />
-          <el-date-picker
-            v-model="form.queryDateEnd"
-            type="date"
-            value-format="yyyy-MM-dd"
-            :editable="false"
-            :placeholder="_getFieldName('queryDateEnd','结束日期')"
-            :style="small"
-          />
-          <el-input
-            v-model="form.batch"
-            :placeholder="_getFieldName('batch','批次')"
-            :style="small"
-            clearable
-          />
-          <el-input
-            v-model="form.version"
-            :placeholder="_getFieldName('version','版本号')"
-            :style="small"
-            clearable
-          />
-          <!--          <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>-->
-        </el-dropdown-menu>
-      </el-dropdown>
+      <el-date-picker
+        v-model="form.queryDateStart"
+        type="date"
+        value-format="yyyy-MM-dd"
+        :editable="false"
+        :placeholder="_getFieldName('queryDateStart','开始日期')"
+        :style="small"
+      />
+      <el-date-picker
+        v-model="form.queryDateEnd"
+        type="date"
+        value-format="yyyy-MM-dd"
+        :editable="false"
+        :placeholder="_getFieldName('queryDateEnd','结束日期')"
+        :style="small"
+      />
+      <el-input
+        v-model="form.batch"
+        :placeholder="_getFieldName('batch','批次')"
+        :style="small"
+        clearable
+      />
+      <el-input
+        v-model="form.version"
+        :placeholder="_getFieldName('version','版本号')"
+        :style="small"
+        clearable
+      />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
 

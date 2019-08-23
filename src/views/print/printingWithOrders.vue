@@ -47,46 +47,39 @@
         class="filter-item"
         clearable
       />
-      <el-dropdown trigger="click" :hide-on-click="false">
-        <el-button plain>
-          更多<i class="el-icon-caret-bottom el-icon--right" />
-        </el-button>
-        <el-dropdown-menu slot="dropdown" class="app-container">
-          <el-date-picker
-            v-model="form.queryDateStart"
-            type="date"
-            value-format="yyyy-MM-dd"
-            :editable="false"
-            :placeholder="_getFieldName('queryDateStart','开始日期')"
-            :style="small"
-          />
-          <el-date-picker
-            v-model="form.queryDateEnd"
-            type="date"
-            value-format="yyyy-MM-dd"
-            :editable="false"
-            :placeholder="_getFieldName('queryDateEnd','结束日期')"
-            :style="small"
-          />
-          <el-input
-            v-model="form.createdBy"
-            :placeholder="_getFieldName('createdBy','创建人')"
-            :style="medium"
-            class="filter-item"
-            clearable
-          />
-          <el-select
-            v-model="form.retPo"
-            :placeholder="_getFieldName('retPo','退货')"
-            :style="medium"
-            class="filter-item"
-            clearable
-          >
-            <el-option label="是" :value="true" />
-            <el-option label="否" :value="false" />
-          </el-select>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <el-date-picker
+        v-model="form.queryDateStart"
+        type="date"
+        value-format="yyyy-MM-dd"
+        :editable="false"
+        :placeholder="_getFieldName('queryDateStart','开始日期')"
+        :style="small"
+      />
+      <el-date-picker
+        v-model="form.queryDateEnd"
+        type="date"
+        value-format="yyyy-MM-dd"
+        :editable="false"
+        :placeholder="_getFieldName('queryDateEnd','结束日期')"
+        :style="small"
+      />
+      <el-input
+        v-model="form.createdBy"
+        :placeholder="_getFieldName('createdBy','创建人')"
+        :style="medium"
+        class="filter-item"
+        clearable
+      />
+      <el-select
+        v-model="form.retPo"
+        :placeholder="_getFieldName('retPo','退货')"
+        :style="medium"
+        class="filter-item"
+        clearable
+      >
+        <el-option label="是" :value="true" />
+        <el-option label="否" :value="false" />
+      </el-select>
 
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="handleRest()">重置</el-button>
