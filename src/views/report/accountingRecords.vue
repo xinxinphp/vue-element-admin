@@ -61,7 +61,12 @@
         </el-table-column>
         <el-table-column label="过账成功" width="80" align="center">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.success" type="success">成功</el-tag><el-tag v-else type="danger">失败</el-tag>
+            <template v-if="typeof scope.row.success === Boolean">
+              <el-tag v-if="scope.row.success" type="success">成功</el-tag><el-tag v-else type="danger">失败</el-tag>
+            </template>
+            <template v-else>
+              <el-tag type="success">过账中</el-tag>
+            </template>
           </template>
         </el-table-column>
         <el-table-column label="交易ID" prop="intid" width="180" />
@@ -213,7 +218,7 @@ export default {
         .then(() => {
           getPostLogsRepost(row.id)
             .then(res => {
-              row.success = true
+              row.success = '过账中'
               this.$message.success(res.message)
             })
         })
