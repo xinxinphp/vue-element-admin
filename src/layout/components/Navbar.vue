@@ -8,7 +8,7 @@
       <template v-if="device!=='mobile'">
         <search id="header-search" class="right-menu-item" />
 
-        <error-log class="errLog-container right-menu-item hover-effect" />
+        <!--        <error-log class="errLog-container right-menu-item hover-effect" />-->
 
         <el-tooltip content="全屏" effect="dark" placement="bottom">
           <screenfull id="screenfull" class="right-menu-item hover-effect" />
@@ -37,15 +37,16 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <div style="float: right;line-height: 50px; vertical-align: center; padding-right: 10px;">{{ user.name }}</div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import ErrorLog from '@/components/ErrorLog'
+// import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
@@ -53,7 +54,7 @@ export default {
   components: {
     Breadcrumb,
     Hamburger,
-    ErrorLog,
+    // ErrorLog,
     Screenfull,
     SizeSelect,
     Search
@@ -68,7 +69,8 @@ export default {
       'sidebar',
       'avatar',
       'device'
-    ])
+    ]),
+    ...mapState(['user'])
   },
   methods: {
     toggleSideBar() {
@@ -140,7 +142,8 @@ export default {
     }
 
     .avatar-container {
-      margin-right: 30px;
+      /*margin-right: 30px;*/
+      margin-right: 15px;
 
       .avatar-wrapper {
         margin-top: 5px;
