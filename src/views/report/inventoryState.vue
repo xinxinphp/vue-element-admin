@@ -71,7 +71,7 @@
       />
       <el-button type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
-      <!-- <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button> -->
+      <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
     </div>
 
     <el-table
@@ -122,8 +122,9 @@
 <script>
 import formMixin from '@/views/mixin/BaseSearchForm'
 import { getReportInventory } from '@/api/report'
+import { getInventoryExport } from '@/api/export'
 import { getWarehousesInfo, getWarehouseAreas, getWarehouseAreaId, getCategory } from '@/api/common'
-import { parseTime } from '@/utils'
+import { getTime } from '@/utils'
 import Pagination from '@/components/Pagination'
 const defaultForm = {
   factoryId: '', // 工厂
@@ -225,27 +226,14 @@ export default {
         })
     },
     handleDownload() {
+      const getDownFn = getInventoryExport
       this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-        const data = this.formatJson(filterVal, this.list)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: 'table-list'
+      const fileDownload = require('js-file-download')
+      getDownFn(this.form)
+        .then(res => {
+          fileDownload(res.data, `库存报表_${getTime('start')}.xlsx`)
+          this.downloadLoading = false
         })
-        this.downloadLoading = false
-      })
-    },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
-          return parseTime(v[j])
-        } else {
-          return v[j]
-        }
-      }))
     }
   }
 }
