@@ -52,7 +52,7 @@
         type="date"
         value-format="yyyy-MM-dd"
         :editable="false"
-        :placeholder="_getFieldName('queryDateStart','开始日期')"
+        :placeholder="_getFieldName('queryDateStart','创建日期开始')"
         :style="small"
       />
       <el-date-picker
@@ -60,7 +60,7 @@
         type="date"
         value-format="yyyy-MM-dd"
         :editable="false"
-        :placeholder="_getFieldName('queryDateEnd','结束日期')"
+        :placeholder="_getFieldName('queryDateEnd','创建日期结束')"
         :style="small"
       />
       <el-input
@@ -70,17 +70,7 @@
         class="filter-item"
         clearable
       />
-      <el-select
-        v-model="form.retPo"
-        :placeholder="_getFieldName('retPo','退货')"
-        :style="medium"
-        class="filter-item"
-        clearable
-      >
-        <el-option label="是" :value="true" />
-        <el-option label="否" :value="false" />
-      </el-select>
-
+      <el-checkbox v-model="form.retPo">退货</el-checkbox>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="handleRest()">重置</el-button>
 
@@ -326,6 +316,7 @@ const defaultForm = {
   pkgUnit: '', // 包装单位
   pkgSpec: '', // 包装规格
   type: '', // 型号:
+  retPo: false,
   batch: '', // SAP批次
   version: '', // 版本号
   productionDate: '', // 生产日期

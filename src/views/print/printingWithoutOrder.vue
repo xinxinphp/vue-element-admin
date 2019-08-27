@@ -264,7 +264,7 @@ import * as U from '@/utils'
 const defaultForm = {
   materialSmallCategory: '',	// 小类
   materialCategory: '', // 类别
-  materialType: '', // SAP物料类型	materialType
+  materialType: 'PKAG', // SAP物料类型	materialType
   materialCode: '', // 物料编码
   internalShortCode: '', // 内部简码
   materialName: ''// 物料描述
