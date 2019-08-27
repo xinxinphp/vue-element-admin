@@ -61,7 +61,7 @@
         </el-table-column>
         <el-table-column label="过账成功" width="80" align="center">
           <template slot-scope="scope">
-            <template v-if="typeof scope.row.success === Boolean">
+            <template v-if="typeof scope.row.success === 'boolean'">
               <el-tag v-if="scope.row.success" type="success">成功</el-tag><el-tag v-else type="danger">失败</el-tag>
             </template>
             <template v-else>
