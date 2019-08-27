@@ -40,6 +40,7 @@ const actions = {
       login({ username: username.trim(), password: password }).then(response => {
         const { token } = response
         commit('SET_TOKEN', token)
+        sessionStorage.setItem('isession', 'login')
         setToken(token)
         resolve()
       }).catch(error => {

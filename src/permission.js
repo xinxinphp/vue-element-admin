@@ -16,11 +16,11 @@ router.beforeEach(async(to, from, next) => {
 
   // set page title
   document.title = getPageTitle(to.meta.title)
-
+  const iSseion = sessionStorage.getItem('isession')
   // determine whether the user has logged in
   const hasToken = getToken()
 
-  if (hasToken) {
+  if (hasToken && iSseion) {
     // console.log('发现了ToKen--用户已登录')
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
