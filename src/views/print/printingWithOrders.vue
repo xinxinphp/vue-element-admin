@@ -413,8 +413,8 @@ export default {
             saveCreateItems(this.form)
               .then(res => {
                 this.dialogVisible = false
-                this.resetForm()
                 this.startPrint({ data: res.data, form: this.form })
+                this.resetForm()
               })
           } else {
             this.$message.error('包装单位数量/基本单位数量至少一个不为0')
