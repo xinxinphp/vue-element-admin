@@ -111,7 +111,16 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="供应商名称" prop="vendorName">
-                <el-input v-model="form.vendorName" disabled />
+                <el-select
+                  v-model="form.vendorName"
+                  placeholder="供应商名称"
+                  class="filter-item"
+                  clearable
+                >
+                  <el-option v-for="item in vendorNameAll" :key="item.id" :label="item.vendorName" :value="item.vendorName">
+                    <span style="float: left">{{ item.vendorName }}</span>
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -205,7 +214,6 @@
                   value-format="yyyy-MM-dd"
                   placeholder="选择到厂日期"
                   :editable="false"
-                  disabled
                 />
               </el-form-item>
             </el-col>
