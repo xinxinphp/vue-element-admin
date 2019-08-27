@@ -103,19 +103,14 @@
       <el-dialog :visible.sync="dialogVisible" :title="dialogType" :before-close="handleClose" width="65%">
         <el-form :ref="formRef" :model="form" label-width="120px" label-position="right">
           <el-row>
-            <el-col :span="8">
-              <el-form-item label="品牌" prop="materialBrand">
-                <el-input v-model="form.materialBrand" disabled />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="类别" prop="materialCategory">
-                <el-input v-model="form.materialCategory" disabled />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
+            <el-col :span="16">
               <el-form-item label="物料描述" prop="materialName">
                 <el-input v-model="form.materialName" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="供应商名称" prop="vendorName">
+                <el-input v-model="form.vendorName" disabled />
               </el-form-item>
             </el-col>
           </el-row>
@@ -131,17 +126,29 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="供应商名称" prop="vendorName">
-                <el-input v-model="form.vendorName" disabled />
+              <el-form-item label="Sap工厂代码" prop="factoryCode">
+                <el-input v-model="form.factoryCode" disabled />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="SAP工厂代码" prop="factoryCode">
-                <el-input v-model="form.factoryCode" disabled />
+              <el-form-item label="品牌" prop="materialBrand">
+                <el-input v-model="form.materialBrand" disabled />
               </el-form-item>
             </el-col>
+            <el-col :span="8">
+              <el-form-item label="类别" prop="materialCategory">
+                <el-input v-model="form.materialCategory" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="型号" prop="type">
+                <el-input v-model="form.type" disabled />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="8">
               <el-form-item label="包装单位" prop="pkgUnit">
                 <el-input v-model="form.pkgUnit" disabled />
@@ -152,11 +159,16 @@
                 <el-input v-model="form.pkgSpec" disabled />
               </el-form-item>
             </el-col>
+            <el-col :span="8">
+              <el-form-item label="SAP基本单位" prop="unit">
+                <el-input v-model="form.unit" disabled />
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="型号" prop="type">
-                <el-input v-model="form.type" disabled />
+              <el-form-item label="SAP批次管理" prop="batchEnabled">
+                <el-input v-model="form.batchEnabled" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -183,7 +195,7 @@
                 />
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" style="display: none">
               <el-form-item label="到厂日期" prop="factoryDate" :rules="[{ required: true }]">
                 <el-date-picker
                   v-model="form.factoryDate"
@@ -204,12 +216,12 @@
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="包装单位数量" prop="pkgQuantity">
+              <el-form-item label="箱数(包装单位)" prop="pkgQuantity">
                 <el-input v-model="form.pkgQuantity" placeholder="输入包装单位数量" :disabled="isPkgQuantityDisabled" />
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="基本单位数量" prop="baseQuantity" :rules="[{ required: true }]">
+              <el-form-item label="散数(基本单位)" prop="baseQuantity" :rules="[{ required: true }]">
                 <el-input-number v-model="form.baseQuantity" :min="0" style="width: 100%" />
               </el-form-item>
             </el-col>
@@ -318,8 +330,9 @@ export default {
             }
             this.formFieldRules(res)
             this.form = { ...defValue, ...res.data, factoryId: row.factoryId }
+            this.form.batchEnabled ? this.form.batchEnabled = '启用' : ''
             this.$refs[this.formRef] && this.$refs[this.formRef].resetFields()
-            this.dialogType = '打印订单'
+            this.dialogType = '供应商打印标签'
             this.dialogVisible = true
           })
       } else {
