@@ -110,7 +110,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="供应商名称" prop="vendorName">
+              <el-form-item label="供应商名称" prop="vendorName" :rules="[{ required: true }]">
                 <el-select
                   v-model="form.vendorName"
                   placeholder="供应商名称"
