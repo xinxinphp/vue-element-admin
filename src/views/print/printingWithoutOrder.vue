@@ -210,8 +210,8 @@
                 <el-date-picker
                   v-model="form.factoryDate"
                   style="width: 100%"
-                  type="date"
-                  value-format="yyyy-MM-dd"
+                  type="datetime"
+                  value-format="yyyy-MM-dd HH:mm"
                   placeholder="选择到厂日期"
                   :editable="false"
                 />

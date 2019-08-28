@@ -85,6 +85,7 @@
         :height="fixHeight"
         highlight-current-row
         style="width: 100%;"
+        :default-sort="{prop: 'sapCreatedDate', order: 'descending'}"
         @sort-change="sortChange"
       >
         <el-table-column label="打印" align="center" width="75">
@@ -95,6 +96,8 @@
         <el-table-column label="工厂" prop="factoryCode" align="center" width="65" />
         <el-table-column label="订单号" prop="orderNo" align="center" :width="tdSize(3,11, false)" />
         <el-table-column label="行项目" prop="orderItemNo" align="center" :width="tdSize(3,5, false)" />
+        <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="110" sortable />
+        <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" width="110" />
         <el-table-column label="物料编码" prop="materialCode" align="center" width="120" />
         <el-table-column label="物料名称" prop="materialName" :width="tdSize(5,11)">
           <template slot-scope="scope">
@@ -115,8 +118,6 @@
             <LongText :text="scope.row.vendorCode" />
           </template>
         </el-table-column>
-        <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="90" />
-        <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" width="90" />
         <el-table-column label="退货" prop="retPo" align="center" width="70">
           <template slot-scope="scope">
             <span>{{ scope.row.retPo ? '是': '' }}</span>
@@ -247,8 +248,8 @@
                 <el-date-picker
                   v-model="form.factoryDate"
                   style="width: 100%"
-                  type="date"
-                  value-format="yyyy-MM-dd"
+                  type="datetime"
+                  value-format="yyyy-MM-dd HH:mm"
                   placeholder="选择到厂日期"
                   :editable="false"
                   disabled
@@ -302,9 +303,11 @@ import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
 import abcMixin from './abcMixin'
+import { parseTime } from '@/utils'
 import { getOrderItemList } from '@/api/documents'
 import { getOrdersInitItemInfo, saveCreateItems } from '@/api/print'
 import * as U from '@/utils'
+const now = new Date()
 const defaultForm = {
   materialBrand: '', // 品牌
   materialCategory: '', // 类别
@@ -326,6 +329,8 @@ const defaultForm = {
   baseQuantity: '', // 基本单位数量
   printedQuantity: '', // 已打印数量
   printSeq: '', // 打印序次
+  queryDateStart: parseTime(now.setMonth(now.getMonth() - 1), '{y}-{m}-{d}'), // 打印序次
+  queryDateEnd: parseTime(new Date(), '{y}-{m}-{d}'),
   purchaseOrderItemId: ''// 隐藏de ID
 }
 
