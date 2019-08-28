@@ -97,11 +97,7 @@
       <el-table-column label="出入库单" prop="orderNo" width="150" />
       <el-table-column label="前置单据" prop="preOrderNo" width="150" />
       <el-table-column label="物料编码" prop="materialCode" width="150" />
-      <el-table-column label="物料名称" prop="materialName" align="center" :width="tdSize(5,11)">
-        <template slot-scope="scope">
-          <LongText :text="scope.row.materialName" />
-        </template>
-      </el-table-column>
+      <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
       <el-table-column label="数量" prop="quantity" width="70">
         <template slot-scope="scope">
           <span>{{ scope.row.direction ==='出库' ? '-'+scope.row.quantity : ' &nbsp;'+scope.row.quantity }}</span>

@@ -69,11 +69,7 @@
         <el-table-column label="工厂" prop="factoryCode" align="center" :width="tdSize(2,4,false)" />
         <el-table-column label="标签码" prop="tagNo" align="center" :width="tdSize(3,20,false)" />
         <el-table-column label="物料编码" prop="materialCode" align="center" :width="tdSize(5,12,false)" />
-        <el-table-column label="物料名称" prop="materialName" align="center" :width="tdSize(5,11)">
-          <template slot-scope="scope">
-            <LongText :text="scope.row.materialName" />
-          </template>
-        </el-table-column>
+        <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
         <el-table-column label="数量" prop="quantity" align="center" width="70" />
         <el-table-column label="SAP基本单位" prop="unit" align="center" width="120" />
         <el-table-column label="版本号" prop="version" align="center" width="100" />

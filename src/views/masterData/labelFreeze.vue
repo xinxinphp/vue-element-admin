@@ -104,11 +104,7 @@
         <el-table-column label="货位" prop="spotDescription" align="center" :width="tdSize(5,12,false)" />
         <el-table-column label="标签" prop="tagNo" align="center" :width="tdSize(5,12,false)" />
         <el-table-column label="物料编码" prop="materialCode" align="center" :width="tdSize(5,12,false)" />
-        <el-table-column label="物料名称" prop="materialName" align="center" :width="tdSize(5,11)">
-          <template slot-scope="scope">
-            <LongText :text="scope.row.materialName" />
-          </template>
-        </el-table-column>
+        <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
         <el-table-column label="数量" prop="quantity" align="center" width="70" />
         <el-table-column label="合格" prop="qualityInspectionStatus" align="center" width="120" />
         <el-table-column label="冻结" prop="frozen" align="center" width="100">

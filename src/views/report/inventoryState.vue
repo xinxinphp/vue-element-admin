@@ -89,11 +89,7 @@
       <el-table-column label="库区" prop="warehouseAreaCode" :width="tdSize(2,9,false)" />
       <el-table-column label="货位" prop="spotDescription" :width="tdSize(2,12,false)" />
       <el-table-column label="物料编码" prop="materialCode" width="150" />
-      <el-table-column label="物料名称" prop="materialName" :width="tdSize(5,11)">
-        <template slot-scope="scope">
-          <LongText :text="scope.row.materialName" />
-        </template>
-      </el-table-column>
+      <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
       <el-table-column label="合格" prop="qualifiedQuantity" width="70" />
       <el-table-column label="不合格" prop="disqualificationQuantity" width="70" />
       <el-table-column label="冻结" prop="frozenQuantity" align="center" width="70" />

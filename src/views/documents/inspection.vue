@@ -125,11 +125,7 @@
         <el-table-column label="工厂" prop="factoryCode" align="center" width="100" />
         <el-table-column label="收货日期" prop="createdDate" align="center" :width="tdSize(4,20,false)" />
         <el-table-column label="物料编码" prop="materialCode" align="center" min-width="120" />
-        <el-table-column label="物料名称" prop="materialName" :width="tdSize(5,11)">
-          <template slot-scope="scope">
-            <LongText :text="scope.row.materialName" />
-          </template>
-        </el-table-column>
+        <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
         <el-table-column label="订单数" prop="poiQuantity" align="center" width="100" />
         <el-table-column label="打码未收货数" prop="printNotReceive" align="center" width="70" />
         <el-table-column label="打码未入库数" prop="printNotInbound" align="center" width="70">
@@ -236,11 +232,7 @@
           </el-table-column>
           <el-table-column label="标签码" prop="tagNo" align="center" width="95" />
           <el-table-column label="物料编码" prop="materialCode" align="center" width="115" />
-          <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,11)">
-            <template slot-scope="scope">
-              <LongText :text="scope.row.materialName" />
-            </template>
-          </el-table-column>
+          <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
           <el-table-column label="版本号" prop="version" align="center" width="70" />
           <el-table-column label="型号" prop="type" align="center" width="50" />
           <el-table-column label="数量" prop="quantity" align="center" width="50" />

@@ -99,11 +99,7 @@
         <el-table-column label="创建日期" prop="sapCreatedDate" align="center" width="110" sortable />
         <el-table-column label="交货日期" prop="plannedDeliveryDate" align="center" width="110" />
         <el-table-column label="物料编码" prop="materialCode" align="center" width="120" />
-        <el-table-column label="物料名称" prop="materialName" :width="tdSize(5,11)">
-          <template slot-scope="scope">
-            <LongText :text="scope.row.materialName" />
-          </template>
-        </el-table-column>
+        <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
         <el-table-column label="订单数量" prop="quantity" width="100" />
         <el-table-column label="已打印数量" prop="printedQuantity" width="100" />
         <el-table-column label="订单单位" prop="unit" align="center" width="100" />

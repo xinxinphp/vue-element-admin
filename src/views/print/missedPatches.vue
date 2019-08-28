@@ -114,11 +114,7 @@
           </template>
         </el-table-column>
         <el-table-column label="物料编码" prop="materialCode" width="120" />
-        <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,11)">
-          <template slot-scope="scope">
-            <LongText :text="scope.row.materialName" />
-          </template>
-        </el-table-column>
+        <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
         <el-table-column label="内部简码" prop="internalShortCode" align="center" width="100" />
         <el-table-column label="品牌" prop="materialBrand" width="100" />
         <el-table-column label="类别" prop="materialCategory" width="100" />

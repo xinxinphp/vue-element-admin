@@ -104,14 +104,8 @@
         <el-table-column label="工厂" prop="factoryCode" align="center" :width="tdSize(2,4,false,true)" sortable="factoryCode" />
         <el-table-column label="订单号" prop="orderNo" align="center" :width="tdSize(3,10,false,true)" sortable="orderNo" />
         <el-table-column label="物料编码" prop="materialCode" align="center" :width="tdSize(3,12,false)" />
-        <el-table-column label="物料名称" prop="materialName" min-width="180">
-          <template slot-scope="scope">
-            <LongText :text="scope.row.materialName" />
-          </template>
-        </el-table-column>
-
+        <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
         <el-table-column label="订单数量" prop="quantity" :width="tdSize(4,7,false)" />
-
         <el-table-column label="订单单位" prop="unit" align="center" :width="tdSize(4,4,false)" />
         <el-table-column label="供应商" prop="vendorCode" :width="tdSize(5,10,false)">
           <template slot-scope="scope">
