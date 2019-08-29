@@ -248,7 +248,6 @@
                   value-format="yyyy-MM-dd HH:mm"
                   placeholder="选择到厂日期"
                   :editable="false"
-                  disabled
                 />
               </el-form-item>
             </el-col>
