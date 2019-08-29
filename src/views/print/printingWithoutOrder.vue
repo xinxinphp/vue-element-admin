@@ -207,7 +207,7 @@
                   v-model="form.factoryDate"
                   style="width: 100%"
                   type="datetime"
-                  value-format="yyyy-MM-dd HH:mm"
+                  value-format="yyyy-MM-dd HH:mm:ss"
                   placeholder="选择到厂日期"
                   :editable="false"
                 />
@@ -334,7 +334,7 @@ export default {
         getInitItemInfo({ factoryId: row.factoryId, materialId: row.materialId })
           .then(res => {
             const defValue = {
-              factoryDate: U.parseTime(new Date(), '{y}-{m}-{d}'),
+              factoryDate: U.parseTime(new Date(), '{y}-{m}-{d} {h}:{i}:{s}'),
               purchaseOrderItemId: row.id,
               totalPrintNum: 1,
               printSeq: 1,
