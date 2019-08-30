@@ -56,3 +56,12 @@ export function getCategory(params) {
   })
 }
 
+// 获取类别
+export function setImportFromExcel(data) {
+  return request({
+    url: '/api/spots/import_from_excel',
+    method: 'post',
+    data
+  })
+}
+

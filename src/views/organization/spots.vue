@@ -46,6 +46,7 @@
     </div>
 
     <el-button type="primary" @click="handleAdd">新增货位</el-button>
+    <el-button type="primary" @click="handleInSetExcel">Excel导入</el-button>
 
     <el-table
       v-loading="loading"
@@ -98,6 +99,33 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
+
+    <el-dialog :visible.sync="dialogVisibleUpFile">
+      <el-upload
+        ref="upload"
+        class="upload-demo"
+        action="http://10.240.206.129:8080/api/spots/import_from_excel"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :before-remove="beforeRemove"
+        multiple
+        :headers="headers"
+        :auto-upload="false"
+        :limit="1"
+        :http-request="httpRequst"
+        :on-exceed="handleExceed"
+        :file-list="fileList"
+      >
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+        <div slot="tip" style="color: red; padding-top: 10px">只能上传 xlsx 后缀文件</div>
+      </el-upload>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisibleUpFile = false">取 消</el-button>
+      </span>
+    </el-dialog>
+
     <el-dialog :visible.sync="dialogVisible" :title="dialogType" :before-close="handleClose">
       <el-form :ref="formRef" :model="formQ" label-width="160px" label-position="right">
         <el-form-item label="货位" prop="description" :rules="[{ required: true }]">
@@ -212,10 +240,10 @@
 
 <script>
 import formMixin from '@/views/mixin/BaseSearchForm'
+import { getToken } from '@/utils/auth'
 import { getSpots, setSpots, deleteSpots, getProductionLinesAll } from '@/api/organization'
 import { getMaterialCategory } from '@/api/masterData'
-import { parseTime } from '@/utils'
-import { getWarehousesInfo, getWarehouseAreas } from '@/api/common'
+import { getWarehousesInfo, getWarehouseAreas, setImportFromExcel } from '@/api/common'
 import Pagination from '@/components/Pagination'
 const defaultForm = {
   description: '',
@@ -261,7 +289,10 @@ export default {
       warehouseAll: [], // 本页使用的 所有仓库
       warehouseAreaAll: [], // 本页使用的 所有库区
       productionLineAll: [],
-      materialCategoryAll: [] // 物料类别
+      materialCategoryAll: [], // 物料类别
+      dialogVisibleUpFile: false,
+      headers: { Authorization: `Bearer ${getToken()}` },
+      fileList: [] // 上传文件列表
     }
   },
   computed: {
@@ -420,14 +451,40 @@ export default {
         this.formQ.productionLineCode = ''
       }
     },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
-          return parseTime(v[j])
-        } else {
-          return v[j]
-        }
-      }))
+    handleInSetExcel(filterVal, jsonData) {
+      this.dialogVisibleUpFile = true
+    },
+    handleRemove(file, fileList) {
+    },
+    handlePreview(file) {
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}?`)
+    },
+    httpRequst(params) {
+      const _file = params.file
+      const isSheet = _file.type.indexOf('sheet') !== -1
+      const isLt2M = _file.size / 1024 / 1024 < 8
+      if (!isLt2M) {
+        this.$message.error('请上传8M以下的.xlsx文件')
+        return false
+      }
+      if (!isSheet) {
+        this.$message.error('必须是上传.xlsx文件')
+        return false
+      }
+      var formData = new FormData()
+      formData.append('file', _file)
+      setImportFromExcel(formData)
+        .then(res => {
+          this.$message.success(res.message)
+        })
+    },
+    submitUpload() {
+      this.$refs.upload.submit()
     }
   }
 }
