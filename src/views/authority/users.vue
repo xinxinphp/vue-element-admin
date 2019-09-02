@@ -29,6 +29,11 @@
           <span>{{ scope.row.ldapUser ? '是':'' }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="是否投料口用户" prop="feedThroatUser" width="120" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.feedThroatUser ? '是':'' }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="创建者" prop="createdBy" width="120" />
       <el-table-column label="创建时间" prop="createdDate" width="160" />
       <el-table-column label="最后修改者" prop="createdBy" width="120" />
@@ -105,6 +110,10 @@
           <el-radio v-model="formQ.ldapUser" :label="true">是</el-radio>
           <el-radio v-model="formQ.ldapUser" :label="false">否</el-radio>
         </el-form-item>
+        <el-form-item label="是否投料口用户" prop="feedThroatUser">
+          <el-radio v-model="formQ.feedThroatUser" :label="true">是</el-radio>
+          <el-radio v-model="formQ.feedThroatUser" :label="false">否</el-radio>
+        </el-form-item>
         <el-form-item v-if="isHidden" label="创建人" prop="createdBy">
           <el-input v-model="formQ.createdBy" />
         </el-form-item>
@@ -151,6 +160,7 @@ const defaultForm = {
   roleIds: [],
   vendorName: '',
   vendorCode: '',
+  feedThroatUser: false, // 是否投料口用户 false
   vendorUser: ''
 }
 
