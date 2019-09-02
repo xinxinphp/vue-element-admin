@@ -13,7 +13,11 @@ export default {
   name: 'AppMain',
   computed: {
     cachedViews() {
-      return this.$store.state.tagsView.cachedViews
+      if (process.env.NODE_ENV === 'development') {
+        return 'index' || this.$store.state.tagsView.cachedViews
+      } else {
+        return this.$store.state.tagsView.cachedViews
+      }
     },
     key() {
       return this.$route.path
