@@ -84,10 +84,12 @@
         <el-table-column label="SAP基本单位" prop="unit" align="center" width="120" />
         <el-table-column label="包装单位" prop="pkgUnit" align="center" width="120" />
         <el-table-column label="包装规格" prop="pkgSpec" min-width="80" />
+        <el-table-column label="车牌号" prop="plateNumber" min-width="80" />
         <el-table-column label="品牌" prop="materialBrand" width="100" />
         <el-table-column label="类别" prop="materialCategory" align="center" width="100" />
         <el-table-column label="小类" prop="materialSmallCategory" width="100" />
         <el-table-column label="内部简码" prop="internalShortCode" width="100" />
+        <el-table-column label="备注" prop="remark" width="180" />
       </el-table>
 
       <pagination
@@ -236,6 +238,19 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="车牌号" prop="plateNumber" :rules="[{ required: true }]">
+                <el-input v-model="form.plateNumber" placeholder="输入车牌号" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="备注" prop="remark">
+                <el-input v-model="form.remark" :min="0" style="width: 100%" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" />
+          </el-row>
 
         </el-form>
         <div style="text-align:right;">
@@ -295,6 +310,8 @@ export default {
       isPkgQuantityDisabled: true,
       formRef: 'formRef',
       dialogType: '',
+      remark: '', // 车牌号
+      printSeq: '', // 备注
       dialogVisible: false,
       /** ***一下打印*****/
       dialogVisibleDownload: false,

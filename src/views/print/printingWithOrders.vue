@@ -101,6 +101,7 @@
         <el-table-column label="物料编码" prop="materialCode" align="center" width="120" />
         <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
         <el-table-column label="订单数量" prop="quantity" width="100" />
+        <el-table-column label="车牌号" prop="plateNumber" min-width="80" />
         <el-table-column label="已打印数量" prop="printedQuantity" width="100" />
         <el-table-column label="订单单位" prop="unit" align="center" width="100" />
         <el-table-column label="已入库数量" prop="processedQuantity" width="100" />
@@ -136,6 +137,7 @@
             <span>{{ scope.row.elikz ? '是': '' }}</span>
           </template>
         </el-table-column>
+        <el-table-column label="备注" prop="remark" width="180" />
       </el-table>
 
       <pagination
@@ -274,6 +276,19 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="车牌号" prop="plateNumber" :rules="[{ required: true }]">
+                <el-input v-model="form.plateNumber" placeholder="输入车牌号" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="备注" prop="remark">
+                <el-input v-model="form.remark" :min="0" style="width: 100%" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" />
+          </el-row>
 
         </el-form>
         <div style="text-align:right;">
@@ -323,7 +338,9 @@ const defaultForm = {
   pkgQuantity: '', // 包装单位数量
   baseQuantity: '', // 基本单位数量
   printedQuantity: '', // 已打印数量
-  printSeq: '', // 打印序次
+  plateNumber: '', // 已打印数量
+  remark: '', // 车牌号
+  printSeq: '', // 备注
   queryDateStart: parseTime(now.setMonth(now.getMonth() - 1), '{y}-{m}-{d}'), // 打印序次
   queryDateEnd: parseTime(new Date(), '{y}-{m}-{d}'),
   purchaseOrderItemId: ''// 隐藏de ID

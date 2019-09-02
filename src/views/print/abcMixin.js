@@ -54,7 +54,8 @@ export default {
 
         LODOP.ADD_PRINT_LINE('60mm', '80mm', '150mm', '80mm', 0, 2)
 
-        LODOP.ADD_PRINT_LINE('80mm', '102mm', '150mm', '102mm', 0, 2)
+        // LODOP.ADD_PRINT_LINE('80mm', '102mm', '150mm', '102mm', 0, 2)
+        LODOP.ADD_PRINT_LINE('90mm', '80mm', '90mm', '150mm', 0, 2)
 
         // 以上是小断格线
 
@@ -81,8 +82,8 @@ export default {
         // LODOP.ADD_PRINT_BARCODE('82mm', '5mm', '80mm', '16mm', '128C', `00049230319060400001`)
         LODOP.SET_PRINT_STYLEA(0, 'FontSize', 6)
 
-        LODOP.ADD_PRINT_HTM('81mm', '81mm', '22mm', '40mm', `<p style="text-align: left; line-height: 13mm; letter-spacing: 1px;  "><span style="font-weight: 600"> ${commonInfo.printSeq}/ ${item.ordinal}/ ${commonInfo.totalPrintNum}</span></p>`)
-        LODOP.ADD_PRINT_HTM('81mm', '103mm', '50mm', '40mm', `<p style="text-align: left; line-height: 13mm; ">${form.vendorName.slice(0, 11)}</p>`)
+        LODOP.ADD_PRINT_HTM('80mm', '80mm', '70mm', '10mm', `<p style="text-align: left; line-height: 10mm; letter-spacing: 1px;padding-left:10px;"><span style="font-weight: 600"> ${commonInfo.printSeq}/ ${item.ordinal}/ ${commonInfo.totalPrintNum}</span></p>`)
+        LODOP.ADD_PRINT_HTM('90mm', '80mm', '70mm', '10mm', `<p style="text-align: left; line-height: 8mm;padding-left:10px;"> ${form.vendorName.slice(0, 15)}</p>`)
 
         // LODOP.ADD_PRINT_TEXT(48, 73, 160, 20, item.name)
         // LODOP.ADD_PRINT_BARCODE(30, 245, 130, 130, 'Code39', item.tagNo)

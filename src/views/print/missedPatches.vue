@@ -116,6 +116,7 @@
         <el-table-column label="物料编码" prop="materialCode" width="120" />
         <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
         <el-table-column label="内部简码" prop="internalShortCode" align="center" width="100" />
+        <el-table-column label="车牌号" prop="plateNumber" min-width="80" />
         <el-table-column label="品牌" prop="materialBrand" width="100" />
         <el-table-column label="类别" prop="materialCategory" width="100" />
         <el-table-column label="版本号" prop="version" width="100" />
@@ -123,6 +124,7 @@
         <el-table-column label="sap单位" prop="unit" width="100" />
         <el-table-column label="生产日期" prop="productionDate" width="100" />
         <el-table-column label="到厂日期" prop="factoryDate" width="100" />
+        <el-table-column label="备注" prop="remark" width="180" />
       </el-table>
 
       <pagination
