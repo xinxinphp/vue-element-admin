@@ -77,6 +77,12 @@
         :style="small"
         clearable
       />
+      <el-input
+        v-model="form.preOrderNo"
+        placeholder="前置单据"
+        :style="small"
+        clearable
+      />
       <el-select
         v-model="form.bizType"
         placeholder="业务类型"
@@ -177,6 +183,7 @@ const defaultForm = {
   tagNo: '', // 标签码
   operator: '', // 操作人
   orderNo: '', // 出入库单
+  preOrderNo: '', // 前置单据
   bizType: '' // 业务类型
 }
 
