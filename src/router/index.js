@@ -101,6 +101,69 @@ export const constantRoutes = [
 
 export const asyncRoutes = [
   {
+    path: '/warehouse',
+    component: Layout,
+    redirect: '/warehouse/purchaseOrder',
+    alwaysShow: true,
+    name: 'Warehouse',
+    meta: {
+      title: '仓库',
+      icon: 'international'
+    },
+    children: [
+      {
+        path: 'receiptOrders',
+        component: () => import('@/views/warehouse/receiptOrders'),
+        name: 'ReceiptOrders',
+        meta: {
+          title: '收货单'
+        }
+      }
+    ]
+  },
+  {
+    path: '/workshop',
+    component: Layout,
+    redirect: '/workshop/index2',
+    alwaysShow: true,
+    name: 'Workshop',
+    meta: {
+      title: '车间',
+      icon: 'link'
+    },
+    children: [
+      {
+        path: 'index2',
+        component: () => import('@/views/workshop/index2'),
+        name: 'Index2',
+        meta: {
+          title: '车间One'
+        }
+      }
+    ]
+  },
+  {
+    path: '/qualityManagement',
+    component: Layout,
+    redirect: '/qualityManagement/inspection',
+    alwaysShow: true,
+    name: 'WualityManagement',
+    meta: {
+      title: '品管',
+      icon: 'eye-open'
+    },
+    children: [
+      {
+        path: 'inspection',
+        component: () => import('@/views/qualityManagement/inspection'),
+        name: 'Inspection',
+        meta: {
+          title: '质检'
+        }
+      }
+    ]
+  },
+  {
     path: '/documents',
     component: Layout,
     redirect: '/documents/purchaseOrder',
@@ -117,22 +180,6 @@ export const asyncRoutes = [
         name: 'PurchaseOrder',
         meta: {
           title: '采购订单'
-        }
-      },
-      {
-        path: 'receiptOrders',
-        component: () => import('@/views/documents/receiptOrders'),
-        name: 'ReceiptOrders',
-        meta: {
-          title: '收货单'
-        }
-      },
-      {
-        path: 'inspection',
-        component: () => import('@/views/documents/inspection'),
-        name: 'Inspection',
-        meta: {
-          title: '质检'
         }
       },
       {
