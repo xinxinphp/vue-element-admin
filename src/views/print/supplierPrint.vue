@@ -285,6 +285,8 @@ export default {
       isPkgQuantityDisabled: true,
       formRef: 'formRef',
       dialogType: '',
+      remark: '', // 车牌号
+      printSeq: '', // 备注
       dialogVisible: false,
       /** ***一下打印*****/
       dialogVisibleDownload: false
