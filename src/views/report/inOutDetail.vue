@@ -48,14 +48,32 @@
         </el-option>
       </el-select>
       <el-input
+        v-model="form.materialCode"
+        placeholder="物料编码"
+        :style="small"
+        clearable
+      />
+      <el-input
         v-model="form.materialName"
         placeholder="物料描述"
         :style="small"
         clearable
       />
       <el-input
+        v-model="form.orderNo"
+        placeholder="出入库单"
+        :style="small"
+        clearable
+      />
+      <el-input
         v-model="form.tagNo"
         placeholder="标签码"
+        :style="small"
+        clearable
+      />
+      <el-input
+        v-model="form.operator"
+        placeholder="操作人"
         :style="small"
         clearable
       />
@@ -69,7 +87,22 @@
           <span style="float: left">{{ item.label }}</span>
         </el-option>
       </el-select>
-
+      <el-date-picker
+        v-model="form.queryDateStart"
+        type="date"
+        value-format="yyyy-MM-dd"
+        :editable="false"
+        :placeholder="_getFieldName('queryDateStart','开始日期')"
+        :style="small"
+      />
+      <el-date-picker
+        v-model="form.queryDateEnd"
+        type="date"
+        value-format="yyyy-MM-dd"
+        :editable="false"
+        :placeholder="_getFieldName('queryDateEnd','结束日期')"
+        :style="small"
+      />
       <el-button type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
       <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
@@ -104,6 +137,7 @@
         </template>
       </el-table-column>
       <el-table-column label="单位" prop="unit" width="70" />
+      <el-table-column label="批次" prop="batch" width="70" />
       <el-table-column label="标签码" prop="tagNo" :width="tdSize(4,18,false)" />
       <el-table-column label="到厂日期" prop="factoryDate" width="110" />
       <el-table-column label="生产日期" prop="productionDate" width="110" />
@@ -142,6 +176,7 @@ const defaultForm = {
   materialName: '', // 物料描述
   tagNo: '', // 标签码
   operator: '', // 操作人
+  orderNo: '', // 出入库单
   bizType: '' // 业务类型
 }
 
