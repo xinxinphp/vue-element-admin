@@ -21,11 +21,13 @@ export default {
     initPrint() {
       return getLodop()
     },
-    startPrint(data) {
+    startPrint: function(data) {
       const checkItems = data.data.tagList
       const commonInfo = data.data.commonInfo
       const form = data.form
       const LODOP = getLodop()
+      // eslint-disable-next-line no-undef
+      LODOP.SET_PRINT_MODE('WINDOW_DEFPRINTER', getSelectedPrintIndex())
       checkItems.forEach((item, i) => {
         LODOP.PRINT_INIT('Item标签打印')
         LODOP.SET_PRINT_STYLE('FontSize', 9)
