@@ -31,6 +31,13 @@ export function getRoles(id) {
     method: 'get'
   })
 }
+// 获取菜单类型
+export function getMenuTypes() {
+  return request({
+    url: `/api/common/menu_types`,
+    method: 'get'
+  })
+}
 // 获取角色下的菜单
 export function getMenusRoleMenus(id) {
   return request({

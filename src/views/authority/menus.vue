@@ -14,6 +14,7 @@
       <el-table-column label="名称" prop="title" width="160" />
       <el-table-column label="图标" prop="icon" width="120" />
       <el-table-column label="排序" prop="seq" width="50" align="center" />
+      <el-table-column label="菜单类型" prop="menuType" width="100" align="center" />
       <el-table-column label="访问url路径" prop="path" width="220" />
       <el-table-column label="组件名称" prop="name" width="220" />
       <el-table-column label="组件路径" prop="component" min-width="380" />
@@ -28,6 +29,16 @@
       <el-form :ref="formRef" :model="role" :rules="rules" label-width="120px" label-position="right">
         <el-form-item label="菜单名称" prop="title">
           <el-input v-model="role.title" placeholder="菜单名称" style="width: 200px" />
+        </el-form-item>
+        <el-form-item label="菜单类型" prop="menuType">
+          <el-select
+            v-model="role.menuType"
+            clearable
+          >
+            <el-option v-for="item in menuTypeAll" :key="item.value" :label="item.label" :value="item.value">
+              <span style="float: left">{{ item.label }}</span>
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="菜单图标名称" prop="icon">
           <el-input v-model="role.icon" placeholder="菜单图标名称" style="width: 200px" />
@@ -64,7 +75,7 @@
 </template>
 
 <script>
-import { getMenus, saveMenus, deleteMenus } from '@/api/authority'
+import { getMenus, saveMenus, deleteMenus, getMenuTypes } from '@/api/authority'
 import SelectTree from '@/components/TreeSelect'
 export default {
   name: 'Menus',
@@ -94,13 +105,16 @@ export default {
         icon: '',
         seq: 50,
         path: '',
+        menuType: '', // 菜单类型
         component: ''
       },
+      menuTypeAll: [], // 菜单类型 所有值
       rules: {
         name: [{ required: true }],
         title: [{ required: true }],
         path: [{ required: true }],
-        component: [{ required: true }]
+        component: [{ required: true }],
+        menuType: [{ required: true }]
       },
       routesData: [],
       routesDataDb: []
@@ -109,8 +123,15 @@ export default {
   created() {
     this.getList()
     this.copyRoleDb()
+    this.initMenuTypes()
   },
   methods: {
+    initMenuTypes() {
+      getMenuTypes()
+        .then(res => {
+          this.menuTypeAll = res.data
+        })
+    },
     getList() {
       getMenus()
         .then(res => {
