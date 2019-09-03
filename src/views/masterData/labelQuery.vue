@@ -1,14 +1,50 @@
 <template>
-  <div>
-    <sticky :z-index="1" class-name="sub-navbar-purchase-order">
+  <div class="app-container">
+    <div class="filter-container">
       <el-select
         v-model="form.factoryId"
         :placeholder="_getFieldName('factoryId','工厂')"
         :style="mini"
         clearable
+        @change="handleChange"
       >
         <el-option v-for="item in factoryIds" :key="item.id + item.name" :label="item.code" :value="item.id">
           <span style="float: left">{{ item.code + '  ----  ' + item.name }}</span>
+        </el-option>
+      </el-select>
+      <el-select
+        v-model="form.warehouseId"
+        placeholder="仓库"
+        :style="small"
+        :disabled="!form.factoryId"
+        clearable
+        @change="handleWarehouseIdChange"
+      >
+        <el-option v-for="item in warehouseAll" :key="item.id + item.description" :label="item.code" :value="item.id">
+          <span style="float: left">{{ item.code + '  ----  ' + item.description }}</span>
+        </el-option>
+      </el-select>
+      <el-select
+        v-model="form.warehouseAreaId"
+        placeholder="库区"
+        :style="small"
+        :disabled="!form.warehouseId"
+        clearable
+        @change="handleWarehouseAreaId"
+      >
+        <el-option v-for="item in warehouseAreaAll" :key="item.id" :label="item.code" :value="item.id">
+          <span style="float: left">{{ item.code + '  ----  ' + item.description }}</span>
+        </el-option>
+      </el-select>
+      <el-select
+        v-model="form.description"
+        placeholder="货位"
+        :style="small"
+        :disabled="!form.warehouseAreaId"
+        clearable
+      >
+        <el-option v-for="item in descriptionAll" :key="item.id" :label="item.description" :value="item.id">
+          <span style="float: left">{{ item.description }}</span>
         </el-option>
       </el-select>
       <el-select
@@ -34,6 +70,7 @@
       />
       <el-checkbox v-model="form.notZero">数量非0</el-checkbox>
       <el-checkbox v-model="form.frozen">冻结</el-checkbox>
+      <el-checkbox v-model="form.inbounded">已上架</el-checkbox>
       <el-date-picker
         v-model="form.queryDateStart"
         type="date"
@@ -50,11 +87,11 @@
         :placeholder="_getFieldName('queryDateEnd','结束日期')"
         :style="small"
       />
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
-    </sticky>
+      <el-button type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
+      <el-button type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
+    </div>
 
-    <div v-loading="loading" class="app-container">
+    <div v-loading="loading">
       <el-table
         :key="tableKey"
         :data="list"
@@ -73,13 +110,6 @@
         <el-table-column label="数量" prop="quantity" align="center" width="70" />
         <el-table-column label="SAP基本单位" prop="unit" align="center" width="120" />
         <el-table-column label="版本号" prop="version" align="center" width="100" />
-        <el-table-column label="作废" prop="disabled" align="center" width="100" />
-        <el-table-column label="冻结" prop="frozen" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.frozen?'是':'' }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="型号" prop="type" align="center" width="100" />
         <el-table-column label="SAP批次" prop="batch" align="center" width="100" />
         <el-table-column label="供应商" prop="vendorCode" align="center" width="100" />
         <el-table-column label="供应商名称" prop="vendorName" :width="tdSize(5,11)">
@@ -87,6 +117,14 @@
             <LongText :text="scope.row.vendorName" />
           </template>
         </el-table-column>
+        <el-table-column label="货位" prop="spotDescription" width="100" />
+        <el-table-column label="作废" prop="disabled" align="center" width="100" />
+        <el-table-column label="冻结" prop="frozen" align="center" width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.frozen?'是':'' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="型号" prop="type" align="center" width="100" />
         <el-table-column label="生产日期" prop="productionDate" width="95" />
         <el-table-column label="到厂日期" prop="factoryDate" width="95" />
         <el-table-column label="采购订单" prop="poNo" align="center" width="100" />
@@ -94,7 +132,6 @@
         <el-table-column label="收货人" prop="receiptBy" width="100" />
         <el-table-column label="收货单" prop="roNo" width="160" />
         <el-table-column label="收货时间" prop="receiptTime" width="160" />
-        <el-table-column label="货位" prop="spotDescription" width="100" />
         <el-table-column label="创建人" prop="createdBy" width="100" />
         <el-table-column label="创建时间" prop="createdDate" width="160" />
         <el-table-column label="打印序列" width="100">
@@ -117,25 +154,28 @@
 
 <script>
 
-import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
+import { getWarehousesInfo, getWarehouseAreas, getWarehouseAreaId } from '@/api/common'
 import { parseTime } from '@/utils'
-// import abcMixin from './abcMixin'
 import { getItems, setDisable } from '@/api/print'
 
 const defaultForm = {
   factoryId: '', // 工厂
+  warehouseId: '', // 仓库
+  warehouseAreaId: '', // 库区
+  description: '', // 货位
   printType: '', // 打码方式
   tagNo: '', // 标签码
   materialCode: '', // 物料编码
   notZero: '', // 数量非0
+  inbounded: true, // 已上架
   frozen: ''// 冻结
 }
 
 export default {
   name: 'LabelQuery',
-  components: { Pagination, Sticky },
+  components: { Pagination },
   mixins: [formMixin],
   data() {
     return {
@@ -146,14 +186,69 @@ export default {
       loading: true,
       downloadLoading: false,
       /** ***一下打印*****/
-      form: Object.assign({}, defaultForm)
+      form: Object.assign({}, defaultForm),
       /** ***一下打印*****/
+      factoriesAll: [], // 本页使用的
+      warehouseAll: [], // 本页使用的 所有仓库
+      warehouseAreaAll: [], // 本页使用的 所有库区
+      descriptionAll: [] // 本页使用的 所有货位
     }
   },
   created() {
     this.getList(getItems)
   },
   methods: {
+    // 给 仓库 字段 进行赋值
+    setWarehouse(data) {
+      this.form.warehouseId = ''
+      this.warehouseAll = data
+    },
+    // 给 库区 字段 进行赋值
+    setWarehouseArea(data) {
+      this.form.warehouseAreaId = ''
+      this.warehouseAreaAll = data
+    },
+    // 给 货位 字段 进行赋值
+    setWarehouseAreaId(data) {
+      this.form.description = ''
+      this.descriptionAll = data
+    },
+    handleChange(value) {
+      this.form.warehouseId = ''
+      this.form.warehouseAreaId = ''
+      this.form.description = ''
+      const data = {
+        factoryId: value
+      }
+      getWarehousesInfo(data)
+        .then(res => {
+          this.setWarehouse(res.data)
+        })
+    },
+    handleWarehouseIdChange(value) {
+      this.form.warehouseAreaId = ''
+      this.form.description = ''
+      const data = {
+        warehouseId: value
+      }
+      getWarehouseAreas(data)
+        .then(res => {
+          this.setWarehouseArea(res.data)
+        })
+    },
+    handleRest(done) {
+      this.initForm()
+      this.listQuery.page = 1
+      this.listQuery.orderBy = ''
+      this.getList(this.done)
+    },
+    handleWarehouseAreaId(value) {
+      this.form.description = ''
+      getWarehouseAreaId(value)
+        .then(res => {
+          this.setWarehouseAreaId(res.data)
+        })
+    },
     setDisable({ row }) {
       this.$confirm('确认作废?', '警告', {
         confirmButtonText: '确认',
