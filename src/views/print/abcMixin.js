@@ -26,8 +26,6 @@ export default {
       const commonInfo = data.data.commonInfo
       const form = data.form
       const LODOP = getLodop()
-      // eslint-disable-next-line no-undef
-      LODOP.SET_PRINT_MODE('WINDOW_DEFPRINTER', getSelectedPrintIndex())
       checkItems.forEach((item, i) => {
         LODOP.PRINT_INIT('Item标签打印')
         LODOP.SET_PRINT_STYLE('FontSize', 9)
@@ -41,7 +39,7 @@ export default {
         LODOP.ADD_PRINT_LINE('99mm', 0, '99mm', '150mm', 0, 2)
         LODOP.ADD_PRINT_LINE(0, 4, '150mm', 4, 0, 2)
         // 以上四条边线 上左下右
-        LODOP.ADD_PRINT_LINE('18mm', 0, '18mm', '150mm', 0, 2)
+        LODOP.ADD_PRINT_LINE('10mm', 0, '10mm', '150mm', 0, 2)
         LODOP.ADD_PRINT_LINE('40mm', 0, '40mm', '150mm', 0, 2)
         LODOP.ADD_PRINT_LINE('50mm', 0, '50mm', '150mm', 0, 2)
         LODOP.ADD_PRINT_LINE('60mm', 0, '60mm', '150mm', 0, 2)
@@ -62,10 +60,10 @@ export default {
         // 以上是小断格线
 
         // ADD_PRINT_HTM(Top,Left,Width,Height,strHtmlContent)
-        LODOP.ADD_PRINT_HTM('5mm', '3mm', '10mm', '25mm', `<h2 style=" line-height: 9mm;"><img height="35mm" src="${this.imgUrl}"></h2>`)
-        LODOP.ADD_PRINT_HTM('5mm', '35mm', '115mm', '25mm', `<h2 style=" line-height: 9mm;">${commonInfo.factoryName}</h2>`)
+        LODOP.ADD_PRINT_HTM('1mm', '3mm', '10mm', '10mm', `<h2 style=" line-height: 9mm;"><img height="30mm" src="${this.imgUrl}"></h2>`)
+        LODOP.ADD_PRINT_HTM('1mm', '35mm', '115mm', '10mm', `<h2 style=" line-height: 9mm; font-weight: 900">${commonInfo.factoryName}</h2>`)
 
-        LODOP.ADD_PRINT_HTM('20mm', '5mm', '140mm', '25mm', `<h2 style=" line-height: 9mm">${form.materialName}</h2>`)
+        LODOP.ADD_PRINT_HTM('10.5mm', '5mm', '145mm', '30mm', `<div style="height: 30mm; display: table"><h2 style="line-height:7mm;margin: 0; display: table-cell; vertical-align: middle;">${form.materialName}</h2></div>`)
 
         LODOP.ADD_PRINT_HTM('40mm', '5mm', '70mm', '20mm', `<p style="text-align: center; line-height: 9mm; letter-spacing: 1px;  ">${form.internalShortCode}</p>`)
         LODOP.ADD_PRINT_HTM('40mm', '80mm', '70mm', '20mm', `<p style="text-align: center; line-height: 9mm; letter-spacing: 1px;  ">${form.materialCode}</p>`)
