@@ -21,3 +21,13 @@ export function getInventoryExport(params) {
   })
 }
 
+// 订单投料批次报表 下载-GET
+export function getProductionOrderFeedThroatExport(params) {
+  return request({
+    url: `/api/report/productionOrderFeedThroat/export`,
+    method: 'get',
+    responseType: 'blob',
+    params
+  })
+}
+

@@ -48,3 +48,12 @@ export function getReportInventory(params) {
   })
 }
 
+// 订单投料批次报表-GET
+export function getProductionOrderFeedThroat(params) {
+  return request({
+    url: `/api/report/productionOrderFeedThroat`,
+    method: 'get',
+    params
+  })
+}
+

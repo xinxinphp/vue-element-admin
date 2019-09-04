@@ -242,6 +242,14 @@ export const asyncRoutes = [
         meta: {
           title: '库存报表'
         }
+      },
+      {
+        path: 'orderFeeding',
+        component: () => import('@/views/report/orderFeeding'),
+        name: 'OrderFeeding',
+        meta: {
+          title: '订单投料批次报表'
+        }
       }
     ]
   },
