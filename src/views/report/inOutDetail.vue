@@ -116,6 +116,7 @@
 
     <el-table
       :key="tableKey"
+      v-loading="loading"
       :data="list"
       border
       fit
@@ -155,6 +156,7 @@
       </el-table-column>
       <el-table-column label="操作人" prop="operator" min-width="120" />
       <el-table-column label="操作时间" prop="operateTime" width="170" />
+      <el-table-column label="备注" prop="remark" width="220" />
     </el-table>
     <pagination
       :total="total"
