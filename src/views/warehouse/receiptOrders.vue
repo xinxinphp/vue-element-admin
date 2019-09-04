@@ -1,6 +1,6 @@
 <template>
   <div>
-    <sticky :z-index="10" class-name="sub-navbar-purchase-order">
+    <sticky :z-index="1" class-name="sub-navbar-purchase-order">
       <el-select
         v-model="form.factoryId"
         :placeholder="_getFieldName('factoryId','工厂')"
