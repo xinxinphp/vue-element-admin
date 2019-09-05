@@ -56,10 +56,19 @@ export function getCategory(params) {
   })
 }
 
-// 获取类别
+// Excel 导入库位
 export function setImportFromExcel(data) {
   return request({
     url: '/api/spots/import_from_excel',
+    method: 'post',
+    data
+  })
+}
+
+// Excel 导入 期初库存导入
+export function setItemsImportFromExcel(data) {
+  return request({
+    url: '/api/items/import_from_excel',
     method: 'post',
     data
   })

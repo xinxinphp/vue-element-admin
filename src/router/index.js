@@ -295,6 +295,14 @@ export const asyncRoutes = [
         meta: {
           title: '供应商标签查询'
         }
+      },
+      {
+        path: 'initialInventoryImport',
+        component: () => import('@/views/masterData/initialInventoryImport'),
+        name: 'InitialInventoryImport',
+        meta: {
+          title: '期初库存导入'
+        }
       }
     ]
   },
