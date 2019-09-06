@@ -240,7 +240,7 @@ export const asyncRoutes = [
         component: () => import('@/views/report/inventoryState'),
         name: 'InventoryState',
         meta: {
-          title: '库存报表'
+          title: '库存明细报表'
         }
       },
       {
