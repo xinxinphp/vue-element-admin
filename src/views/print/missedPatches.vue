@@ -54,6 +54,20 @@
         class="filter-item"
         clearable
       />
+      <el-input
+        v-model="form.spotDescription"
+        :placeholder="_getFieldName('spotDescription','货位')"
+        :style="small"
+        class="filter-item"
+        clearable
+      />
+      <el-input
+        v-model="form.printSeq"
+        :placeholder="_getFieldName('printSeq','打印序列')"
+        :style="small"
+        class="filter-item"
+        clearable
+      />
       <el-date-picker
         v-model="form.queryDateStart"
         type="date"
@@ -94,7 +108,8 @@
           </template>
         </el-table-column>
         <el-table-column label="工厂" prop="factoryCode" align="center" width="80" sortable="factoryCode" />
-        <el-table-column label="打印时间" prop="createdDate" align="center" width="155" sortable="createdDate" />
+        <el-table-column label="货位" prop="spotDescription" width="80" />
+        <el-table-column label="打印时间" prop="createdDate" width="155" sortable="createdDate" />
         <el-table-column label="打印序列" width="100">
           <template slot-scope="{row}">
             <span>{{ row.printSeq + ' / '+row.ordinal + ' / '+row.totalPrintNum }}</span>
@@ -122,6 +137,7 @@
         <el-table-column label="版本号" prop="version" width="100" />
         <el-table-column label="数量" prop="quantity" width="100" />
         <el-table-column label="sap单位" prop="unit" width="100" />
+        <el-table-column label="批次" prop="batch" width="100" />
         <el-table-column label="生产日期" prop="productionDate" width="100" />
         <el-table-column label="到厂日期" prop="factoryDate" width="100" />
         <el-table-column label="备注" prop="remark" width="180" />
@@ -161,6 +177,8 @@ const defaultForm = {
   vendorName:	'', // 供应商名称
   lastModifiedBy:	'', // 创建人
   materialCode:	'', // 物料编码
+  spotDescription:	'', // 货位
+  printSeq:	'', // 打印序列
   materialName:	''// 物料名称
 }
 
