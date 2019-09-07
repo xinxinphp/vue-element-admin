@@ -16,7 +16,7 @@
         v-model="form.warehouseId"
         placeholder="仓库"
         :style="small"
-        :disabled="!form.factoryId"
+        :disabled="!form.factoryId || form.groupBy == 'factory_id'"
         clearable
         @change="handleWarehouseIdChange"
       >
@@ -28,7 +28,7 @@
         v-model="form.warehouseAreaId"
         placeholder="库区"
         :style="small"
-        :disabled="!form.warehouseId"
+        :disabled="!form.warehouseId || form.groupBy != ''"
         clearable
         @change="handleWarehouseAreaId"
       >
@@ -40,7 +40,7 @@
         v-model="form.description"
         placeholder="货位"
         :style="small"
-        :disabled="!form.warehouseAreaId"
+        :disabled="!form.warehouseAreaId || form.groupBy != ''"
         clearable
       >
         <el-option v-for="item in descriptionAll" :key="item.id" :label="item.description" :value="item.id">
@@ -69,6 +69,22 @@
         :style="small"
         clearable
       />
+      <el-input
+        v-model="form.inventoryDays"
+        type="number"
+        placeholder="超期天数"
+        :style="small"
+        clearable
+      />
+      <el-select
+        v-model="form.groupBy"
+        placeholder="汇总方式"
+        :style="small"
+        clearable
+      >
+        <el-option label="按工厂" value="factory_id" />
+        <el-option label="按仓库" value="warehouse_id" />
+      </el-select>
       <el-button type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
       <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
@@ -131,7 +147,9 @@ const defaultForm = {
   materialName: '', // 物料描述
   tagNo: '', // 标签码
   operator: '', // 操作人
-  materialCategory: '' // 物料类型
+  materialCategory: '', // 物料类型
+  groupBy: '', // 汇总方式
+  inventoryDays: '' // 库存(超期)天数
 }
 
 export default {
