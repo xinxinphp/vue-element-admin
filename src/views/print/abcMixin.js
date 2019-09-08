@@ -49,12 +49,12 @@ export default {
 
         LODOP.ADD_PRINT_LINE('40mm', '80mm', '50mm', '80mm', 0, 2)
 
-        LODOP.ADD_PRINT_LINE('50mm', '50mm', '60mm', '50mm', 0, 2)
-        LODOP.ADD_PRINT_LINE('50mm', '102mm', '60mm', '102mm', 0, 2)
+        LODOP.ADD_PRINT_LINE('50mm', '32mm', '60mm', '32mm', 0, 2) // 1/3
+        LODOP.ADD_PRINT_LINE('50mm', '80mm', '60mm', '80mm', 0, 2) // 2/3
+        LODOP.ADD_PRINT_LINE('50mm', '110mm', '60mm', '110mm', 0, 2) // 3/3
 
         LODOP.ADD_PRINT_LINE('60mm', '80mm', '150mm', '80mm', 0, 2)
 
-        // LODOP.ADD_PRINT_LINE('80mm', '102mm', '150mm', '102mm', 0, 2)
         LODOP.ADD_PRINT_LINE('90mm', '80mm', '90mm', '150mm', 0, 2)
 
         // 以上是小断格线
@@ -68,15 +68,16 @@ export default {
         LODOP.ADD_PRINT_HTM('40mm', '5mm', '70mm', '20mm', `<p style="text-align: center; line-height: 9mm; letter-spacing: 1px;  ">${form.internalShortCode}</p>`)
         LODOP.ADD_PRINT_HTM('40mm', '80mm', '70mm', '20mm', `<p style="text-align: center; line-height: 9mm; letter-spacing: 1px;  ">${form.materialCode}</p>`)
 
-        LODOP.ADD_PRINT_HTM('50mm', '5mm', '45mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">品牌:</span>${form.materialBrand}</p>`)
-        LODOP.ADD_PRINT_HTM('50mm', '51mm', '54mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">类别:</span>${form.materialCategory}</p>`)
-        LODOP.ADD_PRINT_HTM('50mm', '103mm', '50mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">型号:</span>${form.materialBrand}</p>`)
+        LODOP.ADD_PRINT_HTM('50mm', '5mm', '30mm', '20mm', `<p style="text-align: left; line-height: 9mm;letter-spacing: -1px;"><span style="font-weight: 600; ">品牌:</span>${form.materialBrand}</p>`)
+        LODOP.ADD_PRINT_HTM('50mm', '33mm', '50mm', '20mm', `<p style="text-align: left; line-height: 9mm;letter-spacing: -1px;"><span style="font-weight: 600">批次:</span>${form.batch}</p>`)
+        LODOP.ADD_PRINT_HTM('50mm', '81mm', '28mm', '20mm', `<p style="text-align: left; line-height: 9mm;letter-spacing: -1px;"><span style="font-weight: 600">类别:</span>${form.materialCategory}</p>`)
+        LODOP.ADD_PRINT_HTM('50mm', '113mm', '35mm', '20mm', `<p style="text-align: left; line-height: 9mm;letter-spacing: -1px;"><span style="font-weight: 600">型号:</span>${form.materialBrand}</p>`)
 
-        LODOP.ADD_PRINT_HTM('60mm', '5mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">版本号:</span>${form.version}</p>`)
-        LODOP.ADD_PRINT_HTM('60mm', '81mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">数量:</span>${commonInfo.displayQuantity}</p>`)
+        LODOP.ADD_PRINT_HTM('60mm', '5mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm;letter-spacing: 1px;"><span style="font-weight: 600">版本号:</span>${form.version}</p>`)
+        LODOP.ADD_PRINT_HTM('60mm', '81mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm;letter-spacing: 1px;"><span style="font-weight: 600">数量:</span>${commonInfo.displayQuantity}</p>`)
 
-        LODOP.ADD_PRINT_HTM('70mm', '5mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">生产日期:</span>${form.productionDate ? form.productionDate : ''}</p>`)
-        LODOP.ADD_PRINT_HTM('70mm', '81mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm; letter-spacing: 1px;  "><span style="font-weight: 600">到厂时间:</span>${form.factoryDate}</p>`)
+        LODOP.ADD_PRINT_HTM('70mm', '5mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm;letter-spacing: 1px;"><span style="font-weight: 600">生产日期:</span>${form.productionDate ? form.productionDate : ''}</p>`)
+        LODOP.ADD_PRINT_HTM('70mm', '81mm', '70mm', '20mm', `<p style="text-align: left; line-height: 9mm;letter-spacing: 1px;"><span style="font-weight: 600">到厂时间:</span>${form.factoryDate}</p>`)
 
         LODOP.ADD_PRINT_BARCODE('82mm', '5mm', '80mm', '16mm', '128C', `${item.tagNo}`)
         // LODOP.ADD_PRINT_BARCODE('82mm', '5mm', '80mm', '16mm', '128C', `00049230319060400001`)

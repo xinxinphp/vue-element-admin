@@ -333,6 +333,7 @@ const defaultForm = {
   batch: '', // SAP批次
   version: '', // 版本号
   productionDate: '', // 生产日期
+  productionDate2: '', // 生产日期2
   factoryDate: '', // 到厂日期
   totalPrintNum: '', // 打印张数：
   pkgQuantity: '', // 包装单位数量

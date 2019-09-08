@@ -100,7 +100,7 @@
       />
 
       <el-dialog :visible.sync="dialogVisible" :title="dialogType" :before-close="handleClose" width="65%">
-        <el-form :ref="formRef" :model="form" label-width="120px" label-position="right">
+        <el-form :ref="formRef" :model="form" :rules="rules" label-width="120px" label-position="right">
           <el-row>
             <el-col :span="16">
               <el-form-item label="物料描述" prop="materialName">
@@ -234,7 +234,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="打印序次" prop="printSeq">
-                <el-input-number v-model="form.printSeq" :min="1" style="width: 100%" />
+                <el-input v-model="form.printSeq" style="width: 100%" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -278,6 +278,7 @@ import abcMixin from './abcMixin'
 import { getMaterialsInfo, getMaterialBrand, getMaterialCategory, getMaterialSmallCategory } from '@/api/masterData'
 import { getFindbyFactory } from '@/api/common'
 import { getInitItemInfo, setcreateItemsByNoOrder } from '@/api/print'
+import { validatePrintSeq } from '@/utils/validate'
 import * as U from '@/utils'
 
 const defaultForm = {
@@ -286,6 +287,8 @@ const defaultForm = {
   materialType: 'PKAG', // SAP物料类型	materialType
   materialCode: '', // 物料编码
   internalShortCode: '', // 内部简码
+  productionDate: '', // 生产日期
+  productionDate2: '', // 生产日期2
   materialName: ''// 物料描述
 }
 
@@ -315,7 +318,10 @@ export default {
       dialogVisible: false,
       /** ***一下打印*****/
       dialogVisibleDownload: false,
-      vendorNameAll: []
+      vendorNameAll: [],
+      rules: {
+        printSeq: [{ required: true, validator: validatePrintSeq, trigger: 'blur' }]
+      }
     }
   },
   computed: {
@@ -354,7 +360,7 @@ export default {
               factoryDate: U.parseTime(new Date(), '{y}-{m}-{d} {h}:{i}:{s}'),
               purchaseOrderItemId: row.id,
               totalPrintNum: 1,
-              printSeq: 1,
+              printSeq: U.parseTime(new Date(), '{h}{i}'),
               pkgQuantity: 0,
               baseQuantity: 0
             }

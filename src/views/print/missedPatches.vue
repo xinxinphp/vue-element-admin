@@ -230,7 +230,9 @@ export default {
                 materialCategory: row.materialCategory,
                 version: row.version,
                 productionDate: row.productionDate,
+                productionDate2: row.productionDate2, // 生产日期2
                 factoryDate: row.factoryDate,
+                batch: row.batch,
                 vendorName: row.vendorName
               }
             }
