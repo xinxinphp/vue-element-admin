@@ -6,6 +6,18 @@
  * @param {string} path
  * @returns {Boolean}
  */
+export function validatePrintSeq(rule, value, callback) {
+  const str = '请输入正确的数值'
+  const fag = /^\d+?$/.test(value) // 验证正整数
+  if (!fag) {
+    callback(new Error(str))
+  } else if (value < 1) { // 非0
+    callback(new Error(str))
+  } else {
+    callback()
+  }
+}
+
 export function isExternal(path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
