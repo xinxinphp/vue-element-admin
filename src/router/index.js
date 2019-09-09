@@ -133,11 +133,11 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'index2',
-        component: () => import('@/views/workshop/index2'),
-        name: 'Index2',
+        path: 'productionOrders',
+        component: () => import('@/views/workshop/productionOrders'),
+        name: 'ProductionOrders',
         meta: {
-          title: '车间One'
+          title: '录入产量'
         }
       }
     ]
