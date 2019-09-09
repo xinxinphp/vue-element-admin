@@ -1,12 +1,16 @@
 // abcMixin 中abc为了文件的排序
 
 import { getLodop } from '@/vendor/LodopFuncs'
+import { getPrefixPlateNumber, getPrefixBatch } from '@/api/print'
 
 export default {
   data() {
     return {
       // 这里不要写数据,为了避免覆盖共有mixin,若能确定不会发生覆盖,可以任意写
       done: null,
+      loadingSelct: false,
+      batchAll: [],
+      plateNumberAll: [],
       imgUrl: require('@/assets/images/ic_wilmar.png')
     }
   },
@@ -20,6 +24,54 @@ export default {
     /* 打印相关 */
     initPrint() {
       return getLodop()
+    },
+    remoteMethodPlateNumber(query) {
+      if (query !== '') {
+        this.loadingSelct = true
+        const data = {
+          prefix: query
+        }
+        let timer
+        const _this = this
+        return (function() {
+          if (timer) {
+            clearTimeout(timer)
+          }
+          timer = setTimeout(() => {
+            getPrefixPlateNumber(data)
+              .then(res => {
+                _this.loadingSelct = false
+                _this.plateNumberAll = res.data
+              })
+          }, 500)
+        })()
+      } else {
+        this.plateNumberAll = []
+      }
+    },
+    remoteMethodBatch(query) {
+      if (query !== '') {
+        this.loadingSelct = true
+        const data = {
+          prefix: query
+        }
+        let timer
+        const _this = this
+        return (function() {
+          if (timer) {
+            clearTimeout(timer)
+          }
+          timer = setTimeout(() => {
+            getPrefixBatch(data)
+              .then(res => {
+                _this.loadingSelct = false
+                _this.batchAll = res.data
+              })
+          }, 500)
+        })()
+      } else {
+        this.batchAll = []
+      }
     },
     startPrint: function(data) {
       const checkItems = data.data.tagList

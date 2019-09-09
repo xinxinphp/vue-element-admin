@@ -219,7 +219,18 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="批次" prop="batch" :rules="[{ required: form.batchEnabled }]">
-                <el-input v-model="form.batch" placeholder="输入批次" maxlength="10" />
+                <el-select
+                  v-model="form.batch"
+                  allow-create
+                  filterable
+                  remote
+                  reserve-keyword
+                  placeholder="输入批次"
+                  :remote-method="remoteMethodBatch"
+                  :loading="loadingSelct"
+                >
+                  <el-option v-for="item in batchAll" :key="item.id" :label="item.content" :value="item.content" />
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -279,7 +290,18 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="车牌号" prop="plateNumber" :rules="[{ required: true }]">
-                <el-input v-model="form.plateNumber" placeholder="输入车牌号" />
+                <el-select
+                  v-model="form.plateNumber"
+                  allow-create
+                  filterable
+                  remote
+                  reserve-keyword
+                  placeholder="请输入车牌号"
+                  :remote-method="remoteMethodPlateNumber"
+                  :loading="loadingSelct"
+                >
+                  <el-option v-for="item in plateNumberAll" :key="item.id" :label="item.content" :value="item.content" />
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -366,6 +388,8 @@ export default {
       formRef: 'formRef',
       dialogType: '',
       dialogVisible: false,
+      loadingSelct: false,
+      plateNumberAll: [],
       /** ***一下打印*****/
       dialogVisibleDownload: false
     }
@@ -442,7 +466,6 @@ export default {
         }
       })
     }
-
   }
 }
 </script>

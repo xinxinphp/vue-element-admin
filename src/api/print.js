@@ -64,3 +64,19 @@ export function setcreateItemsByNoOrder(data) {
     data
   })
 }
+// 车牌号联想 prefix
+export function getPrefixPlateNumber(params) {
+  return request({
+    url: `/api/input_log_dicts/prefix/plate_number`,
+    method: 'get',
+    params
+  })
+}
+// 批次联想 prefix
+export function getPrefixBatch(params) {
+  return request({
+    url: `/api/input_log_dicts/prefix/batch`,
+    method: 'get',
+    params
+  })
+}
