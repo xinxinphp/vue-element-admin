@@ -1,0 +1,228 @@
+<template>
+  <div class="app-container">
+    <div class="filter-container">
+      <el-select
+        v-model="form.factoryId"
+        :placeholder="_getFieldName('factoryId','工厂')"
+        :style="small"
+        clearable
+        @change="handleChange"
+      >
+        <el-option v-for="item in factoryIds" :key="item.id + item.name" :label="item.code" :value="item.id">
+          <span style="float: left">{{ item.code + '  ----  ' + item.name }}</span>
+        </el-option>
+      </el-select>
+      <el-select
+        v-model="form.warehouseId"
+        placeholder="仓库"
+        :style="small"
+        :disabled="!form.factoryId"
+        clearable
+        @change="handleWarehouseIdChange"
+      >
+        <el-option v-for="item in warehouseAll" :key="item.id" :label="item.code" :value="item.id">
+          <span style="float: left">{{ item.code + '  ----  ' + item.description }}</span>
+        </el-option>
+      </el-select>
+      <el-select
+        v-model="form.warehouseAreaId"
+        placeholder="库区"
+        :style="small"
+        :disabled="!form.warehouseId"
+        clearable
+        @change="handleWarehouseAreaId"
+      >
+        <el-option v-for="item in warehouseAreaAll" :key="item.id" :label="item.code" :value="item.id">
+          <span style="float: left">{{ item.code + '  ----  ' + item.description }}</span>
+        </el-option>
+      </el-select>
+      <el-select
+        v-model="form.spotId"
+        placeholder="货位"
+        :style="small"
+        :disabled="!form.warehouseAreaId"
+        clearable
+      >
+        <el-option v-for="item in descriptionAll" :key="item.id" :label="item.description" :value="item.id">
+          <span style="float: left">{{ item.description }}</span>
+        </el-option>
+      </el-select>
+      <el-select
+        v-model="form.materialCategory"
+        placeholder="物料类别"
+        :style="mini"
+        clearable
+      >
+        <el-option v-for="item in materialCategoryAll" :key="item.id" :label="item.name" :value="item.name">
+          <span style="float: left">{{ item.name }}</span>
+        </el-option>
+      </el-select>
+      <el-input
+        v-model="form.materialCode"
+        placeholder="物料编码"
+        :style="small"
+        clearable
+      />
+      <el-input
+        v-model="form.materialName"
+        placeholder="物料名称"
+        :style="small"
+        clearable
+      />
+      <el-button type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
+      <el-button type="info" icon="el-icon-refresh" @click="handleRest">重置</el-button>
+      <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">下载Excl</el-button>
+    </div>
+
+    <el-table
+      :key="tableKey"
+      :data="list"
+      border
+      fit
+      :height="fixHeight"
+      highlight-current-row
+      style="width: 100%;"
+      @sort-change="sortChange"
+    >
+      <el-table-column label="工厂" prop="factoryCode" :width="tdSize(2,4,false)" />
+      <el-table-column label="仓库" prop="warehouseCode" :width="tdSize(2,4)" />
+      <el-table-column label="库区" prop="warehouseAreaCode" :width="tdSize(2,9,false)" />
+      <el-table-column label="货位" prop="spotDescription" :width="tdSize(2,12,false)" />
+      <el-table-column label="物料编码" prop="materialCode" width="150" />
+      <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
+      <el-table-column label="合格" prop="qualifiedQuantity" width="70" />
+      <el-table-column label="不合格" prop="disqualificationQuantity" width="70" />
+      <el-table-column label="冻结" prop="frozenQuantity" align="center" width="70" />
+      <el-table-column label="SAP基本单位" prop="unit" :width="tdSize(4,18,false)" />
+    </el-table>
+    <pagination
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="getList(done)"
+    />
+  </div>
+
+</template>
+
+<script>
+import formMixin from '@/views/mixin/BaseSearchForm'
+import { getSpotMaterialInventory } from '@/api/report'
+import { getSpotMaterialInventoryExport } from '@/api/export'
+import { getWarehousesInfo, getWarehouseAreas, getWarehouseAreaId, getCategory } from '@/api/common'
+import { getTime } from '@/utils'
+import Pagination from '@/components/Pagination'
+const defaultForm = {
+  factoryId: '', // 工厂
+  warehouseId: '', // 仓库
+  warehouseAreaId: '', // 库区
+  spotId: '', // 货位
+  materialCode: '', // 物料编码
+  materialName: '', // 物料描述
+  tagNo: '', // 标签码
+  operator: '', // 操作人
+  materialCategory: '', // 物料类型
+  groupBy: '', // 汇总方式
+  inventoryDays: '' // 库存(超期)天数
+}
+
+export default {
+  name: 'SpotMaterialInventory',
+  components: { Pagination },
+  mixins: [formMixin],
+  data() {
+    return {
+      form: Object.assign({}, defaultForm),
+      loading: true,
+      tableKey: 0,
+      total: 1,
+      listQuery: {
+        orderBy: ''// 升序:code 降序: code desc
+      },
+      downloadLoading: false,
+      factoriesAll: [], // 本页使用的
+      warehouseAll: [], // 本页使用的 所有仓库
+      warehouseAreaAll: [], // 本页使用的 所有库区
+      descriptionAll: [], // 本页使用的 所有货位
+      bizTypeAll: [], // 本页使用的 所有业务类型
+      materialCategoryAll: [], // 本页使用的 物料类别
+      dialogVisibleDownload: false
+    }
+  },
+  computed: {
+  },
+  created() {
+    this.getList(getSpotMaterialInventory)
+    this.initSetCategory()
+  },
+  methods: {
+    initSetCategory() {
+      getCategory()
+        .then(res => {
+          this.materialCategoryAll = res.data
+        })
+    },
+    // 给 仓库 字段 进行赋值
+    setWarehouse(data) {
+      this.form.warehouseId = ''
+      this.warehouseAll = data
+    },
+    // 给 库区 字段 进行赋值
+    setWarehouseArea(data) {
+      this.form.warehouseAreaId = ''
+      this.warehouseAreaAll = data
+    },
+    // 给 货位 字段 进行赋值
+    setWarehouseAreaId(data) {
+      this.form.spotId = ''
+      this.descriptionAll = data
+    },
+    handleChange(value) {
+      this.form.warehouseId = ''
+      this.form.warehouseAreaId = ''
+      this.form.spotId = ''
+      const data = {
+        factoryId: value
+      }
+      getWarehousesInfo(data)
+        .then(res => {
+          this.setWarehouse(res.data)
+        })
+    },
+    handleWarehouseIdChange(value) {
+      this.form.warehouseAreaId = ''
+      this.form.spotId = ''
+      const data = {
+        warehouseId: value
+      }
+      getWarehouseAreas(data)
+        .then(res => {
+          this.setWarehouseArea(res.data)
+        })
+    },
+    handleRest(done) {
+      this.initForm()
+      this.listQuery.page = 1
+      this.listQuery.orderBy = ''
+      this.getList(this.done)
+    },
+    handleWarehouseAreaId(value) {
+      this.form.spotId = ''
+      getWarehouseAreaId(value)
+        .then(res => {
+          this.setWarehouseAreaId(res.data)
+        })
+    },
+    handleDownload() {
+      const getDownFn = getSpotMaterialInventoryExport
+      this.downloadLoading = true
+      const fileDownload = require('js-file-download')
+      getDownFn(this.form)
+        .then(res => {
+          fileDownload(res.data, `货位物料库存_${getTime('start')}.xlsx`)
+          this.downloadLoading = false
+        })
+    }
+  }
+}
+</script>

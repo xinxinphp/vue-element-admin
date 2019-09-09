@@ -31,3 +31,13 @@ export function getProductionOrderFeedThroatExport(params) {
   })
 }
 
+// 货位物料库存 下载-GET
+export function getSpotMaterialInventoryExport(params) {
+  return request({
+    url: `/api/report/spotMaterialInventory/export`,
+    method: 'get',
+    responseType: 'blob',
+    params
+  })
+}
+

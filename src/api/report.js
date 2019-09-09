@@ -57,3 +57,12 @@ export function getProductionOrderFeedThroat(params) {
   })
 }
 
+// 货位物料库存-GET
+export function getSpotMaterialInventory(params) {
+  return request({
+    url: `/api/report/spotMaterialInventory`,
+    method: 'get',
+    params
+  })
+}
+

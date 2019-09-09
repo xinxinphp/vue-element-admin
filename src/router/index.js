@@ -250,6 +250,14 @@ export const asyncRoutes = [
         meta: {
           title: '订单投料批次报表'
         }
+      },
+      {
+        path: 'spotMaterialInventory',
+        component: () => import('@/views/report/spotMaterialInventory'),
+        name: 'SpotMaterialInventory',
+        meta: {
+          title: '货位物料库存'
+        }
       }
     ]
   },
