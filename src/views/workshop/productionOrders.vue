@@ -13,8 +13,8 @@
         </el-option>
       </el-select>
       <el-input
-        v-model="form.arbpl"
-        :placeholder="_getFieldName('arbpl','产线')"
+        v-model="form.crtxt"
+        :placeholder="_getFieldName('crtxt','产线名称')"
         :style="small"
         class="filter-item"
         clearable
@@ -45,6 +45,7 @@
         value-format="yyyy-MM-dd"
         :placeholder="_getFieldName('internalShortCode','产品简码')"
         :style="small"
+        clearable
       />
 
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
@@ -132,7 +133,7 @@ import formMixin from '@/views/mixin/BaseSearchForm'
 import { getProductionOrders, setProductionOrdersInputYield } from '@/api/workshop'
 import { parseTime } from '@/utils'
 const defaultForm = {
-  arbpl: '', // 产线
+  crtxt: '', // 产线
   queryDateStart: '', // 生产日期
   plnbez: '', // 产品编码
   productName: '', // 产品名称
