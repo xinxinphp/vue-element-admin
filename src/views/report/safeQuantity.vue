@@ -217,7 +217,7 @@ export default {
 }
 </script>
 <style scoped>
-  .red {color: red}
-  .yellow {color: yellow}
-  .green  {color: green }
+  .red {background-color: red}
+  .yellow {background-color: yellow}
+  .green  {background-color: green }
 </style>
