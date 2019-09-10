@@ -66,3 +66,11 @@ export function setItemsFrozenType(frozenType, data) {
     data
   })
 }
+// 修改安全库存
+export function setInputSafeQuantity(data) {
+  return request({
+    url: `/api/factoryMaterialInfo/inputSafeQuantity`,
+    method: 'put',
+    data
+  })
+}

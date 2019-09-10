@@ -74,3 +74,12 @@ export function setItemsImportFromExcel(data) {
   })
 }
 
+// Excel 导入 期初库存导入
+export function getFactoryMaterialInfoImportFromExcel(data) {
+  return request({
+    url: '/api/factoryMaterialInfo/import_from_excel',
+    method: 'post',
+    data
+  })
+}
+

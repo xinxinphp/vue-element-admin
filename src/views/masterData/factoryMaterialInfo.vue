@@ -53,6 +53,7 @@
       />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" type="info" icon="el-icon-refresh" @click="handleRest()">重置</el-button>
+      <el-button type="primary" @click="handleInSetExcel">Excel导入</el-button>
 
     </sticky>
 
@@ -75,6 +76,47 @@
         <el-table-column label="物料类型" prop="materialType" width="80" />
         <el-table-column label="物料编码" prop="materialCode" width="120" />
         <el-table-column label="物料描述" prop="materialName" :width="tdSize(5,35)" />
+        <el-table-column label="最小安全库存" prop="minSafeQuantity" align="center" width="110">
+          <template slot-scope="{row}">
+            <el-input v-if="row.edit" v-model="row.minSafeQuantity" class="edit-input" size="small" />
+            <span v-else>{{ row.minSafeQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="最大安全库存" prop="maxSafeQuantity" align="center" width="110">
+          <template slot-scope="{row}">
+            <el-input v-if="row.edit" v-model="row.maxSafeQuantity" class="edit-input" size="small" />
+            <span v-else>{{ row.maxSafeQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="码放标准" prop="trayBoxQuantity" align="center" width="110">
+          <template slot-scope="{row}">
+            <el-input v-if="row.edit" v-model="row.trayBoxQuantity" class="edit-input" size="small" />
+            <span v-else>{{ row.trayBoxQuantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center" width="100">
+          <template slot-scope="{row}">
+            <el-button
+              v-if="row.edit"
+              type="success"
+              size="mini"
+              icon="el-icon-circle-check-outline"
+              @click="confirmEdit(row)"
+            >
+              保存
+            </el-button>
+            <el-button
+              v-else
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+              @click="row.edit=!row.edit"
+            >
+              编辑
+            </el-button>
+
+          </template>
+        </el-table-column>
         <el-table-column label="SAP批次管理" prop="batchEnabled" align="center" width="120">
           <template slot-scope="scope">
             <span>{{ scope.row.batchEnabled ? '启用': '' }}</span>
@@ -179,6 +221,31 @@
           <el-button type="primary" @click="submitForm">保存</el-button>
         </div>
       </el-dialog>
+      <el-dialog :visible.sync="dialogVisibleUpFile">
+        <el-upload
+          ref="upload"
+          class="upload-demo"
+          action="http://10.240.206.129:8080/api/spots/import_from_excel"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-remove="beforeRemove"
+          multiple
+          :headers="headers"
+          :auto-upload="false"
+          :limit="1"
+          :http-request="httpRequst"
+          :on-exceed="handleExceed"
+          :file-list="fileList"
+        >
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          <div slot="tip" style="color: red; padding-top: 10px">只能上传 xlsx 后缀文件</div>
+        </el-upload>
+
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisibleUpFile = false">取 消</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -188,7 +255,9 @@
 import Sticky from '@/components/Sticky'
 import Pagination from '@/components/Pagination'
 import formMixin from '@/views/mixin/BaseSearchForm'
-import { getMaterialsInfo, getMaterialBrand, getMaterialCategory, getMaterialSmallCategory, setMaterialsInfo } from '@/api/masterData'
+import { getToken } from '@/utils/auth'
+import { getMaterialsInfo, getMaterialBrand, getMaterialCategory, getMaterialSmallCategory, setMaterialsInfo, setInputSafeQuantity } from '@/api/masterData'
+import { getFactoryMaterialInfoImportFromExcel } from '@/api/common'
 const defaultForm = {
   materialSmallCategory: '',	// 小类
   materialCategory: '', // 类别
@@ -219,7 +288,10 @@ export default {
       isPkgQuantityDisabled: true,
       formRef: 'formRef',
       dialogType: '',
-      dialogVisible: false
+      dialogVisible: false,
+      fileList: [],
+      headers: { Authorization: `Bearer ${getToken()}` },
+      dialogVisibleUpFile: false
     }
   },
   computed: {
@@ -244,6 +316,27 @@ export default {
       this.dialogForm = Object.assign({}, row)
       this.dialogVisible = true
     },
+    confirmEdit(row) {
+      const data = {
+        'id': row.id, // itemID
+        'minSafeQuantity': row.minSafeQuantity,
+        'maxSafeQuantity': row.maxSafeQuantity,
+        'trayBoxQuantity': row.trayBoxQuantity
+      }
+      setInputSafeQuantity(data)
+        .then(res => {
+          row.edit = false
+          this.$message.success(res.message)
+          return 'OK'
+        })
+        .catch(err => {
+          row.edit = false
+          this.$message.error(err)
+        })
+        .then(res => {
+          this.getList(this.done)
+        })
+    },
     submitForm() {
       delete this.dialogForm.createdDate
       delete this.dialogForm.lastModifiedDate
@@ -257,6 +350,41 @@ export default {
           this.$message.error(JSON.stringify(err))
           this.dialogVisible = false
         })
+    },
+    handleInSetExcel(filterVal, jsonData) {
+      this.dialogVisibleUpFile = true
+    },
+    handleRemove(file, fileList) {
+    },
+    handlePreview(file) {
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}?`)
+    },
+    httpRequst(params) {
+      const _file = params.file
+      const isSheet = _file.type.indexOf('sheet') !== -1
+      const isLt2M = _file.size / 1024 / 1024 < 8
+      if (!isLt2M) {
+        this.$message.error('请上传8M以下的.xlsx文件')
+        return false
+      }
+      if (!isSheet) {
+        this.$message.error('必须是上传.xlsx文件')
+        return false
+      }
+      var formData = new FormData()
+      formData.append('file', _file)
+      getFactoryMaterialInfoImportFromExcel(formData)
+        .then(res => {
+          this.$message.success(res.message)
+        })
+    },
+    submitUpload() {
+      this.$refs.upload.submit()
     }
   }
 }
