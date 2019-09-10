@@ -258,6 +258,14 @@ export const asyncRoutes = [
         meta: {
           title: '货位物料库存'
         }
+      },
+      {
+        path: 'safeQuantity',
+        component: () => import('@/views/report/safeQuantity'),
+        name: 'SafeQuantity',
+        meta: {
+          title: '安全库存'
+        }
       }
     ]
   },

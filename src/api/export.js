@@ -41,3 +41,13 @@ export function getSpotMaterialInventoryExport(params) {
   })
 }
 
+// 货位物料库存 下载-GET
+export function getSafeQuantityExport(params) {
+  return request({
+    url: `/api/report/safeQuantity/export`,
+    method: 'get',
+    responseType: 'blob',
+    params
+  })
+}
+

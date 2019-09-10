@@ -66,3 +66,11 @@ export function getSpotMaterialInventory(params) {
   })
 }
 
+// 安全库存-GET
+export function getReportSafeQuantity(params) {
+  return request({
+    url: `/api/report/safeQuantity`,
+    method: 'get',
+    params
+  })
+}
