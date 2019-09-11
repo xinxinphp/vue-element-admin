@@ -74,3 +74,11 @@ export function getReportSafeQuantity(params) {
     params
   })
 }
+// 辅料日报表-GET List
+export function getWarehouseDaily(params) {
+  return request({
+    url: `/api/warehouse_daily`,
+    method: 'get',
+    params
+  })
+}

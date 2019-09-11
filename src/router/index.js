@@ -118,6 +118,14 @@ export const asyncRoutes = [
         meta: {
           title: '收货单'
         }
+      },
+      {
+        path: 'queryBeforeCreate',
+        component: () => import('@/views/warehouse/queryBeforeCreate'),
+        name: 'QueryBeforeCreate',
+        meta: {
+          title: '生成辅料日报表'
+        }
       }
     ]
   },
@@ -265,6 +273,14 @@ export const asyncRoutes = [
         name: 'SafeQuantity',
         meta: {
           title: '安全库存'
+        }
+      },
+      {
+        path: 'warehouseDaily',
+        component: () => import('@/views/report/warehouseDaily'),
+        name: 'WarehouseDaily',
+        meta: {
+          title: '辅料日报表'
         }
       }
     ]
